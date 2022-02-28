@@ -29,6 +29,11 @@ public class Quiz extends Timestamped{
     @Column(nullable = false)
     private String description;
 
-
+    public Quiz(String title, String content, String answer, String description) {
+        this.title = title;
+        this.content = content;
+        this.answer = answer;
+        this.description = description;
+    }
 
 }

@@ -3,8 +3,11 @@ package com.project.roomescape.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @NoArgsConstructor
 @Getter
@@ -25,6 +28,23 @@ public class Room extends Timestamped {
 
     @Column(nullable = false)
     private String teamName;
+
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public Room(Quiz quiz, Long count, String teamName) {
+        this.quiz = quiz;
+        this.count = count;
+        this.teamName = teamName;
+    }
+
+    public Map<String, WebSocketSession> getClients() {
+        Map<String, WebSocketSession> clients = new HashMap<>();
+        return clients;
+    }
 
 
 }
