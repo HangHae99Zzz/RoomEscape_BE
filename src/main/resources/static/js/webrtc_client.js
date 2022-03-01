@@ -1,7 +1,7 @@
 'use strict';
 // create and run Web Socket connection
 //웹소켓은 프로토콜이기 때문에 ws://를 사용한다. 웹소켓 연결을 시작한다. 나중에 여유되면 wss(보안)프로토콜을 한번 도전해봅시다.
-const socket = new WebSocket("ws://" + window.location.host + "/signal");
+const socket = new WebSocket("wss://" + window.location.host + "/signal");
 
 // UI elements
 const videoButtonOff = document.querySelector('#video_off');
