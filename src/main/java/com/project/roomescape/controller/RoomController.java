@@ -6,11 +6,12 @@ import com.project.roomescape.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RequiredArgsConstructor
 @RestController
 public class RoomController {
+
     private final RoomService roomService;
 
     // 방 개설하기 // request를 받아
@@ -19,11 +20,23 @@ public class RoomController {
         roomService.createRoom(roomRequestDto);
     }
 
+
     // 방 조회하기
     @GetMapping("/room/{roomId}")
     public RoomResponseDto getRoom(@PathVariable Long roomId) {
         return roomService.getRoom(roomId);
     }
+
+
+    // 방 참여하기
+    @PostMapping("/room/{roomId}")
+    public void addMember(@PathVariable Long roomId) {
+        roomService.addMember(roomId);
+    }
+
+
+
+
 
 
 //    // 방 리스트 조회하기

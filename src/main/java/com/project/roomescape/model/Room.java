@@ -19,7 +19,7 @@ public class Room extends Timestamped {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "quizId")
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
     @Column(nullable = false)
@@ -37,6 +37,10 @@ public class Room extends Timestamped {
     public Room(Quiz quiz, Long count, String teamName, String createdUser) {
         this.quiz = quiz;
         this.count = count;
+    }
+
+    public Room(String teamName, String createdUser) {
+        this.count = 0L;
         this.teamName = teamName;
         this.createdUser = createdUser;
     }
