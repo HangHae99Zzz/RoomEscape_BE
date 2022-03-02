@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -17,7 +19,7 @@ public class Room extends Timestamped {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "quizId")
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
     @Column(nullable = false)
@@ -29,9 +31,13 @@ public class Room extends Timestamped {
     @Column(nullable = false)
     private String createdUser;
 
-    public Room(Quiz quiz, Long count, String teamName, String createdUser) {
-        this.quiz = quiz;
-        this.count = count;
+    @OneToMany(mappedBy = "room")
+    private List<User> userList = new ArrayList<>();
+
+
+
+    public Room(String teamName, String createdUser) {
+        this.count = 0L;
         this.teamName = teamName;
         this.createdUser = createdUser;
     }
