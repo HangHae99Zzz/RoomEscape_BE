@@ -26,5 +26,15 @@ public class Room extends Timestamped {
     @Column(nullable = false)
     private String teamName;
 
+    @Column(nullable = false)
+    private String createdUser;
+
+    public Room(Quiz quiz, Long count, String teamName, String createdUser) {
+        this.quiz = quiz;
+        this.count = count;
+        this.teamName = teamName;
+        this.createdUser = createdUser;
+    }
+
 
 }
