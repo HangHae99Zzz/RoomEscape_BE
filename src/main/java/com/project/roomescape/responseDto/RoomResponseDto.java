@@ -6,9 +6,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomResponseDto {
+    private Long roomId;
     private String teamName;
     private Long count;
     private String createdUser;
-    private Long currentNum;    // 현재 참여 인원
+    private Integer currentNum;    // 현재 참여 인원
+
+    public RoomResponseDto(Long roomId, String teamName, Long count, String createdUser, Integer currentNum) {
+        this.roomId = roomId;
+        this.teamName = teamName;
+        this.count = count;
+        this.createdUser = createdUser;
+        this.currentNum = currentNum;
+    }
+
 
 }

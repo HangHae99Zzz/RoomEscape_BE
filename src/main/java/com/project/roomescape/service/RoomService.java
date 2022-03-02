@@ -1,18 +1,21 @@
 package com.project.roomescape.service;
 
+
+
+
 import com.project.roomescape.exception.CustomException;
+
 import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
 import com.project.roomescape.requestDto.RoomRequestDto;
+import com.project.roomescape.responseDto.RoomResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
 import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
@@ -25,6 +28,8 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final int ROOM_CAPACITY = 4;
 
+
+    // 방 개설하기 //
     public void createRoom(RoomRequestDto roomRequestDto) {
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
         String teamName = roomRequestDto.getTeamName();
@@ -34,13 +39,70 @@ public class RoomService {
         String img = "";
 
         // 방 저장
-        Room room = roomRepository.save(new Room(teamName, nickName));
+        Room room = roomRepository.save(new Room(teamName, nickName)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
 
         // 방장 User 저장
         User user = User.addUser(room, nickName, img);
         userRepository.save(user);
-
     }
+
+
+
+    // 방 조회하기    // 대기페이지, 게임페이지
+    public RoomResponseDto getRoom(Long roomId) {
+
+        // room을 찾는다
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(()-> new IllegalArgumentException("방을 찾을 수 없습니다."));
+        // room 안에 있는 값들을 get해서 구한다
+        String teamName = room.getTeamName();
+        Long count = room.getCount();
+        String createdUser = room.getCreatedUser();
+        // currentNum는 userList에서 size()를 통해 구해준다
+        Integer currentNum = room.getUserList().size();
+
+        //roomResponseDto에 해당하는 것들을 다 담아준다
+        RoomResponseDto roomResponseDto = new RoomResponseDto(room.getId(), teamName, count, createdUser, currentNum );
+        //roomResponseDto를 리턴해준다.
+        return roomResponseDto;
+    }
+
+
+
+
+    // 방 리스트 조회하기
+    public List<RoomResponseDto> getAllRooms() {
+
+        List<RoomResponseDto> roomResponseDtoList = new ArrayList<>();
+
+        List<Room> roomList = roomRepository.findAll();
+        for(Room eachRoom : roomList){
+            String teamName = eachRoom.getTeamName();
+            Long count = eachRoom.getCount();
+            String createdUser = eachRoom.getCreatedUser();
+            Integer currentNum = eachRoom.getUserList().size();
+
+            RoomResponseDto roomResponseDto = new RoomResponseDto(eachRoom.getId(), teamName, count, createdUser, currentNum );
+
+            roomResponseDtoList.add(roomResponseDto);
+        }
+        return roomResponseDtoList;
+    }
+
+
+    // 방 삭제하기
+    public void deleteRoom(Long roomId) {
+        // room을 찾는다
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(()-> new IllegalArgumentException("방을 찾을 수 없습니다."));
+        // room에 있는 모든 user들을 찾아줘야 해서 userList를 찾는다
+        List<User> userList = room.getUserList();
+        // room과 userList를 각각 지워준다
+        userRepository.deleteAll(userList);
+        roomRepository.delete(room);
+    }
+
+
 
     public void addMember(Long roomId) {
         // 방 찾기

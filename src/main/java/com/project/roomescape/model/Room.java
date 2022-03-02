@@ -34,7 +34,10 @@ public class Room extends Timestamped {
     @OneToMany(mappedBy = "room")
     private List<User> userList = new ArrayList<>();
 
-
+    public Room(Quiz quiz, Long count, String teamName, String createdUser) {
+        this.quiz = quiz;
+        this.count = count;
+    }
 
     public Room(String teamName, String createdUser) {
         this.count = 0L;
