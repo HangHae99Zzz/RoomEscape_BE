@@ -1,12 +1,12 @@
 package com.project.roomescape.controller;
 
 import com.project.roomescape.requestDto.RoomRequestDto;
+import com.project.roomescape.responseDto.RoomResponseDto;
 import com.project.roomescape.service.RoomService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,11 +19,22 @@ public class RoomController {
         roomService.createRoom(roomRequestDto);
     }
 
+    // 방 조회하기
+    @GetMapping("/room/{roomId}")
+    public RoomResponseDto getRoom(@PathVariable Long roomId) {
+        return roomService.getRoom(roomId);
+    }
 
 
+//    // 방 리스트 조회하기
+//    @GetMapping("/rooms")
+//    public List<RoomResponseDto> getAllRooms() {
+//        return roomService.getAllRooms;
+//    }
 
-
-
-
-
+    // 방 삭제하기
+    @DeleteMapping("/room/{roomId}")
+    public void deleteRoom(@PathVariable Long roomId) {
+        roomService.deleteRoom(roomId);
+    }
 }

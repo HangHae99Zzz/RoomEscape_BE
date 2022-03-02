@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -28,6 +30,9 @@ public class Room extends Timestamped {
 
     @Column(nullable = false)
     private String createdUser;
+
+    @OneToMany(mappedBy = "room")
+    private List<User> userList = new ArrayList<>();
 
     public Room(Quiz quiz, Long count, String teamName, String createdUser) {
         this.quiz = quiz;
