@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class RoomController {
+
     private final RoomService roomService;
 
     // 방 개설하기 // request를 받아
