@@ -25,4 +25,10 @@ public class User {
 
     @Column(nullable = false)
     private String img;
+
+    public User(Room room, String nickName, String img) {
+        this.room = room;
+        this.nickName = nickName;
+        this.img = img;
+    }
 }
