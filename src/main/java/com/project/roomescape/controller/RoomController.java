@@ -1,5 +1,6 @@
 package com.project.roomescape.controller;
 
+import com.project.roomescape.requestDto.RoomAddRequestDto;
 import com.project.roomescape.requestDto.RoomRequestDto;
 import com.project.roomescape.responseDto.RoomResponseDto;
 import com.project.roomescape.service.RoomService;
@@ -16,7 +17,7 @@ public class RoomController {
     private final RoomService roomService;
 
     // 방 개설하기 // request를 받아
-    @PostMapping("/room")
+    @PostMapping("/register/room")
     public void createRoom(@RequestBody RoomRequestDto roomRequestDto) {
         roomService.createRoom(roomRequestDto);
     }
@@ -31,8 +32,8 @@ public class RoomController {
 
     // 방 참여하기
     @PostMapping("/room/{roomId}")
-    public void addMember(@PathVariable Long roomId) {
-        roomService.addMember(roomId);
+    public void addMember(@PathVariable Long roomId, @RequestBody RoomAddRequestDto roomAddRequestDto) {
+        roomService.addMember(roomId, roomAddRequestDto);
     }
 
 

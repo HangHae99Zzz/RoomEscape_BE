@@ -9,6 +9,7 @@ import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
+import com.project.roomescape.requestDto.RoomAddRequestDto;
 import com.project.roomescape.requestDto.RoomRequestDto;
 import com.project.roomescape.responseDto.RoomResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class RoomService {
     public void createRoom(RoomRequestDto roomRequestDto) {
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
         String teamName = roomRequestDto.getTeamName();
-
+        String userId = roomRequestDto.getUserId();
         // nickName 부여
         String nickName = getNickName();
         String img = "";
@@ -42,7 +43,7 @@ public class RoomService {
         Room room = roomRepository.save(new Room(teamName, nickName)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
 
         // 방장 User 저장
-        User user = User.addUser(room, nickName, img);
+        User user = User.addUser(room, nickName, img, userId);
         userRepository.save(user);
     }
 
@@ -104,7 +105,7 @@ public class RoomService {
 
 
 
-    public void addMember(Long roomId) {
+    public void addMember(Long roomId, RoomAddRequestDto roomAddRequestDto) {
         // 방 찾기
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
@@ -115,13 +116,13 @@ public class RoomService {
             throw new CustomException(ROOM_MEMBER_FULL);
         } else {
             // nickName 부여
+            String userId = roomAddRequestDto.getUserId();
             String nickName = getNickName();
             String img = "";
 
             // user 정보를 해당 room에 추가
             // user 저장
-            User user = User.addUser(room, nickName, img);
-
+            User user = User.addUser(room, nickName, img, userId);
             userRepository.save(user);
         }
     }
