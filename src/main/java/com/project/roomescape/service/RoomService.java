@@ -121,6 +121,7 @@ public class RoomService {
             // user 정보를 해당 room에 추가
             // user 저장
             User user = User.addUser(room, nickName, img);
+
             userRepository.save(user);
         }
     }
