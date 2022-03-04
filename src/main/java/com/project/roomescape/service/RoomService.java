@@ -105,11 +105,11 @@ public class RoomService {
 
 
 
+    // 방 참여하기
     public void addMember(Long roomId, RoomAddRequestDto roomAddRequestDto) {
         // 방 찾기
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
-
 
         // 방의 인원을 확인하고
         if(room.getUserList().size() == ROOM_CAPACITY) {
@@ -127,8 +127,6 @@ public class RoomService {
         }
     }
 
-    // nickNameList를 생성하고
-    // 들어온 순서대로 nickName 반환하는 함수
     private String getNickName() {
         // User에 nickNameList 만들기
         List<String> nickNameList = new ArrayList<>(Arrays.asList("red", "blue", "yellow", "green"));
