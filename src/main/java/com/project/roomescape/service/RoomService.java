@@ -54,7 +54,7 @@ public class RoomService {
 
         // room을 찾는다
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new IllegalArgumentException("방을 찾을 수 없습니다."));
+                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
         // room 안에 있는 값들을 get해서 구한다
         String teamName = room.getTeamName();
         Long count = room.getCount();
@@ -95,7 +95,7 @@ public class RoomService {
     public void deleteRoom(Long roomId) {
         // room을 찾는다
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new IllegalArgumentException("방을 찾을 수 없습니다."));
+                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
         // room에 있는 모든 user들을 찾아줘야 해서 userList를 찾는다
         List<User> userList = room.getUserList();
         // room과 userList를 각각 지워준다

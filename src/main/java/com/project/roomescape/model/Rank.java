@@ -22,4 +22,12 @@ public class Rank {
 
     @Column(nullable = false)
     private String time;
+
+//    @Column(nullable = false)
+//    private String comment;
+
+    public Rank(String teamName, String time) {
+        this.teamName = teamName;
+        this.time = time;
+    }
 }
