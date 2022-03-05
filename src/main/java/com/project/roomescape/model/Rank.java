@@ -23,8 +23,9 @@ public class Rank {
     @Column(nullable = false)
     private String time;
 
-//    @Column(nullable = false)
-//    private String comment;
+
+    private String comment = null;
+
 
     public Rank(String teamName, String time) {
         this.teamName = teamName;

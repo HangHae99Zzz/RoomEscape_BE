@@ -18,8 +18,8 @@ public class RoomController {
 
     // 방 개설하기 // request를 받아
     @PostMapping("/room")
-    public void createRoom(@RequestBody RoomRequestDto roomRequestDto) {
-        roomService.createRoom(roomRequestDto);
+    public RoomResponseDto createRoom(@RequestBody RoomRequestDto roomRequestDto) {
+        return roomService.createRoom(roomRequestDto);
     }
 
 
