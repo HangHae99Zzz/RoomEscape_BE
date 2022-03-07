@@ -37,6 +37,7 @@ public class Room extends Timestamped {
     private List<User> userList = new ArrayList<>();
 
 
+
     public Room(String teamName, String createdUser, Long clueA, Long clueB) {
         this.count = 0L;
         this.teamName = teamName;

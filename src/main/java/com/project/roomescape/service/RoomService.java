@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+
 import java.util.*;
 
 import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
@@ -28,8 +29,10 @@ public class RoomService {
     private final int ROOM_CAPACITY = 4;
 
     // 방 개설하기 //
+
     public RoomResponseDto createRoom(RoomRequestDto roomRequestDto) {
         Random random = new Random();
+
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
         String teamName = roomRequestDto.getTeamName();
         String userId = roomRequestDto.getUserId();
@@ -50,12 +53,12 @@ public class RoomService {
 
         String url = "/room/" + room.getId();
 
-
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
                 room.getCreatedUser(), room.getUserList().size(), url,
                 clueA, clueB);
+
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
 
@@ -81,6 +84,7 @@ public class RoomService {
                 room.getId(), teamName, room.getCount(),
                 room.getCreatedUser(), room.getUserList().size(), url,
                 room.getClueA(), room.getClueB());
+
          //roomResponseDto를 리턴해준다.
         return roomResponseDto;
     }
