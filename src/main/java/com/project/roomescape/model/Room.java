@@ -31,10 +31,6 @@ public class Room extends Timestamped {
     private List<User> userList = new ArrayList<>();
 
 
-    private String url = null;
-
-
-
     public Room(String teamName, String createdUser) {
         this.count = 0L;
         this.teamName = teamName;
