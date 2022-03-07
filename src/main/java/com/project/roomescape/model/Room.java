@@ -27,18 +27,22 @@ public class Room extends Timestamped {
     @Column(nullable = false)
     private String createdUser;
 
+    @Column(nullable = false)
+    private Long clueA;
+
+    @Column(nullable = false)
+    private Long clueB;
+
     @OneToMany(mappedBy = "room")
     private List<User> userList = new ArrayList<>();
 
 
-    private String url = null;
-
-
-
-    public Room(String teamName, String createdUser) {
+    public Room(String teamName, String createdUser, Long clueA, Long clueB) {
         this.count = 0L;
         this.teamName = teamName;
         this.createdUser = createdUser;
+        this.clueA = clueA;
+        this.clueB = clueB;
     }
 
 

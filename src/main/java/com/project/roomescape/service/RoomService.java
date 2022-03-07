@@ -1,8 +1,6 @@
 package com.project.roomescape.service;
 
 
-
-
 import com.project.roomescape.exception.CustomException;
 
 import com.project.roomescape.model.Room;
@@ -29,9 +27,9 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final int ROOM_CAPACITY = 4;
 
-
     // 방 개설하기 //
     public RoomResponseDto createRoom(RoomRequestDto roomRequestDto) {
+        Random random = new Random();
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
         String teamName = roomRequestDto.getTeamName();
         String userId = roomRequestDto.getUserId();
@@ -39,26 +37,29 @@ public class RoomService {
         String nickName = getNickName();
         String img = "";
 
+        // clue
+        Long clueA = (long) random.nextInt(3999) + 1000;
+        Long clueB = (long) random.nextInt(3999) + 1000;
+
         // 방 저장
-        Room room = roomRepository.save(new Room(teamName, nickName)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
+        Room room = roomRepository.save(new Room(teamName, nickName, clueA, clueB)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
 
         // 방장 User 저장
         User user = User.addUser(room, nickName, img, userId);
         userRepository.save(user);
 
-
         String url = "/room/" + room.getId();
 
 
-
-        //        //roomResponseDto에 해당하는 것들을 다 담아준다
-        RoomResponseDto roomResponseDto = new RoomResponseDto(room.getId(), teamName, room.getCount(), room.getCreatedUser(), room.getUserList().size(), url);
+        //roomResponseDto에 해당하는 것들을 다 담아준다
+        RoomResponseDto roomResponseDto = new RoomResponseDto(
+                room.getId(), teamName, room.getCount(),
+                room.getCreatedUser(), room.getUserList().size(), url,
+                clueA, clueB);
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
 
     }
-
-
 
     // 방 조회하기    // 대기페이지, 게임페이지
     public RoomResponseDto getRoom(Long roomId) {
@@ -76,13 +77,13 @@ public class RoomService {
         String url = "/room/" + roomId;
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
-        RoomResponseDto roomResponseDto = new RoomResponseDto(room.getId(), teamName, count, createdUser, currentNum, url );
-        //roomResponseDto를 리턴해준다.
+        RoomResponseDto roomResponseDto = new RoomResponseDto(
+                room.getId(), teamName, room.getCount(),
+                room.getCreatedUser(), room.getUserList().size(), url,
+                room.getClueA(), room.getClueB());
+         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
     }
-
-
-
 
     // 방 리스트 조회하기
     public List<RoomResponseDto> getAllRooms() {
@@ -98,7 +99,9 @@ public class RoomService {
 
             String url = "/room/" + eachRoom.getId();
 
-            RoomResponseDto roomResponseDto = new RoomResponseDto(eachRoom.getId(), teamName, count, createdUser, currentNum, url );
+            RoomResponseDto roomResponseDto = new RoomResponseDto(
+                    eachRoom.getId(), teamName, count, createdUser, currentNum, url,
+                    eachRoom.getClueA(), eachRoom.getClueB());
 
             roomResponseDtoList.add(roomResponseDto);
         }
