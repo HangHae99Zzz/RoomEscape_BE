@@ -37,7 +37,6 @@ public class RoomController {
     }
 
 
-
     // 방 리스트 조회하기
     @GetMapping("/rooms")
     public List<RoomResponseDto> getAllRooms() {

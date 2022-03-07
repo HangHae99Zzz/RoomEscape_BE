@@ -104,7 +104,6 @@ public class RoomService {
     }
 
 
-
     // 방 참여하기
     public void addMember(Long roomId, RoomAddRequestDto roomAddRequestDto) {
         // 방 찾기
