@@ -49,12 +49,4 @@ public class User {
         return user;
     }
 
-
-    // Table과 매핑하지 않는다. 임시 저장 값
-//    @Transient
-//    List<String> nickNameList;
-//    public static void registerNickNameList(List<String> nickNameList) {
-//        User user = new User();
-//        user.setNickNameList(nickNameList);
-//    }
 }
