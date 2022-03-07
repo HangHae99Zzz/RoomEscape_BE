@@ -31,7 +31,7 @@ public class RoomService {
 
 
     // 방 개설하기 //
-    public void createRoom(RoomRequestDto roomRequestDto) {
+    public RoomResponseDto createRoom(RoomRequestDto roomRequestDto) {
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
         String teamName = roomRequestDto.getTeamName();
         String userId = roomRequestDto.getUserId();
@@ -45,6 +45,17 @@ public class RoomService {
         // 방장 User 저장
         User user = User.addUser(room, nickName, img, userId);
         userRepository.save(user);
+
+
+        String url = "/room/" + room.getId();
+
+
+
+        //        //roomResponseDto에 해당하는 것들을 다 담아준다
+        RoomResponseDto roomResponseDto = new RoomResponseDto(room.getId(), teamName, room.getCount(), room.getCreatedUser(), room.getUserList().size(), url);
+        //roomResponseDto를 리턴해준다.
+        return roomResponseDto;
+
     }
 
 
@@ -62,8 +73,10 @@ public class RoomService {
         // currentNum는 userList에서 size()를 통해 구해준다
         Integer currentNum = room.getUserList().size();
 
+        String url = "/room/" + roomId;
+
         //roomResponseDto에 해당하는 것들을 다 담아준다
-        RoomResponseDto roomResponseDto = new RoomResponseDto(room.getId(), teamName, count, createdUser, currentNum );
+        RoomResponseDto roomResponseDto = new RoomResponseDto(room.getId(), teamName, count, createdUser, currentNum, url );
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
     }
@@ -83,7 +96,9 @@ public class RoomService {
             String createdUser = eachRoom.getCreatedUser();
             Integer currentNum = eachRoom.getUserList().size();
 
-            RoomResponseDto roomResponseDto = new RoomResponseDto(eachRoom.getId(), teamName, count, createdUser, currentNum );
+            String url = "/room/" + eachRoom.getId();
+
+            RoomResponseDto roomResponseDto = new RoomResponseDto(eachRoom.getId(), teamName, count, createdUser, currentNum, url );
 
             roomResponseDtoList.add(roomResponseDto);
         }

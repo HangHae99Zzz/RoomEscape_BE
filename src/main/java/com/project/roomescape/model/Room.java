@@ -18,10 +18,6 @@ public class Room extends Timestamped {
     @Id
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "quiz_id")
-    private Quiz quiz;
-
     @Column(nullable = false)
     private Long count;
 
@@ -34,10 +30,10 @@ public class Room extends Timestamped {
     @OneToMany(mappedBy = "room")
     private List<User> userList = new ArrayList<>();
 
-    public Room(Quiz quiz, Long count, String teamName, String createdUser) {
-        this.quiz = quiz;
-        this.count = count;
-    }
+
+    private String url = null;
+
+
 
     public Room(String teamName, String createdUser) {
         this.count = 0L;
