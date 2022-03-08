@@ -37,7 +37,7 @@ public class TestDataRunner implements ApplicationRunner {
                 "https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/zombie.jpg");
         GameResourceRequestDto requestDto5 = new GameResourceRequestDto(
                 "gameRunFile",
-                "https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/Duck.gltf");
+                "https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/Poinmandres.gltf");
 
 
 
