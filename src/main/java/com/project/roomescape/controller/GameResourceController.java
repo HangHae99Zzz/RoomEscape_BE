@@ -1,6 +1,8 @@
 package com.project.roomescape.controller;
 
+import com.project.roomescape.requestDto.GameLoadingDto;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
+import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import com.project.roomescape.service.GameResourceService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +27,10 @@ public class GameResourceController {
     @GetMapping("/game/room")
     public GameResourceResponseDto getGameResource() {
         return gameResourceService.getGameResource();
+    }
+
+    @PostMapping("/game/check")
+    public GameLoadingResponseDto checkGameLoading(@RequestBody GameLoadingDto gameLoadingDto) {
+        return gameResourceService.checkGameLoading(gameLoadingDto);
     }
 }
