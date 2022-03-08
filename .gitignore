@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### application.properties ###
+application-aws.properties
+
+### keystore.p12###
+keystore.p12
