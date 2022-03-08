@@ -29,6 +29,9 @@ public class User {
     @Column(nullable = false)
     private String userId;
 
+    @Column(nullable = false)
+    private boolean loading;
+
     // 연관관계 편의 메소드
     public void setRoom(Room room) {
         this.room = room;
@@ -39,6 +42,7 @@ public class User {
         this.nickName = nickName;
         this.img = img;
         this.userId = userId;
+        this.loading = false;
     }
 
     // 생성 메소드

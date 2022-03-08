@@ -36,6 +36,9 @@ public class Room extends Timestamped {
     @OneToMany(mappedBy = "room")
     private List<User> userList = new ArrayList<>();
 
+    @Column(nullable = false)
+    private Long loadingCount;
+
 
 
     public Room(String teamName, String createdUser, Long clueA, Long clueB) {
@@ -44,6 +47,7 @@ public class Room extends Timestamped {
         this.createdUser = createdUser;
         this.clueA = clueA;
         this.clueB = clueB;
+        this.loadingCount = 0L;
     }
 
 

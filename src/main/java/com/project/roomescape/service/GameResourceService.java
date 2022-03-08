@@ -1,19 +1,25 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.model.GameResource;
+import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.GameResourceRepository;
+import com.project.roomescape.repository.RoomRepository;
+import com.project.roomescape.requestDto.GameLoadingDto;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
+import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class GameResourceService {
 
     private final GameResourceRepository gameResourceRepository;
+    private final RoomRepository roomRepository;
 
 
 
@@ -65,5 +71,35 @@ public class GameResourceService {
         gameResourceRepository.save(gameResource);
 
 
+    }
+
+    public GameLoadingResponseDto checkGameLoading(GameLoadingDto gameLoadingDto) {
+        Room room;
+        GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
+        Optional<Room> temp = roomRepository.findById(gameLoadingDto.getRoomId());
+        if(temp.isPresent()) {
+            room = temp.get();
+        } else {
+            throw new IllegalArgumentException("잘못된 roomId입니다");
+        }
+
+
+        if(room.getUserList().size() > room.getLoadingCount() + 1) {
+            gameLoadingResponseDto.setCheck("false");
+            room.setLoadingCount(room.getLoadingCount() + 1);
+        } else if(room.getUserList().size() == room.getLoadingCount() + 1){
+            gameLoadingResponseDto.setCheck("true");
+            room.setLoadingCount(room.getLoadingCount() + 1);
+        } else {
+            throw new IllegalArgumentException("허용 인원 초과입니다.");
+        }
+
+        for(int i = 0; i < room.getUserList().size(); i++) {
+            if (room.getUserList().get(i).getUserId().equals(gameLoadingDto.getUserId())) {
+                room.getUserList().get(i).setLoading(true);
+            }
+        }
+        roomRepository.save(room);
+        return gameLoadingResponseDto;
     }
 }
