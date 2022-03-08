@@ -39,5 +39,5 @@ out/
 ### application.properties ###
 application-aws.properties
 
-### keystore#####
+### keystore.p12###
 keystore.p12
