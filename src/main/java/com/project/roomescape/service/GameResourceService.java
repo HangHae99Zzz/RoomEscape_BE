@@ -1,5 +1,6 @@
 package com.project.roomescape.service;
 
+import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.model.GameResource;
 import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.GameResourceRepository;
@@ -10,9 +11,12 @@ import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
+import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
+
 
 @RequiredArgsConstructor
 @Service
@@ -80,7 +84,7 @@ public class GameResourceService {
         if(temp.isPresent()) {
             room = temp.get();
         } else {
-            throw new IllegalArgumentException("잘못된 roomId입니다");
+            throw new CustomException(ROOM_NOT_FOUND);
         }
 
 
@@ -91,7 +95,7 @@ public class GameResourceService {
             gameLoadingResponseDto.setCheck("true");
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else {
-            throw new IllegalArgumentException("허용 인원 초과입니다.");
+            throw new CustomException(ROOM_MEMBER_FULL);
         }
 
         for(int i = 0; i < room.getUserList().size(); i++) {
