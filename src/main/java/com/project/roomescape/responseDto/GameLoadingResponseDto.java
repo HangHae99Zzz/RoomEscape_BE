@@ -7,4 +7,5 @@ import lombok.Setter;
 @Getter
 public class GameLoadingResponseDto {
     private String check;
+    private String userId;
 }

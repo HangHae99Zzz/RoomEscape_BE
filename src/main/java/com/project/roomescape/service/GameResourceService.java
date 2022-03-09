@@ -87,7 +87,7 @@ public class GameResourceService {
             throw new CustomException(ROOM_NOT_FOUND);
         }
 
-
+//한명씩 로딩이 끝날때마다
         if(room.getUserList().size() > room.getLoadingCount() + 1) {
             gameLoadingResponseDto.setCheck("false");
             room.setLoadingCount(room.getLoadingCount() + 1);
@@ -104,6 +104,18 @@ public class GameResourceService {
             }
         }
         roomRepository.save(room);
+
+        gameLoadingResponseDto.setUserId(null);
+
         return gameLoadingResponseDto;
+    }
+
+//    로딩중에 누군가가 한명 나갔는데 나머지 인원들은 전부 충족된 경우.
+    public  Boolean exitDuringLoading(Room room) {
+        if(room.getLoadingCount() > 0 && room.getUserList().size() == room.getLoadingCount()) {
+            return true;
+        } else{
+            return false;
+        }
     }
 }

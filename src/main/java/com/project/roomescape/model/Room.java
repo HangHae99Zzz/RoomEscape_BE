@@ -41,13 +41,17 @@ public class Room extends Timestamped {
 
 
 
-    public Room(String teamName, String createdUser, Long clueA, Long clueB) {
+    public Room(String teamName, String userId, Long clueA, Long clueB) {
         this.count = 0L;
         this.teamName = teamName;
-        this.createdUser = createdUser;
+        this.createdUser = userId;
         this.clueA = clueA;
         this.clueB = clueB;
         this.loadingCount = 0L;
+    }
+
+    public void changeOwner() {
+        this.createdUser = this.userList.get(0).getUserId();
     }
 
 

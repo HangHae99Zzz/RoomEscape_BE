@@ -5,6 +5,8 @@ import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
+import com.project.roomescape.requestDto.RoomAddRequestDto;
+import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class UserService {
 
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final GameResourceService gameResourceService;
 
     // 유저 정보 조회하기
     public List<UserResponseDto> getUserInfo(Long roomId) {
@@ -37,13 +40,31 @@ public class UserService {
 
     // 유저 삭제하기
     @Transactional
-    public void deleteUser(Long id) {
-        User user = userRepository.findById(id)
+    public GameLoadingResponseDto deleteUser(RoomAddRequestDto roomAddRequestDto) {
+        GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
+        User user = userRepository.findByUserId(roomAddRequestDto.getUserId())
                         .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        //방을 만든 사람은 나갈 수 없음
-        if (user.getNickName().equals(user.getRoom().getCreatedUser())) {
-            throw new CustomException(USER_DELETE_FAIL);
+        String userId = user.getUserId();
+        Room room = user.getRoom();
+        userRepository.deleteUserByUserId(roomAddRequestDto.getUserId());
+
+//        방장인 경우
+        if (roomAddRequestDto.getUserId().equals(userId)) {
+            room.changeOwner();
+            roomRepository.save(room);
+            gameLoadingResponseDto.setUserId(room.getCreatedUser());
+        } else{
+            gameLoadingResponseDto.setUserId(null);
         }
-        userRepository.deleteUserById(id);
+
+//        나갔는데 만약 게임 로딩중에 나간경우.
+
+        if(gameResourceService.exitDuringLoading(room)) {
+            gameLoadingResponseDto.setCheck("true");
+        } else {
+            gameLoadingResponseDto.setCheck(null);
+        }
+        return gameLoadingResponseDto;
+
     }
 }
