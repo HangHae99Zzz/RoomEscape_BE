@@ -5,8 +5,10 @@ import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
+
 import com.project.roomescape.requestDto.RoomAddRequestDto;
 import com.project.roomescape.responseDto.GameLoadingResponseDto;
+
 import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,7 @@ public class UserService {
 
     // 유저 삭제하기
     @Transactional
+
     public GameLoadingResponseDto deleteUser(RoomAddRequestDto roomAddRequestDto) {
         GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
         User user = userRepository.findByUserId(roomAddRequestDto.getUserId())
@@ -65,6 +68,7 @@ public class UserService {
             gameLoadingResponseDto.setCheck(null);
         }
         return gameLoadingResponseDto;
+
 
     }
 }

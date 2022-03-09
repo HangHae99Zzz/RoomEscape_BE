@@ -1,5 +1,6 @@
 package com.project.roomescape.controller;
 
+
 import com.project.roomescape.requestDto.RoomAddRequestDto;
 import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.UserResponseDto;
@@ -22,9 +23,9 @@ public class UserController {
     }
 
     // 유저 삭제하기
+
     @PostMapping("/user")
     public GameLoadingResponseDto deleteUser(@RequestBody RoomAddRequestDto roomAddRequestDto) {
         return userService.deleteUser(roomAddRequestDto);
     }
-
 }

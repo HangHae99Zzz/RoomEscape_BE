@@ -16,9 +16,10 @@ public class RoomResponseDto {
     private String url;
     private Long clueA;
     private Long clueB;
+    private String clueC;
 
     public RoomResponseDto(Long roomId, String teamName, Long count, String createdUser,
-                           Integer currentNum, String url, Long clueA, Long clueB) {
+                           Integer currentNum, String url, Long clueA, Long clueB, String clueC) {
         this.roomId = roomId;
         this.teamName = teamName;
         this.count = count;
@@ -27,6 +28,7 @@ public class RoomResponseDto {
         this.url = url;
         this.clueA = clueA;
         this.clueB = clueB;
+        this.clueC = clueC;
     }
 
 

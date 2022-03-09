@@ -41,11 +41,15 @@ public class RoomService {
         String img = "";
 
         // clue
+        String[] arr = new String[]{"+", "-"};
         Long clueA = (long) random.nextInt(3999) + 1000;
         Long clueB = (long) random.nextInt(3999) + 1000;
+        String clueC = arr[random.nextInt(1)];
 
         // 방 저장
-        Room room = roomRepository.save(new Room(teamName, roomRequestDto.getUserId(), clueA, clueB)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
+
+        Room room = roomRepository.save(new Room(teamName, userId, clueA, clueB, clueC)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
+
 
         // 방장 User 저장
         User user = User.addUser(room, nickName, img, userId);
@@ -57,7 +61,7 @@ public class RoomService {
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
                 room.getCreatedUser(), room.getUserList().size(), url,
-                clueA, clueB);
+                clueA, clueB, clueC);
 
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
@@ -83,7 +87,7 @@ public class RoomService {
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
                 room.getCreatedUser(), room.getUserList().size(), url,
-                room.getClueA(), room.getClueB());
+                room.getClueA(), room.getClueB(), room.getClueC());
 
          //roomResponseDto를 리턴해준다.
         return roomResponseDto;
@@ -105,7 +109,7 @@ public class RoomService {
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
                     eachRoom.getId(), teamName, count, createdUser, currentNum, url,
-                    eachRoom.getClueA(), eachRoom.getClueB());
+                    eachRoom.getClueA(), eachRoom.getClueB(), eachRoom.getClueC());
 
             roomResponseDtoList.add(roomResponseDto);
         }

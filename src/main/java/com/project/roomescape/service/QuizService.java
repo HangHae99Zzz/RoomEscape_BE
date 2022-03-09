@@ -48,26 +48,37 @@ public class QuizService {
         String content = "어제 " + a + "시에 잔거 같다. 시간이 " + direction + " 돌고 있어. "
                 + b + "라고 써있는 건 뭐지? 지금 몇시지?";
 
+        String clue = "";
+        String hint = "시계를 돌려볼까?";
+
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
         int ans = (q) ? a + (b - 96) : a - (b - 96);
         String answer = ans > 12 ? String.valueOf(ans - 12) : String.valueOf(Math.abs(ans));
-        return new QuizResponseDto(question, content, answer);
+        return new QuizResponseDto(question, content, clue, hint, answer);
     }
 
     private QuizResponseDto getQuizBa(Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+
+        // clue
         Long clueA = room.getClueA();
         Long clueB = room.getClueB();
+        String clueC = room.getClueC();
+        Long clueABC = (clueC.equals("+")) ? clueA + clueB : Math.abs(clueA - clueB);
+
         String question = "비밀번호";
-        String content = "QWERTYUIOP";
-        Long clue = clueA + clueB;
+        String content = "HackerRoom";
+
+        String clue = "포스터들을 눈여겨 보세요";
+        String hint = "r = 5";
+
         String answer = "";
-        int[] arr =  Stream.of(String.valueOf(clue).split("")).mapToInt(Integer::parseInt).toArray();
+        int[] arr =  Stream.of(String.valueOf(clueABC).split("")).mapToInt(Integer::parseInt).toArray();
         for (int i = 0; i < arr.length; i++) {
             answer += content.charAt(arr[i]);
         }
-        return  new QuizResponseDto(question, content, answer);
+        return  new QuizResponseDto(question, content, clue, hint, answer);
     }
 
     // count +1
