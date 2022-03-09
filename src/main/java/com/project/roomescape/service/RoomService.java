@@ -45,7 +45,7 @@ public class RoomService {
         Long clueB = (long) random.nextInt(3999) + 1000;
 
         // 방 저장
-        Room room = roomRepository.save(new Room(teamName, nickName, clueA, clueB)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
+        Room room = roomRepository.save(new Room(teamName, userId, clueA, clueB)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
 
         // 방장 User 저장
         User user = User.addUser(room, nickName, img, userId);
