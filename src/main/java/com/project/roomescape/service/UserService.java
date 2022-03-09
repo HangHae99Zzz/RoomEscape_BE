@@ -5,6 +5,7 @@ import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
+import com.project.roomescape.requestDto.UserRequestDto;
 import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,13 +38,14 @@ public class UserService {
 
     // 유저 삭제하기
     @Transactional
-    public void deleteUser(Long id) {
-        User user = userRepository.findById(id)
-                        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+    public void deleteUser(UserRequestDto userRequestDto) {
+        User user = userRepository.findUserByUserId(userRequestDto.getUserId());
+//        User user = userRepository.findBy(id)
+//                        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         //방을 만든 사람은 나갈 수 없음
         if (user.getNickName().equals(user.getRoom().getCreatedUser())) {
             throw new CustomException(USER_DELETE_FAIL);
         }
-        userRepository.deleteUserById(id);
+        userRepository.deleteUserByUserId(user.getUserId());
     }
 }

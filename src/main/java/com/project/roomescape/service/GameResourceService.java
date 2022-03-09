@@ -42,8 +42,6 @@ public class GameResourceService {
 
 
 
-
-
     // 게임 시작하기  (type이 gameRunFile인 url만을 찾아서 보내주기)
     public GameResourceResponseDto getGameResource() {
         // 모든 gameResource를 찾은 다음
@@ -63,10 +61,6 @@ public class GameResourceService {
         // 반환해준다.
         return gameResourceResponseDto;
     }
-
-
-
-
 
 
     // Test용  userP1~5,gameRunFile의 url 등록 메소드 - TestDataRunner에서 사용
