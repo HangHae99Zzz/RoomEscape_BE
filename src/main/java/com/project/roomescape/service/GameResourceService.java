@@ -83,7 +83,7 @@ public class GameResourceService {
 
 //한명씩 로딩이 끝날때마다
         if(room.getUserList().size() > room.getLoadingCount() + 1) {
-            gameLoadingResponseDto.setCheck("false");
+            gameLoadingResponseDto.setCheck(null);
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else if(room.getUserList().size() == room.getLoadingCount() + 1){
             gameLoadingResponseDto.setCheck("true");

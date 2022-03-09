@@ -42,7 +42,6 @@ public class UserService {
 
     // 유저 삭제하기
     @Transactional
-
     public GameLoadingResponseDto deleteUser(RoomAddRequestDto roomAddRequestDto) {
         GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
         User user = userRepository.findByUserId(roomAddRequestDto.getUserId())
