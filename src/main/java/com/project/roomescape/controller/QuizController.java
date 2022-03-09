@@ -15,7 +15,7 @@ public class QuizController {
     public final QuizService quizService;
 
     // Quiz 조회하기
-    @GetMapping("/escape/{roomId}/{quizType}")
+    @GetMapping(value = {"/escape/{roomId}/{quizType}"})
     public QuizResponseDto getQuiz(@PathVariable Long roomId, @PathVariable String quizType) {
         return quizService.getQuiz(roomId, quizType);
     }
