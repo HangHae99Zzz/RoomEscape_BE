@@ -23,12 +23,26 @@ public class Rank {
     @Column(nullable = false)
     private String time;
 
+    @Column(nullable = false)
+    private String comment;
 
-    private String comment = null;
+    @Column(nullable = false)
+    private Long roomId;
+
+    @Column(nullable = false)
+    private Integer userNum;
 
 
-    public Rank(String teamName, String time) {
+
+    public Rank(String teamName, String time, Long roomId, Integer userNum, String comment) {
+
         this.teamName = teamName;
         this.time = time;
+        this.roomId = roomId;
+        this.userNum = userNum;
+        this.comment = comment;
     }
+
+
+
 }
