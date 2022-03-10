@@ -2,9 +2,9 @@ package com.project.roomescape.service;
 
 
 import com.project.roomescape.exception.CustomException;
-
 import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
+import com.project.roomescape.repository.RankRepository;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
 import com.project.roomescape.requestDto.RoomAddRequestDto;
@@ -13,9 +13,10 @@ import com.project.roomescape.responseDto.RoomResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
 import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
@@ -26,6 +27,7 @@ public class RoomService {
 
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final RankRepository rankRepository;
     private final int ROOM_CAPACITY = 4;
 
     // 방 개설하기 //
@@ -161,4 +163,8 @@ public class RoomService {
         int num = random.nextInt(nickNameList.size());
         return nickNameList.get(num);
     }
+
+
+
+
 }

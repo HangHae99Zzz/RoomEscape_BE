@@ -28,4 +28,13 @@ public class RankController {
         return rankService.getRanks();
     }
 
+
+    // 코멘트 입력하기
+    @PostMapping("/room/{roomId}/comment")
+    public void createComment(@PathVariable Long roomId, @RequestBody RankRequestDto rankRequestDto){
+        rankService.createComment(roomId, rankRequestDto);
+    }
+
+
+
 }
