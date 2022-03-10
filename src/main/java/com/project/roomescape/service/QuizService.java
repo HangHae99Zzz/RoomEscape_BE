@@ -48,7 +48,7 @@ public class QuizService {
         String content = "어제 " + a + "시에 잔거 같다. 시간이 " + direction + " 돌고 있어. "
                 + b + "라고 써있는 건 뭐지? 지금 몇시지?";
 
-        String clue = "";
+        String clue = null;
         String hint = "시계를 돌려볼까?";
 
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
