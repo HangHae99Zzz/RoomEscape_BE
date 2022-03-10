@@ -50,6 +50,7 @@ public class UserService {
         Room room = user.getRoom();
         userRepository.deleteUserByUserId(roomAddRequestDto.getUserId());
 
+
 //        방장인 경우
         if (roomAddRequestDto.getUserId().equals(userId)) {
             room.changeOwner();
