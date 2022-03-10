@@ -45,8 +45,8 @@ public class QuizService {
         char b = (char) (random.nextInt(11) + 97);
         boolean q = random.nextBoolean();
         String direction = (q) ? "앞으로" : "거꾸로";
-        String content = "어제 " + a + "시에 잔거 같다. 시간이 " + direction + " 돌고 있어. "
-                + b + "라고 써있는 건 뭐지? 지금 몇시지?";
+        String content = "어제 " + a + "시에 잔거 같다.<br />시간이 " + direction + " 돌고 있어.<br />"
+                + b + "라고 써있는 건 뭐지?<br />지금 몇시지?";
 
         String clue = null;
         String hint = "시계를 돌려볼까?";
