@@ -1,5 +1,6 @@
 package com.project.roomescape.service;
 
+import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.model.GameResource;
 import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.GameResourceRepository;
@@ -10,9 +11,12 @@ import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
+import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
+
 
 @RequiredArgsConstructor
 @Service
@@ -38,8 +42,6 @@ public class GameResourceService {
 
 
 
-
-
     // 게임 시작하기  (type이 gameRunFile인 url만을 찾아서 보내주기)
     public GameResourceResponseDto getGameResource() {
         // 모든 gameResource를 찾은 다음
@@ -61,10 +63,6 @@ public class GameResourceService {
     }
 
 
-
-
-
-
     // Test용  userP1~5,gameRunFile의 url 등록 메소드 - TestDataRunner에서 사용
     public void testRegisterProduct(GameResourceRequestDto gameResourceRequestDto) {
         GameResource gameResource = new GameResource(gameResourceRequestDto);
@@ -80,18 +78,18 @@ public class GameResourceService {
         if(temp.isPresent()) {
             room = temp.get();
         } else {
-            throw new IllegalArgumentException("잘못된 roomId입니다");
+            throw new CustomException(ROOM_NOT_FOUND);
         }
 
-
+//한명씩 로딩이 끝날때마다
         if(room.getUserList().size() > room.getLoadingCount() + 1) {
-            gameLoadingResponseDto.setCheck("false");
+            gameLoadingResponseDto.setCheck(null);
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else if(room.getUserList().size() == room.getLoadingCount() + 1){
             gameLoadingResponseDto.setCheck("true");
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else {
-            throw new IllegalArgumentException("허용 인원 초과입니다.");
+            throw new CustomException(ROOM_MEMBER_FULL);
         }
 
         for(int i = 0; i < room.getUserList().size(); i++) {
@@ -100,6 +98,18 @@ public class GameResourceService {
             }
         }
         roomRepository.save(room);
+
+        gameLoadingResponseDto.setUserId(null);
+
         return gameLoadingResponseDto;
+    }
+
+//    로딩중에 누군가가 한명 나갔는데 나머지 인원들은 전부 충족된 경우.
+    public  Boolean exitDuringLoading(Room room) {
+        if(room.getLoadingCount() > 0 && room.getUserList().size() == room.getLoadingCount()) {
+            return true;
+        } else{
+            return false;
+        }
     }
 }

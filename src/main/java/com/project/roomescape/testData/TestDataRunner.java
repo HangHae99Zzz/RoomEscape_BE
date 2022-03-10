@@ -18,7 +18,6 @@ public class TestDataRunner implements ApplicationRunner {
     GameResourceRepository gameResourceRepository;
 
 
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
 

@@ -29,6 +29,7 @@ public class GameResourceController {
         return gameResourceService.getGameResource();
     }
 
+//    게임 로딩 체크하기.
     @PostMapping("/game/check")
     public GameLoadingResponseDto checkGameLoading(@RequestBody GameLoadingDto gameLoadingDto) {
         return gameResourceService.checkGameLoading(gameLoadingDto);

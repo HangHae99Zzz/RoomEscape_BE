@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class QuizResponseDto {
     private String question;
     private String content;
+    private String clue;
+    private String hint;
     private String answer;
 
 }
