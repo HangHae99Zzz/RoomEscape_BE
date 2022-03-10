@@ -3,6 +3,8 @@ package com.project.roomescape.responseDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class RoomResponseDto {
@@ -15,9 +17,10 @@ public class RoomResponseDto {
     private Long clueA;
     private Long clueB;
     private String clueC;
+    private List<Object> userList;
 
     public RoomResponseDto(Long roomId, String teamName, Long count, String createdUser,
-                           Integer currentNum, String url, Long clueA, Long clueB, String clueC) {
+                           Integer currentNum, String url, Long clueA, Long clueB, String clueC, List<Object> userList) {
         this.roomId = roomId;
         this.teamName = teamName;
         this.count = count;
@@ -27,6 +30,7 @@ public class RoomResponseDto {
         this.clueA = clueA;
         this.clueB = clueB;
         this.clueC = clueC;
+        this.userList = userList;
     }
 
 
