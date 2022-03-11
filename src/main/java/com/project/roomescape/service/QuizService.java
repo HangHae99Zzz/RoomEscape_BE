@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -25,7 +27,10 @@ public class QuizService {
         QuizResponseDto quizResponseDto;
         if (quizType.equals("Aa")) {
             quizResponseDto = getQuizAa();
-        } else if (quizType.equals("Ba")) {
+        } else if (quizType.equals("Ab")) {
+            quizResponseDto = getQuizAb();
+        }
+        else if (quizType.equals("Ba")) {
             quizResponseDto = getQuizBa(roomId);
         } else {
             throw new CustomException(QUIZ_NOT_FOUND);
@@ -45,8 +50,8 @@ public class QuizService {
         char b = (char) (random.nextInt(11) + 97);
         boolean q = random.nextBoolean();
         String direction = (q) ? "앞으로" : "거꾸로";
-        String content = "어제 " + a + "시에 잔거 같다.<br />시간이 " + direction + " 돌고 있어.<br />"
-                + b + "라고 써있는 건 뭐지?<br />지금 몇시지?";
+        String content = "어제 " + a + "시에 잔거 같다.<br>시간이 " + direction + " 돌고 있어.<br>"
+                + b + "라고 써있는 건 뭐지?<br>지금 몇시지?";
 
         String clue = null;
         String hint = "시계를 돌려볼까?";
@@ -55,6 +60,94 @@ public class QuizService {
         int ans = (q) ? a + (b - 96) : a - (b - 96);
         String answer = ans > 12 ? String.valueOf(ans - 12) : String.valueOf(Math.abs(ans));
         return new QuizResponseDto(question, content, clue, hint, answer);
+    }
+
+    private QuizResponseDto getQuizAb() {
+        Random random = new Random();
+        String content;
+        String answer;
+        List<String> arr = new ArrayList<>();
+        int temp;
+//        짝수들
+        List<Integer> even = new ArrayList<Integer>() {{
+            add(0);
+            add(2);
+            add(4);
+        }};
+//      홀수들
+        List<Integer> odd = new ArrayList<Integer>() {{
+            add(1);
+            add(3);
+            add(5);
+        }};
+
+        int[] count = {0, 0, 0, 0, 0, 0};
+
+        String question = "바이러스에 걸린 컴퓨터를 구할 숫자는?";
+//첫번째 시작이 짝수이냐 홀수이냐를 결정하기 위한 랜덤값.
+        int standard1 = random.nextInt(2);
+        int standard2;
+
+        if(standard1 % 2 == 0) {
+            for (int i = 0; i < 15; i++) {
+                temp = random.nextInt(even.size());
+                count[even.get(temp)]++;
+                arr.add(String.valueOf(even.get(temp)));
+                if(count[even.get(temp)] == 5) {
+                    even.remove(temp);
+                }
+
+                temp = random.nextInt(odd.size());
+                count[odd.get(temp)]++;
+                arr.add(String.valueOf(odd.get(temp)));
+                if(count[odd.get(temp)] == 5) {
+                    odd.remove(temp);
+                }
+            }
+
+        } else {
+            for (int i = 0; i < 15; i++) {
+                temp = random.nextInt(odd.size());
+                count[odd.get(temp)]++;
+                arr.add(String.valueOf(odd.get(temp)));
+                if(count[odd.get(temp)] == 5) {
+                    odd.remove(temp);
+                }
+
+                temp = random.nextInt(even.size());
+                count[even.get(temp)]++;
+                arr.add(String.valueOf(even.get(temp)));
+                if(count[even.get(temp)] == 5) {
+                    even.remove(temp);
+                }
+            }
+        }
+
+        standard1 = random.nextInt(30);
+        if(standard1 % 2 == 0) {
+            standard2 = random.nextInt(15) * 2 + 1;
+        } else {
+            standard2 = random.nextInt(15) * 2;
+        }
+
+        if(standard1 > standard2) {
+            temp = standard1;
+            standard1 = standard2;
+            standard2 = temp;
+        }
+
+        answer = arr.get(standard1) + ", " + arr.get(standard2);
+
+        arr.set(standard1, "?");
+        arr.set(standard2, "?");
+
+        content = arr.toString();
+
+        String clue = null;
+        String hint = "개수";
+
+        return new QuizResponseDto(question, content, clue, hint, answer);
+
     }
 
     private QuizResponseDto getQuizBa(Long roomId) {
@@ -80,6 +173,8 @@ public class QuizService {
         }
         return  new QuizResponseDto(question, content, clue, hint, answer);
     }
+
+
 
     // count +1
     @Transactional
