@@ -1,7 +1,9 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
+import com.project.roomescape.model.Clue;
 import com.project.roomescape.model.Room;
+import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.responseDto.QuizResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import static com.project.roomescape.exception.ErrorCode.*;
 public class QuizService {
 
     private final RoomRepository roomRepository;
+    private final ClueRepository clueRepository;
 
     // Quiz 조회하기
     public QuizResponseDto getQuiz(Long roomId, String quizType) {
@@ -151,13 +154,18 @@ public class QuizService {
     }
 
     private QuizResponseDto getQuizBa(Long roomId) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+        List<Clue> clueList = clueRepository.findAllByRoomId(roomId);
 
-        // clue
-        Long clueA = room.getClueA();
-        Long clueB = room.getClueB();
-        String clueC = room.getClueC();
+        Long clueA = 0L;
+        Long clueB = 0L;
+        String clueC = "";
+
+        for (Clue clue : clueList) {
+            if (clue.getType().equals("Ba1")) clueA = Long.valueOf(clue.getContent());
+            if (clue.getType().equals("Ba2")) clueB = Long.valueOf(clue.getContent());
+            if (clue.getType().equals("Ba3")) clueC = clue.getContent();
+        }
+
         Long clueABC = (clueC.equals("+")) ? clueA + clueB : Math.abs(clueA - clueB);
 
         String question = "비밀번호";
