@@ -31,13 +31,11 @@ public class RankService {
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
         String teamName = room.getTeamName();
 
-
         // time 찾기
         String time = rankRequestDto.getTime();
 
         // userNum찾기
         Integer userNum = room.getUserList().size();
-
 
         String comment = "";
 
@@ -52,9 +50,17 @@ public class RankService {
         // 반환할 responseDtoList
         List<RankResponseDto> rankResponseDtoList = new ArrayList<>();
 
+
+
+        // roomId = 0 ~ -1 주면 에러안뜬다. null만 안주면된다
         // 모든 ranklist를 찾고
-        List<Rank> rankList = rankRepository.findAll();
+        List<Rank> rankList = rankRepository.findAll(); // 정렬해서
+        // roomId > 0
+        // index 찾기
+        // +-2 qodufdmf tofhaksemfrl : rankList
+
         for (Rank eachRank : rankList) {
+            // 임의값 제거 (가짜 1 2 등 가짜 꼴지 1 2 등)
             String teamName = eachRank.getTeamName();
             String time = eachRank.getTime();
             Integer userNum = eachRank.getUserNum();
@@ -63,7 +69,14 @@ public class RankService {
 
             rankResponseDtoList.add(rankResponseDto);
         }
-        return rankResponseDtoList;
+
+        // roomId가 있으면
+        // 해당 방의 index를 알아야하고 +-2 ranklist size 2이상상
+        // time 초로 db 저장 int 1, 2 등은 -1 / 86400 (24시간)
+
+
+
+       return rankResponseDtoList;
     }
 
 
