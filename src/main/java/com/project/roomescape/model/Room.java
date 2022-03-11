@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,32 +28,21 @@ public class Room extends Timestamped {
     @Column(nullable = false)
     private String createdUser;
 
-    @Column(nullable = false)
-    private Long clueA;
-
-    @Column(nullable = false)
-    private Long clueB;
-
-    @Column(nullable = false)
-    private String clueC;
-
     @OneToMany(mappedBy = "room")
     private List<User> userList = new ArrayList<>();
 
     @Column(nullable = false)
     private Long loadingCount;
 
+    @Column
+    private Long startAt;
 
-
-
-    public Room(String teamName, String createdUser, Long clueA, Long clueB, String clueC) {
+    public Room(String teamName, String createdUser) {
         this.count = 0L;
         this.teamName = teamName;
         this.createdUser = createdUser;
-        this.clueA = clueA;
-        this.clueB = clueB;
-        this.clueC = clueC;
         this.loadingCount = 0L;
+        this.startAt = null;
     }
 
     public void changeOwner() {

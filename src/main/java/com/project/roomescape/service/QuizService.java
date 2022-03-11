@@ -1,7 +1,9 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
+import com.project.roomescape.model.Clue;
 import com.project.roomescape.model.Room;
+import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.responseDto.QuizResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import static com.project.roomescape.exception.ErrorCode.*;
 public class QuizService {
 
     private final RoomRepository roomRepository;
+    private final ClueRepository clueRepository;
 
     // Quiz 조회하기
     public QuizResponseDto getQuiz(Long roomId, String quizType) {
@@ -50,8 +53,8 @@ public class QuizService {
         char b = (char) (random.nextInt(11) + 97);
         boolean q = random.nextBoolean();
         String direction = (q) ? "앞으로" : "거꾸로";
-        String content = "어제 " + a + "시에 잔거 같다.<br>시간이 " + direction + " 돌고 있어.<br>"
-                + b + "라고 써있는 건 뭐지?<br>지금 몇시지?";
+        String content = "어제 " + a + "시에 잔거 같다. 시간이 " + direction + " 돌고 있어. "
+                + b + "라고 써있는 건 뭐지? 지금 몇시지?";
 
         String clue = null;
         String hint = "시계를 돌려볼까?";
@@ -151,13 +154,18 @@ public class QuizService {
     }
 
     private QuizResponseDto getQuizBa(Long roomId) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+        List<Clue> clueList = clueRepository.findAllByRoomId(roomId);
 
-        // clue
-        Long clueA = room.getClueA();
-        Long clueB = room.getClueB();
-        String clueC = room.getClueC();
+        Long clueA = 0L;
+        Long clueB = 0L;
+        String clueC = "";
+
+        for (Clue clue : clueList) {
+            if (clue.getType().equals("Ba1")) clueA = Long.valueOf(clue.getContent());
+            if (clue.getType().equals("Ba2")) clueB = Long.valueOf(clue.getContent());
+            if (clue.getType().equals("Ba3")) clueC = clue.getContent();
+        }
+
         Long clueABC = (clueC.equals("+")) ? clueA + clueB : Math.abs(clueA - clueB);
 
         String question = "비밀번호";

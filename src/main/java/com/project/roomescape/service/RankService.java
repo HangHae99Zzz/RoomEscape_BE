@@ -53,36 +53,42 @@ public class RankService {
         // 반환할 responseDtoList
         List<RankResponseDto> rankResponseDtoList = new ArrayList<>();
 
+        // roomId = -1
         // 모든 ranklist를 찾고
+
         List<Rank> rankList = rankRepository.findAllByOrderByTimeAsc(); // 게임종료 time이 적게걸린 순으로 정렬해서
+        // roomId > 0
+        // index찾기
+        // +-2 배열을 새로만들기 : rankList
 
-        if (roomId > 0) {  // roomId가 있으면
-            List<Rank> tempList = new ArrayList();
 
-            // 해당 방의 index를 알아야하고 +-2 ranklist size 2이상상
-            // time 초로 db 저장 int 1, 2 등은 -1 / 86400 (24시간)
-            int i;
-            for (i = 0; i < rankList.size(); i++) {
+            if (roomId > 0) {  // roomId가 있으면
+                List<Rank> tempList = new ArrayList();
 
-                if (rankList.get(i).getRoomId() == roomId) {
-                    break;
+                // 해당 방의 index를 알아야하고 +-2 ranklist size 2이상상
+                // time 초로 db 저장 int 1, 2 등은 -1 / 86400 (24시간)
+                int i;
+                for (i = 0; i < rankList.size(); i++) {
+
+                    if (rankList.get(i).getRoomId() == roomId) {
+                        break;
+                    }
                 }
-            }
 
-            // index 찾기
-            // +-2 배열을 새로만들기 : rankList
+                // index 찾기
+                // +-2 배열을 새로만들기 : rankList
 //            List<Rank> rankList = [rankList.get(i - 2), rankList.get(i-1), rankList.get(i), rankList.get(i+1), rankList.get(i+2)];
 
-            tempList.add(rankList.get(i - 2));
-            tempList.add(rankList.get(i - 1));
-            tempList.add(rankList.get(i));
-            tempList.add(rankList.get(i + 1));
-            tempList.add(rankList.get(i + 2));
-            rankList = tempList;
-        }
+                tempList.add(rankList.get(i - 2));
+                tempList.add(rankList.get(i - 1));
+                tempList.add(rankList.get(i));
+                tempList.add(rankList.get(i + 1));
+                tempList.add(rankList.get(i + 2));
+                rankList = tempList;
+            }
             for (Rank eachRank : rankList) {
                 // 임의값 제거 (가짜 1 2 등 가짜 꼴지 1 2 등)
-                if(eachRank.getTime().equals("00:00:00") || eachRank.getTime().equals("99:99:99")){   // 이거 2개씩 총 4개 TestDataRunner에 넣어준다.
+                if (eachRank.getTime().equals("00:00:00") || eachRank.getTime().equals("99:99:99")) {   // 이거 2개씩 총 4개 TestDataRunner에 넣어준다.
                     continue;
                 }
 
@@ -98,6 +104,7 @@ public class RankService {
 
             return rankResponseDtoList;
         }
+
 
 
 
