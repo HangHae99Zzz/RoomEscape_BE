@@ -8,12 +8,16 @@ public class RankResponseDto {
     private String time;
     private Integer userNum;
     private String comment;
+    private Long roomId;
 
-    public RankResponseDto(String teamName, String time, Integer userNum, String comment) {
+
+
+    public RankResponseDto(String teamName, String time, Integer userNum, String comment, Long roomId) {
         this.teamName = teamName;
         this.time = time;
         this.userNum = userNum;
         this.comment = comment;
+        this.roomId = roomId;
     }
 
 

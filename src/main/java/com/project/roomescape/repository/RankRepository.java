@@ -3,6 +3,12 @@ package com.project.roomescape.repository;
 import com.project.roomescape.model.Rank;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface RankRepository extends JpaRepository<Rank, Long> {
     Rank findByRoomId(Long roomId);
+
+    List<Rank> findAllByOrderByCreatedAtDesc();
+
+    List<Rank> findAllByOrderByTimeAsc();
 }
