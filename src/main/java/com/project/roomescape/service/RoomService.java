@@ -29,7 +29,6 @@ public class RoomService {
 
     // 방 개설하기 //
     public RoomResponseDto createRoom(RoomRequestDto roomRequestDto) {
-        Random random = new Random();
 
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
         String teamName = roomRequestDto.getTeamName();
@@ -38,14 +37,8 @@ public class RoomService {
         String nickName = getNickName();
         String img = "";
 
-        // clue
-        String[] arr = new String[]{"+", "-"};
-        Long clueA = (long) random.nextInt(3999) + 1000;
-        Long clueB = (long) random.nextInt(3999) + 1000;
-        String clueC = arr[random.nextInt(1)];
-
         // 방 저장
-        Room room = roomRepository.save(new Room(teamName, userId, clueA, clueB, clueC)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
+        Room room = roomRepository.save(new Room(teamName, userId)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
 
         // 방장 User 저장
         User user = User.addUser(room, nickName, img, userId);
@@ -59,14 +52,11 @@ public class RoomService {
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url,
-                clueA, clueB, clueC, userList);
+                room.getCreatedUser(), room.getUserList().size(), url, userList);
 
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
     }
-
-
 
 
 
@@ -97,8 +87,7 @@ public class RoomService {
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url,
-                room.getClueA(), room.getClueB(), room.getClueC(), userList);
+                room.getCreatedUser(), room.getUserList().size(), url, userList);
 
          //roomResponseDto를 리턴해준다.
         return roomResponseDto;
@@ -133,8 +122,7 @@ public class RoomService {
             }
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
-                    eachRoom.getId(), teamName, count, createdUser, currentNum, url,
-                    eachRoom.getClueA(), eachRoom.getClueB(), eachRoom.getClueC(), userList);
+                    eachRoom.getId(), teamName, count, createdUser, currentNum, url, userList);
 
             roomResponseDtoList.add(roomResponseDto);
         }
