@@ -63,13 +63,11 @@ public class GameResourceService {
     }
 
 
-    // Test용  userP1~5,gameRunFile의 url 등록 메소드 - TestDataRunner에서 사용
-    public void testRegisterProduct(GameResourceRequestDto gameResourceRequestDto) {
-        GameResource gameResource = new GameResource(gameResourceRequestDto);
-        gameResourceRepository.save(gameResource);
-
-
-    }
+//    // Test용  userP1~5,gameRunFile의 url 등록 메소드 - TestDataRunner에서 사용
+//    public void testRegisterProduct(GameResourceRequestDto gameResourceRequestDto) {
+//        GameResource gameResource = new GameResource(gameResourceRequestDto);
+//        gameResourceRepository.save(gameResource);
+//    }
 
     public GameLoadingResponseDto checkGameLoading(GameLoadingDto gameLoadingDto) {
         Room room;

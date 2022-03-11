@@ -1,6 +1,7 @@
 package com.project.roomescape.model;
 
 
+import com.project.roomescape.requestDto.RankRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Rank {
+public class Rank extends Timestamped{
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -44,5 +45,12 @@ public class Rank {
     }
 
 
+    public Rank(RankRequestDto rankRequestDto) {
+        this.time = rankRequestDto.getTime();
+        this.comment = rankRequestDto.getComment();
+        this.teamName = "";
+        this.roomId = 1L;
+        this.userNum = 1;
 
+    }
 }
