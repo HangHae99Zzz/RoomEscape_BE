@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +34,15 @@ public class Room extends Timestamped {
     @Column(nullable = false)
     private Long loadingCount;
 
+    @Column
+    private Long startAt;
 
     public Room(String teamName, String createdUser) {
         this.count = 0L;
         this.teamName = teamName;
         this.createdUser = createdUser;
         this.loadingCount = 0L;
+        this.startAt = null;
     }
 
     public void changeOwner() {
