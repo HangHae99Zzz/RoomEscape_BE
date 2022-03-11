@@ -70,6 +70,8 @@ public class UserService {
 
         if(gameResourceService.exitDuringLoading(room)) {
             gameLoadingResponseDto.setCheck("true");
+            room.setStartAt(System.currentTimeMillis());
+            roomRepository.save(room);
         } else {
             gameLoadingResponseDto.setCheck(null);
         }

@@ -1,6 +1,5 @@
 package com.project.roomescape.model;
 
-import com.project.roomescape.requestDto.GameResourceRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,8 +27,9 @@ public class GameResource {
     }
 
 
-    public GameResource(GameResourceRequestDto gameResourceRequestDto) {
-        this.type = gameResourceRequestDto.getType();
-        this.url = gameResourceRequestDto.getUrl();
-    }
+//    public GameResource(GameResourceRequestDto gameResourceRequestDto) {
+//        this.type = gameResourceRequestDto.getType();
+//        this.url = gameResourceRequestDto.getUrl();
+//    }
+
 }

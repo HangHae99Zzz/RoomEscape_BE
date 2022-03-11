@@ -38,6 +38,7 @@ out/
 
 ### application.properties ###
 application-aws.properties
+application-mysql.properties
 
 ### keystore.p12###
 keystore.p12

@@ -4,7 +4,6 @@ package com.project.roomescape.service;
 import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
-import com.project.roomescape.repository.RankRepository;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
 import com.project.roomescape.requestDto.RoomAddRequestDto;
@@ -13,7 +12,10 @@ import com.project.roomescape.responseDto.RoomResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
 import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
@@ -24,12 +26,10 @@ public class RoomService {
 
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
-    private final RankRepository rankRepository;
     private final int ROOM_CAPACITY = 4;
 
     // 방 개설하기 //
     public RoomResponseDto createRoom(RoomRequestDto roomRequestDto) {
-        Random random = new Random();
 
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
         String teamName = roomRequestDto.getTeamName();
@@ -38,14 +38,8 @@ public class RoomService {
         String nickName = getNickName();
         String img = "";
 
-        // clue
-        String[] arr = new String[]{"+", "-"};
-        Long clueA = (long) random.nextInt(3999) + 1000;
-        Long clueB = (long) random.nextInt(3999) + 1000;
-        String clueC = arr[random.nextInt(1)];
-
         // 방 저장
-        Room room = roomRepository.save(new Room(teamName, userId, clueA, clueB, clueC)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
+        Room room = roomRepository.save(new Room(teamName, userId)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
 
         // 방장 User 저장
         User user = User.addUser(room, nickName, img, userId);
@@ -59,14 +53,11 @@ public class RoomService {
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url,
-                clueA, clueB, clueC, userList);
+                room.getCreatedUser(), room.getUserList().size(), url, userList, room.getStartAt());
 
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
     }
-
-
 
 
 
@@ -97,15 +88,11 @@ public class RoomService {
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url,
-                room.getClueA(), room.getClueB(), room.getClueC(), userList);
+                room.getCreatedUser(), room.getUserList().size(), url, userList, room.getStartAt());
 
          //roomResponseDto를 리턴해준다.
         return roomResponseDto;
     }
-
-
-
 
 
     // 방 리스트 조회하기
@@ -120,6 +107,7 @@ public class RoomService {
             String createdUser = eachRoom.getCreatedUser();
             Integer currentNum = eachRoom.getUserList().size();
             Long roomId = eachRoom.getId();
+            Long startAt = eachRoom.getStartAt();
 
 
             String url = "/room/" + eachRoom.getId();
@@ -133,8 +121,7 @@ public class RoomService {
             }
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
-                    eachRoom.getId(), teamName, count, createdUser, currentNum, url,
-                    eachRoom.getClueA(), eachRoom.getClueB(), eachRoom.getClueC(), userList);
+                    eachRoom.getId(), teamName, count, createdUser, currentNum, url, userList, startAt);
 
             roomResponseDtoList.add(roomResponseDto);
         }
@@ -167,7 +154,14 @@ public class RoomService {
         } else {
             // nickName 부여
             String userId = roomAddRequestDto.getUserId();
-            String nickName = getNickName();
+            List<User> userList = room.getUserList();
+            String nickName = "";
+            // nickName 중복확인
+            for (User user : userList) {
+                nickName = getNickName();
+                if (!user.getNickName().equals(nickName)) break;
+            }
+
             String img = "";
 
             // user 정보를 해당 room에 추가
@@ -179,12 +173,16 @@ public class RoomService {
 
     private String getNickName() {
         // User에 nickNameList 만들기
-        List<String> nickNameList = new ArrayList<>(Arrays.asList("red", "blue", "yellow", "green"));
+        List<String> nickNameList = new ArrayList<>(Arrays.asList(
+                "잠자는", "졸고있는", "낮잠자는", "꿈꾸는", "가위눌린", "침 흘리는", "잠꼬대하는"));
+        List<String> nickNameList2 = new ArrayList<>(Arrays.asList(
+                "다람쥐", "고양이", "호랑이", "쥐", "고등어", "토끼", "강아지", "나무늘보", "쿼카"));
 
         // nickNameList에서 랜덤으로 nickName 가져오기
         Random random = new Random();
-        int num = random.nextInt(nickNameList.size());
-        return nickNameList.get(num);
+        int num1 = random.nextInt(nickNameList.size());
+        int num2 = random.nextInt(nickNameList2.size());
+        return nickNameList.get(num1) + " " + nickNameList2.get(num2);
     }
 
 

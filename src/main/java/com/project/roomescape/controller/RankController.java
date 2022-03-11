@@ -22,11 +22,21 @@ public class RankController {
     }
 
 
-    // 랭킹 조회하기
+
+    // 전체 랭킹 조회하기
     @GetMapping("/ranks")
     public List<RankResponseDto> getRanks() {
-        return rankService.getRanks();
+        Long roomId = -1L;                      //  roomId에 null이면 오류떠서 -1 이나 0 넣어서 선언하면된다.
+        return rankService.getRanks(roomId);    //  밑에 꺼랑 같은 getRanks를 쓰기위해서 roomId를 넣어주는거다
     }
+    // 위 아래 같은 getRanks 사용!
+
+    // 게임 종료 후 랭킹 5개 조회하기
+    @GetMapping("/rank/{roomId}")
+    public List<RankResponseDto> getRanks(@PathVariable Long roomId) {
+        return rankService.getRanks(roomId);
+    }
+
 
 
     // 코멘트 입력하기

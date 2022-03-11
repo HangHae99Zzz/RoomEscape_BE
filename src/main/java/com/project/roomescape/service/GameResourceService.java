@@ -11,6 +11,7 @@ import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -63,13 +64,11 @@ public class GameResourceService {
     }
 
 
-    // Test용  userP1~5,gameRunFile의 url 등록 메소드 - TestDataRunner에서 사용
-    public void testRegisterProduct(GameResourceRequestDto gameResourceRequestDto) {
-        GameResource gameResource = new GameResource(gameResourceRequestDto);
-        gameResourceRepository.save(gameResource);
-
-
-    }
+//    // Test용  userP1~5,gameRunFile의 url 등록 메소드 - TestDataRunner에서 사용
+//    public void testRegisterProduct(GameResourceRequestDto gameResourceRequestDto) {
+//        GameResource gameResource = new GameResource(gameResourceRequestDto);
+//        gameResourceRepository.save(gameResource);
+//    }
 
     public GameLoadingResponseDto checkGameLoading(GameLoadingDto gameLoadingDto) {
         Room room;
@@ -87,6 +86,7 @@ public class GameResourceService {
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else if(room.getUserList().size() == room.getLoadingCount() + 1){
             gameLoadingResponseDto.setCheck("true");
+            room.setStartAt(System.currentTimeMillis());
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else {
             throw new CustomException(ROOM_MEMBER_FULL);
