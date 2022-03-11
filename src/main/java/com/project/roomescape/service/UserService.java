@@ -44,18 +44,24 @@ public class UserService {
     @Transactional
     public GameLoadingResponseDto deleteUser(RoomAddRequestDto roomAddRequestDto) {
         GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
+//        나간 유저 정보.
         User user = userRepository.findByUserId(roomAddRequestDto.getUserId())
                         .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        String userId = user.getUserId();
+//        나가는 방의 기존 방장
         Room room = user.getRoom();
+        room.getUserList().remove(user);
+
+//        유저 삭제
         userRepository.deleteUserByUserId(roomAddRequestDto.getUserId());
 
 
+
+
 //        방장인 경우
-        if (roomAddRequestDto.getUserId().equals(userId)) {
+        if (roomAddRequestDto.getUserId().equals(room.getCreatedUser())) {
             room.changeOwner();
-            roomRepository.save(room);
-            gameLoadingResponseDto.setUserId(room.getCreatedUser());
+            Room changedRoom = roomRepository.save(room);
+            gameLoadingResponseDto.setUserId(changedRoom.getCreatedUser());
         } else{
             gameLoadingResponseDto.setUserId(null);
         }
@@ -68,7 +74,6 @@ public class UserService {
             gameLoadingResponseDto.setCheck(null);
         }
         return gameLoadingResponseDto;
-
 
     }
 }

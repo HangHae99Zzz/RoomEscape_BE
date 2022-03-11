@@ -15,6 +15,7 @@ import java.util.List;
 public class Room extends Timestamped {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "roomId")
     @Id
     private Long id;
 
