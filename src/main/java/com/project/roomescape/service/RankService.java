@@ -52,9 +52,15 @@ public class RankService {
         // 반환할 responseDtoList
         List<RankResponseDto> rankResponseDtoList = new ArrayList<>();
 
+        // roomId = -1
         // 모든 ranklist를 찾고
-        List<Rank> rankList = rankRepository.findAll();
+        List<Rank> rankList = rankRepository.findAll(); //정렬
+        // roomId > 0
+        // index찾기
+        // +-2 배열을 새로만들기 : rankList
+
         for (Rank eachRank : rankList) {
+            // 임의값 제거
             String teamName = eachRank.getTeamName();
             String time = eachRank.getTime();
             Integer userNum = eachRank.getUserNum();
@@ -63,6 +69,17 @@ public class RankService {
 
             rankResponseDtoList.add(rankResponseDto);
         }
+
+        // roomId가 있으면
+        // 해당 방의 index +-2
+        // 임의값처리
+        // time 초로 db저장 int 1,2등은 -1 / 86400
+
+
+
+
+
+
         return rankResponseDtoList;
     }
 

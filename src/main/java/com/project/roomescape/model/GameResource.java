@@ -27,7 +27,6 @@ public class GameResource {
         this.url = url;
     }
 
-
     public GameResource(GameResourceRequestDto gameResourceRequestDto) {
         this.type = gameResourceRequestDto.getType();
         this.url = gameResourceRequestDto.getUrl();
