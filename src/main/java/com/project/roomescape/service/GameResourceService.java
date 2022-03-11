@@ -11,6 +11,8 @@ import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,6 +89,7 @@ public class GameResourceService {
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else if(room.getUserList().size() == room.getLoadingCount() + 1){
             gameLoadingResponseDto.setCheck("true");
+            room.setStartAt(System.currentTimeMillis());
             room.setLoadingCount(room.getLoadingCount() + 1);
         } else {
             throw new CustomException(ROOM_MEMBER_FULL);

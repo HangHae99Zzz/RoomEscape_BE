@@ -13,6 +13,7 @@ import com.project.roomescape.responseDto.RoomResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
@@ -52,7 +53,7 @@ public class RoomService {
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url, userList);
+                room.getCreatedUser(), room.getUserList().size(), url, userList, room.getStartAt());
 
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
@@ -87,7 +88,7 @@ public class RoomService {
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
                 room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url, userList);
+                room.getCreatedUser(), room.getUserList().size(), url, userList, room.getStartAt());
 
          //roomResponseDto를 리턴해준다.
         return roomResponseDto;
@@ -109,6 +110,7 @@ public class RoomService {
             String createdUser = eachRoom.getCreatedUser();
             Integer currentNum = eachRoom.getUserList().size();
             Long roomId = eachRoom.getId();
+            Long startAt = eachRoom.getStartAt();
 
 
             String url = "/room/" + eachRoom.getId();
@@ -122,7 +124,7 @@ public class RoomService {
             }
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
-                    eachRoom.getId(), teamName, count, createdUser, currentNum, url, userList);
+                    eachRoom.getId(), teamName, count, createdUser, currentNum, url, userList, startAt);
 
             roomResponseDtoList.add(roomResponseDto);
         }
