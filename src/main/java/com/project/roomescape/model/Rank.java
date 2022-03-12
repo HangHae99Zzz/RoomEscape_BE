@@ -27,7 +27,7 @@ public class Rank extends Timestamped{
     @Column(nullable = false)
     private String comment;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long roomId;
 
     @Column(nullable = false)

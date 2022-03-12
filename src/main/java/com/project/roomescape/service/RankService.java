@@ -74,7 +74,7 @@ public class RankService {
                 tempList.add(rankList.get(i + 2));
                 rankList = tempList;     // 두 리스트가 같다고 해서 밑에 for문을 돌 수 있게 해준다
             }
-            for (int i=0; i<rankList.size(); i++) {
+            for (int i=0; i<rankList.size(); i++) {  // i가 인덱스야
                 // 임의값 제거 (가짜 1 2 등 가짜 꼴지 1 2 등) : db에만 보여주고 실제로는 안보이게 할 거여서
                 if (rankList.get(i).getTime().equals("00:00:00") || rankList.get(i).getTime().equals("99:99:99")) {   // 이거 2개씩 총 4개 TestDataRunner에 넣어줬다.
                     continue; // 이 임의값은 무시하고 진행하라는거지
