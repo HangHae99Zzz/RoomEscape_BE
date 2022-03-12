@@ -43,13 +43,11 @@ public class Rank extends Timestamped{
         this.comment = comment;
     }
 
-
-    public Rank(RankRequestDto rankRequestDto) {
-        this.time = rankRequestDto.getTime();
-        this.comment = rankRequestDto.getComment();
-        this.teamName = "";
-        this.roomId = 1L;
-        this.userNum = 1;
-
-    }
+//    public Rank(RankRequestDto rankRequestDto) {
+//        this.time = rankRequestDto.getTime();
+//        this.comment = rankRequestDto.getComment();
+//        this.teamName = "";
+//        this.roomId = rankRequestDto.getRoomId();
+//        this.userNum = 1;
+//    }
 }

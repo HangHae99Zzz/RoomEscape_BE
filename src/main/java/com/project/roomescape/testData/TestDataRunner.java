@@ -26,10 +26,10 @@
 //
 //    @Override
 //    public void run(ApplicationArguments args) throws Exception {
-//        RankRequestDto requestDto1 = new RankRequestDto("00:00:00", "");
-//        RankRequestDto requestDto2 = new RankRequestDto("00:00:00","");
-//        RankRequestDto requestDto3 = new RankRequestDto("99:99:99","");
-//        RankRequestDto requestDto4 = new RankRequestDto("99:99:99","");
+//        RankRequestDto requestDto1 = new RankRequestDto("00:00:00", "", 1L);
+//        RankRequestDto requestDto2 = new RankRequestDto("00:00:00","", 3L);
+//        RankRequestDto requestDto3 = new RankRequestDto("99:99:99","", 5L);
+//        RankRequestDto requestDto4 = new RankRequestDto("99:99:99","", 7L);
 //
 //
 //
