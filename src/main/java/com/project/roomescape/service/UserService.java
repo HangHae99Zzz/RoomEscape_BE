@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.project.roomescape.exception.ErrorCode.*;
 
@@ -45,10 +46,16 @@ public class UserService {
     public GameLoadingResponseDto deleteUser(RoomAddRequestDto roomAddRequestDto) {
         GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
 //        나간 유저 정보.
-        User user = userRepository.findByUserId(roomAddRequestDto.getUserId())
-                        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        Optional<User> user = userRepository.findByUserId(roomAddRequestDto.getUserId());
+
+        if(!user.isPresent()) {
+            gameLoadingResponseDto.setUserId(null);
+            gameLoadingResponseDto.setCheck(null);
+            return gameLoadingResponseDto;
+        }
+
 //        나가는 방의 기존 방장
-        Room room = user.getRoom();
+        Room room = user.get().getRoom();
         room.getUserList().remove(user);
 
 //        유저 삭제

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@Table(name = "ranks")
 public class Rank extends Timestamped{
 
     @GeneratedValue(strategy = GenerationType.AUTO)
