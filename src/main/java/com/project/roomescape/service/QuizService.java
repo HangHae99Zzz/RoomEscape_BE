@@ -1,9 +1,13 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
-import com.project.roomescape.model.Clue;
+
+import com.project.roomescape.model.Quiz;
 import com.project.roomescape.model.Room;
+import com.project.roomescape.model.Clue;
+import com.project.roomescape.repository.QuizRepository;
 import com.project.roomescape.repository.ClueRepository;
+
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.responseDto.QuizResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -23,16 +28,52 @@ import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 public class QuizService {
 
     private final RoomRepository roomRepository;
+    private final QuizRepository quizRepository;
     private final ClueRepository clueRepository;
+
 
     // Quiz 조회하기
     public QuizResponseDto getQuiz(Long roomId, String quizType) {
 
-        QuizResponseDto quizResponseDto;
+        QuizResponseDto quizResponseDto = new QuizResponseDto();
+        Room room;
+
+        Optional<Room> temp = roomRepository.findById(roomId);
+        if(temp.isPresent()) {
+            room = temp.get();
+        } else {
+            throw new CustomException(ROOM_NOT_FOUND);
+        }
+
+
+
         if (quizType.equals("Aa")) {
-            quizResponseDto = getQuizAa();
+            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+
+            if(temporary.isPresent()) {
+                Quiz quiz = temporary.get();
+                quizResponseDto.setQuestion(quiz.getQuestion());
+                quizResponseDto.setContent(quiz.getContent());
+                quizResponseDto.setClue(quiz.getClue());
+                quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setAnswer(quiz.getAnswer());
+            }
+            else{
+                quizResponseDto = getQuizAa(room, quizType);
+            }
         } else if (quizType.equals("Ab")) {
-            quizResponseDto = getQuizAb();
+            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+            if(temporary.isPresent()) {
+                Quiz quiz = temporary.get();
+                quizResponseDto.setQuestion(quiz.getQuestion());
+                quizResponseDto.setContent(quiz.getContent());
+                quizResponseDto.setClue(quiz.getClue());
+                quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setAnswer(quiz.getAnswer());
+            }
+            else{
+                quizResponseDto = getQuizAb(room, quizType);
+            }
         }
         else if (quizType.equals("Ba")) {
             quizResponseDto = getQuizBa(roomId);
@@ -43,8 +84,9 @@ public class QuizService {
     }
 
 
-    private QuizResponseDto getQuizAa() {
+    private QuizResponseDto getQuizAa(Room room, String quizType) {
         Random random = new Random();
+
 
         String question = "지금 몇시지?";
 
@@ -63,6 +105,11 @@ public class QuizService {
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
         int ans = (q) ? a + (b - 96) : a - (b - 96);
         String answer = ans > 12 ? String.valueOf(ans - 12) : String.valueOf(Math.abs(ans));
+//        퀴즈 저장.
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+                .hint(hint)
+                .build();
+        quizRepository.save(quiz);
         return new QuizResponseDto(question, content, clue, hint, answer);
     }
 
@@ -98,7 +145,7 @@ public class QuizService {
 
 
 
-    private QuizResponseDto getQuizAb() {
+    private QuizResponseDto getQuizAb(Room room, String quizType) {
         Random random = new Random();
         String content;
         String answer;
@@ -181,6 +228,12 @@ public class QuizService {
 
         String clue = null;
         String hint = "개수";
+
+        //        퀴즈 저장.
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+                .hint(hint)
+                .build();
+        quizRepository.save(quiz);
 
         return new QuizResponseDto(question, content, clue, hint, answer);
 

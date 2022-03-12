@@ -16,6 +16,7 @@ import java.util.List;
 public class Room extends Timestamped {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "roomId")
     @Id
     private Long id;
 
@@ -46,6 +47,7 @@ public class Room extends Timestamped {
     }
 
     public void changeOwner() {
+
         this.createdUser = this.userList.get(0).getUserId();
     }
 
