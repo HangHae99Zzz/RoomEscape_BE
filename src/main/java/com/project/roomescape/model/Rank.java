@@ -1,7 +1,6 @@
 package com.project.roomescape.model;
 
 
-import com.project.roomescape.requestDto.RankRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,12 +45,12 @@ public class Rank extends Timestamped{
     }
 
 
-    public Rank(RankRequestDto rankRequestDto) {
-        this.time = rankRequestDto.getTime();
-        this.comment = rankRequestDto.getComment();
-        this.teamName = "";
-        this.roomId = 1L;
-        this.userNum = 1;
-
-    }
+//    public Rank(RankRequestDto rankRequestDto) {
+//        this.time = rankRequestDto.getTime();
+//        this.comment = rankRequestDto.getComment();
+//        this.teamName = "";
+//        this.roomId = 1L;
+//        this.userNum = 1;
+//
+//    }
 }

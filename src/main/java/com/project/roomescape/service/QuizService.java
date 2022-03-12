@@ -20,7 +20,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static com.project.roomescape.exception.ErrorCode.*;
+import static com.project.roomescape.exception.ErrorCode.QUIZ_NOT_FOUND;
+import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -111,6 +112,38 @@ public class QuizService {
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, clue, hint, answer);
     }
+
+
+
+//    //  ㄱㄴㄷㅁ 퀴즈
+//    private QuizResponseDto getQuizAc(){
+//        Random random = new Random();
+//
+//        String question = a+b+c+d;
+//
+//
+//        List<String> nickNameList = new ArrayList<>(Arrays.asList(
+//                "잠자는", "졸고있는", "낮잠자는", "꿈꾸는", "가위눌린", "침 흘리는", "잠꼬대하는"));
+//        List<String> nickNameList2 = new ArrayList<>(Arrays.asList(
+//                "다람쥐", "고양이", "호랑이", "쥐", "고등어", "토끼", "강아지", "나무늘보", "쿼카"));
+//        List<String> abcdList = new ArrayList<>(Arrays.asList("ㄱ","ㄴ","ㄷ","ㅁ"));
+//
+//
+//        // nickNameList에서 랜덤으로 nickName 가져오기
+//        Random random = new Random();
+//        int num1 = random.nextInt(nickNameList.size());
+//        int num2 = random.nextInt(nickNameList2.size());
+//        return nickNameList.get(num1) + " " + nickNameList2.get(num2);
+//
+//
+//
+//        return new QuizResponseDto(question, content, clue, hint, answer);
+//    }
+
+
+
+
+
 
     private QuizResponseDto getQuizAb(Room room, String quizType) {
         Random random = new Random();
@@ -205,6 +238,9 @@ public class QuizService {
         return new QuizResponseDto(question, content, clue, hint, answer);
 
     }
+
+
+
 
     private QuizResponseDto getQuizBa(Long roomId) {
         List<Clue> clueList = clueRepository.findAllByRoomId(roomId);
