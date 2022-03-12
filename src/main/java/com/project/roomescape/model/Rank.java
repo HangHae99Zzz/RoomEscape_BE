@@ -1,6 +1,5 @@
 package com.project.roomescape.model;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "ranks")
+@Table(name = "ranks") // rank가 mySQL의 예약어 여서
 public class Rank extends Timestamped{
 
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +33,6 @@ public class Rank extends Timestamped{
     private Integer userNum;
 
 
-
     public Rank(String teamName, String time, Long roomId, Integer userNum, String comment) {
 
         this.teamName = teamName;
@@ -44,13 +42,11 @@ public class Rank extends Timestamped{
         this.comment = comment;
     }
 
-
 //    public Rank(RankRequestDto rankRequestDto) {
 //        this.time = rankRequestDto.getTime();
 //        this.comment = rankRequestDto.getComment();
 //        this.teamName = "";
-//        this.roomId = 1L;
+//        this.roomId = rankRequestDto.getRoomId();
 //        this.userNum = 1;
-//
 //    }
 }
