@@ -44,8 +44,6 @@ public class QuizService {
             throw new CustomException(ROOM_NOT_FOUND);
         }
 
-
-
         if (quizType.equals("Aa")) {
             Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
 

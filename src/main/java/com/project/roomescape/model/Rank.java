@@ -1,6 +1,5 @@
 package com.project.roomescape.model;
 
-
 import com.project.roomescape.requestDto.RankRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@Table(name = "ranks")
 public class Rank extends Timestamped{
 
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +32,6 @@ public class Rank extends Timestamped{
 
     @Column(nullable = false)
     private Integer userNum;
-
 
 
     public Rank(String teamName, String time, Long roomId, Integer userNum, String comment) {
