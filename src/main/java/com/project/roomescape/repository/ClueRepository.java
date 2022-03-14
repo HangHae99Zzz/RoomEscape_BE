@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ClueRepository extends JpaRepository<Clue, Long> {
     List<Clue> findAllByRoomId(Long roomId);
+
+
 }

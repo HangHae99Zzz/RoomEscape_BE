@@ -136,13 +136,15 @@ public class QuizService {
         String c = questionList.get(num3);
         String d = questionList.get(num4);
 
-        String question = a+b+c+d+"?";
+        String question = "한글의 위대함이 느껴진다.";
 
-        String content = "한글의 위대함이 느껴진다.";
+        String content = a+b+c+d+"?";
 
         String clue = null;
         String hint = "낫 놓고...";
-        String answer = a+b+c+d;
+        String answer = a+b+c+d; // answer가 ㄱ ㄴ ㄷ ㅁ 가 아니잖아...
+
+        // ㄱ ㄴ ㄷ ㅁ 각자의 answer값을 줘야지
 
         //        퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)

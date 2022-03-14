@@ -81,7 +81,7 @@ public class RoomService {
         List<Object> userList = new ArrayList<>();
         List<User> users = userRepository.findAllByRoomId(roomId);
         for(User eachUser : users) {
-            String nickName = eachUser.getNickName();
+            String nickName = eachUser.getNickName();                           // String -> 객채?로 해서 보내달라
             userList.add(nickName);
         }
 

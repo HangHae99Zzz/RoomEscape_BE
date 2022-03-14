@@ -1,10 +1,8 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
-import com.project.roomescape.model.GameResource;
-import com.project.roomescape.model.Room;
-import com.project.roomescape.repository.GameResourceRepository;
-import com.project.roomescape.repository.RoomRepository;
+import com.project.roomescape.model.*;
+import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameLoadingDto;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.responseDto.GameLoadingResponseDto;
@@ -15,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
-import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
+import static com.project.roomescape.exception.ErrorCode.*;
 
 
 @RequiredArgsConstructor
@@ -25,6 +22,9 @@ public class GameResourceService {
 
     private final GameResourceRepository gameResourceRepository;
     private final RoomRepository roomRepository;
+    private final QuizRepository quizRepository;
+    private final ClueRepository clueRepository;
+    private final UserRepository userRepository;
 
 
 
@@ -44,7 +44,7 @@ public class GameResourceService {
 
 
     // 게임 시작하기  (type이 gameRunFile인 url만을 찾아서 보내주기)
-    public GameResourceResponseDto getGameResource() {
+    public GameResourceResponseDto getGameResource(Long roomId) {
         // 모든 gameResource를 찾은 다음
         List<GameResource> gameResourceList = gameResourceRepository.findAll();
         // 반환할 responseDto를 null 값으로 선언
@@ -116,7 +116,27 @@ public class GameResourceService {
 
     // 게임 종료하기 ( 걸린시간 등록하기랑 같이 호출 )// room, user, clue, quiz 다 끊어줘야해)
     public void gameOver(Long roomId) {
+         //room
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+         //user
+        List<User> userList = room.getUserList();
+//        List<User> userList = userRepository.findAllByRoomId(roomId);
+//
+//        //quiz
+//        Quiz quiz = quizRepository.findById(roomId)
+//                .orElseThrow(()-> new CustomException(QUIZ_NOT_FOUND));
+//        //clue
+//        Clue clue = clueRepository.findById(roomId)
+//                .orElseThrow(()-> new CustomException(CLUE_NOT_FOUND));
+//        // gameResouce
+//        List<GameResource> gameResourceList = gameResourceRepository.findAll();
 
-
+        roomRepository.deleteById(roomId); // ok
+        userRepository.deleteAll(userList);
+//        userRepository.deleteUserByRoomId(roomId);
+//        quizRepository.deleteQuizByRoomId(roomId);
+//        clueRepository.delete(clue);
+//        gameResourceRepository.deleteAll(gameResourceList);
     }
 }

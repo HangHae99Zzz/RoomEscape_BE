@@ -21,9 +21,9 @@ public class GameResourceController {
     }
 
     // 게임 시작하기
-    @GetMapping("/game/room")
-    public GameResourceResponseDto getGameResource() {
-        return gameResourceService.getGameResource();
+    @GetMapping("/game/{roomId}")
+    public GameResourceResponseDto getGameResource(@PathVariable Long roomId) {
+        return gameResourceService.getGameResource(roomId);
     }
 
 //    게임 로딩 체크하기.
