@@ -29,17 +29,17 @@ public class UserService {
     private final GameResourceService gameResourceService;
 
     // 유저 정보 조회하기
-    public List<UserResponseDto> getUserInfo(Long roomId) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
-
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for(User user : room.getUserList()) {
-            userResponseDtoList.add(new UserResponseDto(
-                    user.getId(), user.getNickName(), user.getImg(), user.getUserId()));
-        }
-        return userResponseDtoList;
-    }
+//    public List<UserResponseDto> getUserInfo(Long roomId) {
+//        Room room = roomRepository.findById(roomId)
+//                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+//
+//        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+//        for(User user : room.getUserList()) {
+//            userResponseDtoList.add(new UserResponseDto(
+//                    user.getId(), user.getNickName(), user.getImg(), user.getUserId()));
+//        }
+//        return userResponseDtoList;
+//    }
 
     // 유저 삭제하기
     @Transactional

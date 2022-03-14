@@ -9,6 +9,7 @@ import com.project.roomescape.repository.UserRepository;
 import com.project.roomescape.requestDto.RoomAddRequestDto;
 import com.project.roomescape.requestDto.RoomRequestDto;
 import com.project.roomescape.responseDto.RoomResponseDto;
+import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +48,8 @@ public class RoomService {
 
         String url = "/room/" + room.getId();
 
-        List<Object> userList = new ArrayList<>();
-        userList.add(user.getNickName());
+        List<UserResponseDto> userList = new ArrayList<>();
+        userList.add(new UserResponseDto(nickName, img));
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
@@ -78,11 +79,10 @@ public class RoomService {
 
 
         // user for문 돌려서 다 찾아서 보내야해
-        List<Object> userList = new ArrayList<>();
+        List<UserResponseDto> userList = new ArrayList<>();
         List<User> users = userRepository.findAllByRoomId(roomId);
         for(User eachUser : users) {
-            String nickName = eachUser.getNickName();
-            userList.add(nickName);
+            userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
         }
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
@@ -113,11 +113,10 @@ public class RoomService {
             String url = "/room/" + eachRoom.getId();
 
             // user for문 돌려서 다 찾아서 보내야해
-            List<Object> userList = new ArrayList<>();
+            List<UserResponseDto> userList = new ArrayList<>();
             List<User> users = userRepository.findAllByRoomId(roomId);
             for(User eachUser : users) {
-                String nickName = eachUser.getNickName();
-                userList.add(nickName);
+                userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
             }
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
