@@ -15,11 +15,11 @@ public class RoomResponseDto {
     private String createdUser;
     private Integer currentNum;    // 현재 참여 인원
     private String url;
-    private List<Object> userList;
+    private List<UserResponseDto> userList;
     private Long startAt;
 
     public RoomResponseDto(Long roomId, String teamName, Long count, String createdUser,
-                           Integer currentNum, String url, List<Object> userList, Long startAt) {
+                           Integer currentNum, String url, List<UserResponseDto> userList, Long startAt) {
         this.roomId = roomId;
         this.teamName = teamName;
         this.count = count;
