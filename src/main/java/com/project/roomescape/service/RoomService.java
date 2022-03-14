@@ -2,8 +2,10 @@ package com.project.roomescape.service;
 
 
 import com.project.roomescape.exception.CustomException;
+import com.project.roomescape.model.GameResource;
 import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
+import com.project.roomescape.repository.GameResourceRepository;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
 import com.project.roomescape.requestDto.RoomAddRequestDto;
@@ -27,6 +29,7 @@ public class RoomService {
 
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final GameResourceRepository gameResourceRepository;
     private final int ROOM_CAPACITY = 4;
 
     // 방 개설하기 //
@@ -37,7 +40,9 @@ public class RoomService {
         String userId = roomRequestDto.getUserId();
         // nickName 부여
         String nickName = getNickName();
-        String img = "";
+
+        String type = "userImg";
+        String img = getImg(type);
 
         // 방 저장
         Room room = roomRepository.save(new Room(teamName, userId)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
@@ -59,7 +64,6 @@ public class RoomService {
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
     }
-
 
 
     // 방 조회하기    // 대기페이지, 게임페이지
@@ -108,8 +112,7 @@ public class RoomService {
             Integer currentNum = eachRoom.getUserList().size();
             Long roomId = eachRoom.getId();
             Long startAt = eachRoom.getStartAt();
-
-
+            
             String url = "/room/" + eachRoom.getId();
 
             // user for문 돌려서 다 찾아서 보내야해
@@ -161,7 +164,13 @@ public class RoomService {
                 if (!user.getNickName().equals(nickName)) break;
             }
 
+            String type = "userImg";
             String img = "";
+            // img 중복확인
+            for (User user : userList) {
+                img = getImg(type);
+                if (!user.getImg().equals(img)) break;
+            }
 
             // user 정보를 해당 room에 추가
             // user 저장
@@ -182,6 +191,14 @@ public class RoomService {
         int num1 = random.nextInt(nickNameList.size());
         int num2 = random.nextInt(nickNameList2.size());
         return nickNameList.get(num1) + " " + nickNameList2.get(num2);
+    }
+
+    private String getImg(String type) {
+        List<GameResource> gameResourceList = gameResourceRepository.findAllByType(type);
+
+        Random random = new Random();
+        int num = random.nextInt(4);
+        return gameResourceList.get(num).getUrl();
     }
 
 
