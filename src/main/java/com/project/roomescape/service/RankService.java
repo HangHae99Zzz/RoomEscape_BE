@@ -89,6 +89,7 @@ public class RankService {
 //                }
                 Long rank = i + check; // total -1 한거네? 0위부터 시작하니 1을 올려 1위를 해줬는데 "00:00:00"이 2개 있으니 -2해줘서 -1을 결국은 한거지...
                 String teamName = rankList.get(i).getTeamName();   // 해당 인덱스에서 보낼 것들을 찾는다
+
                 String time = rankList.get(i).getTime();
                 Integer userNum = rankList.get(i).getUserNum();
                 Long rankRoomId = rankList.get(i).getRoomId();

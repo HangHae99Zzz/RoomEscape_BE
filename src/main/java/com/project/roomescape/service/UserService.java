@@ -1,24 +1,16 @@
 package com.project.roomescape.service;
 
-import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.model.Room;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.repository.UserRepository;
-
 import com.project.roomescape.requestDto.RoomAddRequestDto;
 import com.project.roomescape.responseDto.GameLoadingResponseDto;
-
-import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-
-import static com.project.roomescape.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -29,17 +21,17 @@ public class UserService {
     private final GameResourceService gameResourceService;
 
     // 유저 정보 조회하기
-    public List<UserResponseDto> getUserInfo(Long roomId) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
-
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for(User user : room.getUserList()) {
-            userResponseDtoList.add(new UserResponseDto(
-                    user.getId(), user.getNickName(), user.getImg(), user.getUserId()));
-        }
-        return userResponseDtoList;
-    }
+//    public List<UserResponseDto> getUserInfo(Long roomId) {
+//        Room room = roomRepository.findById(roomId)
+//                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+//
+//        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+//        for(User user : room.getUserList()) {
+//            userResponseDtoList.add(new UserResponseDto(
+//                    user.getId(), user.getNickName(), user.getImg(), user.getUserId()));
+//        }
+//        return userResponseDtoList;
+//    }
 
     // 유저 삭제하기
     @Transactional

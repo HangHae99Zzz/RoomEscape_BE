@@ -21,10 +21,10 @@ public class UserController {
     private final UserRepository userRepository;
 
     // 유저 정보 조회하기
-    @GetMapping("/user/{roomId}")
-    public List<UserResponseDto> getUserInfo(@PathVariable Long roomId) {
-        return userService.getUserInfo(roomId);
-    }
+//    @GetMapping("/user/{roomId}")
+//    public List<UserResponseDto> getUserInfo(@PathVariable Long roomId) {
+//        return userService.getUserInfo(roomId);
+//    }
 
     // 유저 삭제하기
 
