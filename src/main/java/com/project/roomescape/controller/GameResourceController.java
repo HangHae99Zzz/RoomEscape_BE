@@ -6,10 +6,7 @@ import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import com.project.roomescape.service.GameResourceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,4 +31,13 @@ public class GameResourceController {
     public GameLoadingResponseDto checkGameLoading(@RequestBody GameLoadingDto gameLoadingDto) {
         return gameResourceService.checkGameLoading(gameLoadingDto);
     }
+
+    // 게임 종료하기
+    @DeleteMapping("/game/{roomId}/ending")
+    public void gameOver(@PathVariable Long roomId){
+        gameResourceService.gameOver(roomId);
+    }
+
+
+
 }

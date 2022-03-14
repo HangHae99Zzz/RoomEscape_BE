@@ -112,4 +112,11 @@ public class GameResourceService {
             return false;
         }
     }
+
+
+    // 게임 종료하기 ( 걸린시간 등록하기랑 같이 호출 )// room, user, clue, quiz 다 끊어줘야해)
+    public void gameOver(Long roomId) {
+
+
+    }
 }
