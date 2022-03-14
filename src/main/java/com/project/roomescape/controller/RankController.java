@@ -22,7 +22,6 @@ public class RankController {
     }
 
 
-
     // 전체 랭킹 조회하기
     @GetMapping("/ranks")
     public List<RankResponseDto> getRanks() {
@@ -37,13 +36,6 @@ public class RankController {
         return rankService.getRanks(roomId);
     }
 
-
-
-    // 코멘트 입력하기
-    @PostMapping("/room/{roomId}/comment")
-    public void createComment(@PathVariable Long roomId, @RequestBody RankRequestDto rankRequestDto){
-        rankService.createComment(roomId, rankRequestDto);
-    }
 
 
 

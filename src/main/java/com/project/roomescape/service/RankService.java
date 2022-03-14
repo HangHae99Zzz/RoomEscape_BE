@@ -35,9 +35,8 @@ public class RankService {
         // userNum찾기
         Integer userNum = room.getUserList().size();
 
-        String comment = "";
 
-        Rank rank = new Rank(teamName, time, room.getId(), userNum, comment);
+        Rank rank = new Rank(teamName, time, room.getId(), userNum);
         rankRepository.save(rank);
     }
 
@@ -91,28 +90,12 @@ public class RankService {
                 String teamName = rankList.get(i).getTeamName();
                 String time = rankList.get(i).getTime();
                 Integer userNum = rankList.get(i).getUserNum();
-                String comment = "";
                 Long rankRoomId = rankList.get(i).getRoomId();
-                RankResponseDto rankResponseDto = new RankResponseDto(rankRoomId, rank, teamName, time, userNum, comment);
+                RankResponseDto rankResponseDto = new RankResponseDto(rankRoomId, rank, teamName, time, userNum);
 
                 rankResponseDtoList.add(rankResponseDto);
             }
             return rankResponseDtoList;
-        }
-
-
-
-
-        // 코멘트 입력하기
-        public void createComment (Long roomId, RankRequestDto rankRequestDto){
-            String comment = rankRequestDto.getComment();
-
-            Rank rank = rankRepository.findByRoomId(roomId);   // findById가 PK를 찾는거여서 roomId를 못찾는거였어...
-
-            rank.setComment(comment); // comment만 set으로 업데이트해주면되지
-
-            rankRepository.save(rank);
-
         }
 
 
