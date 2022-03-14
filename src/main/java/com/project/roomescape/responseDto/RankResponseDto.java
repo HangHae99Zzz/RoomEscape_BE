@@ -9,17 +9,14 @@ public class RankResponseDto {
     private String teamName;
     private String time;
     private Integer userNum;
-    private String comment;
 
 
-
-    public RankResponseDto(Long roomId, Long rank, String teamName, String time, Integer userNum, String comment) {
+    public RankResponseDto(Long roomId, Long rank, String teamName, String time, Integer userNum) {
         this.roomId = roomId;
         this.rank = rank;
         this.teamName = teamName;
         this.time = time;
         this.userNum = userNum;
-        this.comment = comment;
     }
 
 
