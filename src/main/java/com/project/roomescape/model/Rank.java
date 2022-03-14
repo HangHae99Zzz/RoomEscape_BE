@@ -24,22 +24,17 @@ public class Rank extends Timestamped{
     private String time;
 
     @Column(nullable = false)
-    private String comment;
-
-    @Column(nullable = false, unique = true)
     private Long roomId;
 
     @Column(nullable = false)
     private Integer userNum;
 
 
-    public Rank(String teamName, String time, Long roomId, Integer userNum, String comment) {
-
+    public Rank(String teamName, String time, Long roomId, Integer userNum) {
         this.teamName = teamName;
         this.time = time;
         this.roomId = roomId;
         this.userNum = userNum;
-        this.comment = comment;
     }
 
 //    public Rank(RankRequestDto rankRequestDto) {
