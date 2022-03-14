@@ -6,8 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class UserResponseDto {
-    Long id;
     String nickName;
     String img;
-    String userId;
 }

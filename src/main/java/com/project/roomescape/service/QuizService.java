@@ -59,6 +59,7 @@ public class QuizService {
             else{
                 quizResponseDto = getQuizAa(room, quizType);
             }
+
         } else if (quizType.equals("Ab")) {
             Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
             if(temporary.isPresent()) {
@@ -72,9 +73,19 @@ public class QuizService {
             else{
                 quizResponseDto = getQuizAb(room, quizType);
             }
-        }
-        else if (quizType.equals("Ba")) {
-            quizResponseDto = getQuizBa(roomId);
+        } else if (quizType.equals("Ba")) {
+            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+            if(temporary.isPresent()) {
+                Quiz quiz = temporary.get();
+                quizResponseDto.setQuestion(quiz.getQuestion());
+                quizResponseDto.setContent(quiz.getContent());
+                quizResponseDto.setClue(quiz.getClue());
+                quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setAnswer(quiz.getAnswer());
+            }
+            else{
+                quizResponseDto = getQuizBa(room, quizType);
+            }
         } else {
             throw new CustomException(QUIZ_NOT_FOUND);
         }
@@ -84,8 +95,6 @@ public class QuizService {
 
     private QuizResponseDto getQuizAa(Room room, String quizType) {
         Random random = new Random();
-
-
         String question = "지금 몇시지?";
 
         // 1~12 중 랜덤
@@ -240,8 +249,8 @@ public class QuizService {
 
 
 
-    private QuizResponseDto getQuizBa(Long roomId) {
-        List<Clue> clueList = clueRepository.findAllByRoomId(roomId);
+    private QuizResponseDto getQuizBa(Room room, String quizType) {
+        List<Clue> clueList = clueRepository.findAllByRoomId(room.getId());
 
         Long clueA = 0L;
         Long clueB = 0L;
@@ -262,13 +271,17 @@ public class QuizService {
         String hint = "r = 5";
 
         String answer = "";
-        int[] arr =  Stream.of(String.valueOf(clueABC).split("")).mapToInt(Integer::parseInt).toArray();
+        int[] arr = Stream.of(String.valueOf(clueABC).split("")).mapToInt(Integer::parseInt).toArray();
         for (int i = 0; i < arr.length; i++) {
             answer += content.charAt(arr[i]);
         }
-        return  new QuizResponseDto(question, content, clue, hint, answer);
+        //        퀴즈 저장.
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+                .hint(hint)
+                .build();
+        quizRepository.save(quiz);
+        return new QuizResponseDto(question, content, clue, hint, answer);
     }
-
 
 
     // count +1
