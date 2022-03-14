@@ -80,11 +80,11 @@ public class RankService {
 
                 if (rankList.get(i).getTime().equals("00:00:00")) {
                     check --;
-                    // 이 임의값은 무시하고 진행하라는거지
-                    continue;
-                } else if (rankList.get(i).getTime().equals("99:99:99")) {   // 이거 2개씩 총 4개 TestDataRunner에 넣어줬다.
-                    continue;
+
                 }
+//                else if (rankList.get(i).getTime().equals("99:99:99")) {   // 이거 2개씩 총 4개 TestDataRunner에 넣어줬다.
+//                    continue;
+//                }
 
                 Long rank = i + check;
                 String teamName = rankList.get(i).getTeamName();
