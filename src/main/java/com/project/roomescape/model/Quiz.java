@@ -23,7 +23,7 @@ public class Quiz extends Timestamped{
     @Column(nullable = false)
     private String type;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String question;
 
     @Column(nullable = false)
@@ -78,6 +78,10 @@ public class Quiz extends Timestamped{
         public Quiz build() {
             return new Quiz(this);
         }
+    }
+
+    public void finishedQuiz() {
+        this.question = null;
     }
 
 

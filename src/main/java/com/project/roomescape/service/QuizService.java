@@ -284,14 +284,33 @@ public class QuizService {
     }
 
 
-    // count +1
-    @Transactional
-    public void getCount(Long roomId) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
-        Long count = room.getCount();
-        room.setCount(count + 1);
-        roomRepository.save(room);
+    public void finishedQuiz(Long roomId, String quizType) {
+        Optional<Room> temp = roomRepository.findById(roomId);
+        Room room;
+        Quiz quiz;
+        if(temp.isPresent()) {
+            room = temp.get();
+        } else {
+            throw new CustomException(ROOM_NOT_FOUND);
+        }
+        Optional<Quiz> tempQuiz = quizRepository.findByRoomAndType(room, quizType);
+        if(tempQuiz.isPresent()) {
+            quiz = tempQuiz.get();
+        } else {
+            throw new CustomException(QUIZ_NOT_FOUND);
+        }
+        quiz.finishedQuiz();
+        quizRepository.save(quiz);
     }
+
+    // count +1
+//    @Transactional
+//    public void getCount(Long roomId) {
+//        Room room = roomRepository.findById(roomId)
+//                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+//        Long count = room.getCount();
+//        room.setCount(count + 1);
+//        roomRepository.save(room);
+//    }
 
 }
