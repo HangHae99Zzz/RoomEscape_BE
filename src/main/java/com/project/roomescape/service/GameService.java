@@ -1,6 +1,7 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
+import com.project.roomescape.exception.ErrorCode;
 import com.project.roomescape.model.GameResource;
 import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.GameResourceRepository;
@@ -21,7 +22,7 @@ import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
-public class GameResourceService {
+public class GameService {
 
     private final GameResourceRepository gameResourceRepository;
     private final RoomRepository roomRepository;
@@ -40,7 +41,6 @@ public class GameResourceService {
         // repository에 저장해준다
         gameResourceRepository.save(gameResource);
     }
-
 
 
     // 게임 시작하기  (type이 gameRunFile인 url만을 찾아서 보내주기)
@@ -111,5 +111,13 @@ public class GameResourceService {
         } else{
             return false;
         }
+    }
+
+    public void startGame(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+        room.setStartAt(System.currentTimeMillis());
+        roomRepository.save(room);
+
     }
 }

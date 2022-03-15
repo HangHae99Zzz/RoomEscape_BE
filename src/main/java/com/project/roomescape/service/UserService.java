@@ -18,7 +18,7 @@ public class UserService {
 
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
-    private final GameResourceService gameResourceService;
+    private final GameService gameService;
 
     // 유저 정보 조회하기
 //    public List<UserResponseDto> getUserInfo(Long roomId) {
@@ -72,7 +72,7 @@ public class UserService {
 
 //        나갔는데 만약 게임 로딩중에 나간경우.
 
-        if(gameResourceService.exitDuringLoading(room)) {
+        if(gameService.exitDuringLoading(room)) {
             gameLoadingResponseDto.setCheck("true");
             room.setStartAt(System.currentTimeMillis());
             roomRepository.save(room);
