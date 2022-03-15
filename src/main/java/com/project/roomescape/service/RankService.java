@@ -82,9 +82,13 @@ public class RankService {
                     check --;
 
                 }
-//                else if (rankList.get(i).getTime().equals("99:99:99")) {   // 이거 2개씩 총 4개 TestDataRunner에 넣어줬다.
-//                    continue;
-//                }
+
+                if (roomId == -1) {
+                    if (rankList.get(i).getTime().equals("00:00:00")
+                            || rankList.get(i).getTime().equals("99:99:99")) {
+                        continue;
+                    }
+                }
 
                 Long rank = i + check;
                 String teamName = rankList.get(i).getTeamName();
