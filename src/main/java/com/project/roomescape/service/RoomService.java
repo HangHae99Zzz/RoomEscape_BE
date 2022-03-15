@@ -112,7 +112,7 @@ public class RoomService {
             Integer currentNum = eachRoom.getUserList().size();
             Long roomId = eachRoom.getId();
             Long startAt = eachRoom.getStartAt();
-            
+
             String url = "/room/" + eachRoom.getId();
 
             // user for문 돌려서 다 찾아서 보내야해
