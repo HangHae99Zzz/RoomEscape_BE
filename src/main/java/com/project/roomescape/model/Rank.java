@@ -1,6 +1,5 @@
 package com.project.roomescape.model;
 
-import com.project.roomescape.requestDto.RankRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "ranks")
+@Table(name = "ranks") // rank가 mySQL의 예약어 여서
 public class Rank extends Timestamped{
 
     @GeneratedValue(strategy = GenerationType.AUTO)
