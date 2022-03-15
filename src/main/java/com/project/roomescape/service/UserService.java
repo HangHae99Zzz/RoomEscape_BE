@@ -38,17 +38,19 @@ public class UserService {
     public GameLoadingResponseDto deleteUser(RoomAddRequestDto roomAddRequestDto) {
         GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
 //        나간 유저 정보.
-        Optional<User> user = userRepository.findByUserId(roomAddRequestDto.getUserId());
+        Optional<User> tempUser = userRepository.findByUserId(roomAddRequestDto.getUserId());
+
 
 //        이미 노드에서 삭제 했다면 그냥 null로 바로 보내주고 끝낸다.
-        if(!user.isPresent()) {
+        if(!tempUser.isPresent()) {
             gameLoadingResponseDto.setUserId(null);
             gameLoadingResponseDto.setCheck(null);
             return gameLoadingResponseDto;
         }
+        User user = tempUser.get();
 
 //        나가는 방의 기존 방장
-        Room room = user.get().getRoom();
+        Room room = user.getRoom();
         room.getUserList().remove(user);
 //        유저 room의 userlist에서 삭제
         roomRepository.save(room);
