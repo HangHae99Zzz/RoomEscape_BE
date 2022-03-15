@@ -16,11 +16,7 @@ public class RankController {
 
     private final RankService rankService;
 
-//    // 걸린 시간 등록하기
-//    @PostMapping("/ranks/{roomId}")
-//    public void createRanks(@RequestBody RankRequestDto rankRequestDto, @PathVariable Long roomId) {
-//        rankService.createRanks(rankRequestDto, roomId);
-//    }
+
 
 
     // 전체 랭킹 조회하기

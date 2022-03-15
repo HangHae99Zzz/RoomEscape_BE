@@ -140,8 +140,8 @@ public class GameService {
         rankRepository.save(rank);
 
 
-          // gameResouce
-        List<GameResource> gameResourceList = gameResourceRepository.findAll();
+        // gameResouce
+//        List<GameResource> gameResourceList = gameResourceRepository.findAll();
 
         // user
         userRepository.deleteUserByRoomId(roomId);
@@ -150,7 +150,7 @@ public class GameService {
         // clue
         clueRepository.deleteClueByRoomId(roomId);
         // gameResouce
-        gameResourceRepository.deleteAll(gameResourceList);
+//        gameResourceRepository.deleteAll(gameResourceList);
         // room  // 순서문제!!!!! room을 마지막에 지워야한다
         roomRepository.deleteById(roomId);
 

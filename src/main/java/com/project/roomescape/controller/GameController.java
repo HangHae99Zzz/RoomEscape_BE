@@ -40,7 +40,7 @@ public class GameController {
 
 
     // 게임 종료하기
-    @DeleteMapping("/game/{roomId}/ending")
+    @PostMapping("/game/{roomId}/ending")
     public void gameOver(@PathVariable Long roomId, @RequestBody RankRequestDto rankRequestDto){
         gameService.gameOver(roomId, rankRequestDto);
     }

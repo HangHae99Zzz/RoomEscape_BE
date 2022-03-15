@@ -17,24 +17,7 @@ public class RankService {
     private final RoomRepository roomRepository;
     private final RankRepository rankRepository;
 
-//    // 걸린 시간 등록하기
-//    public void createRanks(RankRequestDto rankRequestDto, Long roomId) {
-//
-////        // teamName 찾기
-//        Room room = roomRepository.findById(roomId)
-//                .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
-//        String teamName = room.getTeamName();
-//
-//        // time 찾기
-//        String time = rankRequestDto.getTime();
-//
-//        // userNum찾기
-//        Integer userNum = room.getUserList().size();
-//
-//
-//        Rank rank = new Rank(teamName, time, room.getId(), userNum);
-//        rankRepository.save(rank);
-//    }
+
 
 
 
@@ -105,11 +88,6 @@ public class RankService {
 
 
 
-//    // Test용  랭킹 상위 1,2등 하위 1,2등 등록 메소드 - TestDataRunner에서 사용
-//    public void testRegisterTime(RankRequestDto rankRequestDto) {
-//        Rank rank = new Rank(rankRequestDto);
-//        rankRepository.save(rank);
-//    }
 
 
 
