@@ -23,7 +23,7 @@ import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
-public class GameResourceService {
+public class GameService {
 
     private final GameResourceRepository gameResourceRepository;
     private final RoomRepository roomRepository;
@@ -46,7 +46,6 @@ public class GameResourceService {
         // repository에 저장해준다
         gameResourceRepository.save(gameResource);
     }
-
 
 
     // 게임 시작하기  (type이 gameRunFile인 url만을 찾아서 보내주기)
@@ -120,6 +119,7 @@ public class GameResourceService {
     }
 
 
+
     // 게임 종료하기 ( 걸린시간 등록하기랑 같이 호출 )// room, user, clue, quiz 다 끊어줘야해)
     @Transactional
     public void gameOver(Long roomId, RankRequestDto rankRequestDto) {
@@ -160,5 +160,13 @@ public class GameResourceService {
 
 
 
+
+    public void startGame(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+        room.setStartAt(System.currentTimeMillis());
+        roomRepository.save(room);
+
+    }
 
 }

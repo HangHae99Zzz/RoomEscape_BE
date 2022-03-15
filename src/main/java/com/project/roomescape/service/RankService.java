@@ -75,16 +75,21 @@ public class RankService {
             for (int i=0; i<rankList.size(); i++) {   //
                 // 임의값 제거 (가짜 1 2 등 가짜 꼴지 1 2 등) : db에만 보여주고 실제로는 안보이게 할 거여서
 
-                if (rankList.get(i).getTime().equals("00:00:00")) { // 이 if문을 해서 check--를 해줘야 전체 rank 조회에서 3위부터 시작하지 않고 1위부터 된다. 000000이 1,2위 하고있는 거를 지워준거지.
-                    check--;   // 00:00:00 이랑 같으면 check를 -1 해준다. 00:00:00이 총 2번 있으니 2번 지워준거지.
-                    // 이 임의값은 무시하고 진행하라는거지
-//                    continue;
-                }
-//                } else if (rankList.get(i).getTime().equals("99:99:99")) {   // 이거 2개씩 총 4개 TestDataRunner에 처음에만 넣어줬고 서버 돌릴때마다 넣어져서 mySQL에 처음한번만 넣고 주석처리함
-//                    continue;  // 애는 꼴찌인데 이렇게 게임을 끌리는 없으니 continue로 무시해준다
-//                }
+
                 Long rank = i + check; // total -1 한거네? 0위부터 시작하니 1을 올려 1위를 해줬는데 "00:00:00"이 2개 있으니 -2해줘서 -1을 결국은 한거지...
                 String teamName = rankList.get(i).getTeamName();   // 해당 인덱스에서 보낼 것들을 찾는다
+
+                if (rankList.get(i).getTime().equals("00:00:00")) {
+                    check --;
+
+                }
+
+                if (roomId == -1) {
+                    if (rankList.get(i).getTime().equals("00:00:00")
+                            || rankList.get(i).getTime().equals("99:99:99")) {
+                        continue;
+                    }
+                }
 
                 String time = rankList.get(i).getTime();
                 Integer userNum = rankList.get(i).getUserNum();
