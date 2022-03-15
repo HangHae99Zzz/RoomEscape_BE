@@ -1,12 +1,8 @@
 package com.project.roomescape.service;
 
-import com.project.roomescape.exception.CustomException;
-import com.project.roomescape.exception.ErrorCode;
 import com.project.roomescape.model.Rank;
-import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.RankRepository;
 import com.project.roomescape.repository.RoomRepository;
-import com.project.roomescape.requestDto.RankRequestDto;
 import com.project.roomescape.responseDto.RankResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,24 +17,24 @@ public class RankService {
     private final RoomRepository roomRepository;
     private final RankRepository rankRepository;
 
-    // 걸린 시간 등록하기
-    public void createRanks(RankRequestDto rankRequestDto, Long roomId) {
-
-//        // teamName 찾기
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
-        String teamName = room.getTeamName();
-
-        // time 찾기
-        String time = rankRequestDto.getTime();
-
-        // userNum찾기
-        Integer userNum = room.getUserList().size();
-
-
-        Rank rank = new Rank(teamName, time, room.getId(), userNum);
-        rankRepository.save(rank);
-    }
+//    // 걸린 시간 등록하기
+//    public void createRanks(RankRequestDto rankRequestDto, Long roomId) {
+//
+////        // teamName 찾기
+//        Room room = roomRepository.findById(roomId)
+//                .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+//        String teamName = room.getTeamName();
+//
+//        // time 찾기
+//        String time = rankRequestDto.getTime();
+//
+//        // userNum찾기
+//        Integer userNum = room.getUserList().size();
+//
+//
+//        Rank rank = new Rank(teamName, time, room.getId(), userNum);
+//        rankRepository.save(rank);
+//    }
 
 
 

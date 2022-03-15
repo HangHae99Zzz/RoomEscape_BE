@@ -1,20 +1,25 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
-import com.project.roomescape.model.*;
+import com.project.roomescape.exception.ErrorCode;
+import com.project.roomescape.model.GameResource;
+import com.project.roomescape.model.Rank;
+import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameLoadingDto;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
+import com.project.roomescape.requestDto.RankRequestDto;
 import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.project.roomescape.exception.ErrorCode.*;
-
+import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
+import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +30,7 @@ public class GameResourceService {
     private final QuizRepository quizRepository;
     private final ClueRepository clueRepository;
     private final UserRepository userRepository;
+    private final RankRepository rankRepository;
 
 
 
@@ -115,28 +121,44 @@ public class GameResourceService {
 
 
     // 게임 종료하기 ( 걸린시간 등록하기랑 같이 호출 )// room, user, clue, quiz 다 끊어줘야해)
-    public void gameOver(Long roomId) {
-         //room
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
-         //user
-        List<User> userList = room.getUserList();
-//        List<User> userList = userRepository.findAllByRoomId(roomId);
-//
-//        //quiz
-//        Quiz quiz = quizRepository.findById(roomId)
-//                .orElseThrow(()-> new CustomException(QUIZ_NOT_FOUND));
-//        //clue
-//        Clue clue = clueRepository.findById(roomId)
-//                .orElseThrow(()-> new CustomException(CLUE_NOT_FOUND));
-//        // gameResouce
-//        List<GameResource> gameResourceList = gameResourceRepository.findAll();
+    @Transactional
+    public void gameOver(Long roomId, RankRequestDto rankRequestDto) {
 
-        roomRepository.deleteById(roomId); // ok
-        userRepository.deleteAll(userList);
-//        userRepository.deleteUserByRoomId(roomId);
-//        quizRepository.deleteQuizByRoomId(roomId);
-//        clueRepository.delete(clue);
-//        gameResourceRepository.deleteAll(gameResourceList);
+        // teamName 찾기
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+        String teamName = room.getTeamName();
+
+//        // time 찾기
+        String time = rankRequestDto.getTime();
+
+//        // userNum찾기
+        Integer userNum = room.getUserList().size();
+
+        // 걸린 시간 등록 추가하기
+        Rank rank = new Rank(teamName, time, room.getId(), userNum);
+        rankRepository.save(rank);
+
+
+          // gameResouce
+        List<GameResource> gameResourceList = gameResourceRepository.findAll();
+
+        // user
+        userRepository.deleteUserByRoomId(roomId);
+        // quiz
+        quizRepository.deleteQuizByRoomId(roomId);
+        // clue
+        clueRepository.deleteClueByRoomId(roomId);
+        // gameResouce
+        gameResourceRepository.deleteAll(gameResourceList);
+        // room  // 순서문제!!!!! room을 마지막에 지워야한다
+        roomRepository.deleteById(roomId);
+
     }
+
+
+
+
+
+
 }

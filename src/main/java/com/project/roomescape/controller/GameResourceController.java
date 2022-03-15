@@ -2,6 +2,7 @@ package com.project.roomescape.controller;
 
 import com.project.roomescape.requestDto.GameLoadingDto;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
+import com.project.roomescape.requestDto.RankRequestDto;
 import com.project.roomescape.responseDto.GameLoadingResponseDto;
 import com.project.roomescape.responseDto.GameResourceResponseDto;
 import com.project.roomescape.service.GameResourceService;
@@ -34,9 +35,10 @@ public class GameResourceController {
 
     // 게임 종료하기
     @DeleteMapping("/game/{roomId}/ending")
-    public void gameOver(@PathVariable Long roomId){
-        gameResourceService.gameOver(roomId);
+    public void gameOver(@PathVariable Long roomId, @RequestBody RankRequestDto rankRequestDto){
+        gameResourceService.gameOver(roomId, rankRequestDto);
     }
+
 
 
 
