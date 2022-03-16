@@ -34,7 +34,8 @@ public class Room extends Timestamped {
         this.startAt = null;
     }
 
-
-    
+    public void setStartAt(Long startAt) {
+        this.startAt = startAt;
+    }
 
 }
