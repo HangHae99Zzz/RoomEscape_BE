@@ -20,9 +20,6 @@ public class Room extends Timestamped {
     private Long id;
 
     @Column(nullable = false)
-    private Long count;
-
-    @Column(nullable = false)
     private String teamName;
 
     @Column(nullable = false)
@@ -38,7 +35,6 @@ public class Room extends Timestamped {
     private Long startAt;
 
     public Room(String teamName, String createdUser) {
-        this.count = 0L;
         this.teamName = teamName;
         this.createdUser = createdUser;
         this.loadingCount = 0L;

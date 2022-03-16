@@ -58,8 +58,8 @@ public class RoomService {
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
-                room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url, userList, room.getStartAt());
+                room.getId(), teamName, room.getCreatedUser(),
+                room.getUserList().size(), url, userList, room.getStartAt());
 
         //roomResponseDto를 리턴해준다.
         return roomResponseDto;
@@ -74,7 +74,6 @@ public class RoomService {
                 .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
         // room 안에 있는 값들을 get해서 구한다
         String teamName = room.getTeamName();
-        Long count = room.getCount();
         String createdUser = room.getCreatedUser();
         // currentNum는 userList에서 size()를 통해 구해준다
         Integer currentNum = room.getUserList().size();
@@ -91,8 +90,8 @@ public class RoomService {
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
-                room.getId(), teamName, room.getCount(),
-                room.getCreatedUser(), room.getUserList().size(), url, userList, room.getStartAt());
+                room.getId(), teamName, room.getCreatedUser(),
+                room.getUserList().size(), url, userList, room.getStartAt());
 
          //roomResponseDto를 리턴해준다.
         return roomResponseDto;
@@ -107,7 +106,6 @@ public class RoomService {
         List<Room> roomList = roomRepository.findAll();
         for(Room eachRoom : roomList){
             String teamName = eachRoom.getTeamName();
-            Long count = eachRoom.getCount();
             String createdUser = eachRoom.getCreatedUser();
             Integer currentNum = eachRoom.getUserList().size();
             Long roomId = eachRoom.getId();
@@ -123,7 +121,7 @@ public class RoomService {
             }
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
-                    eachRoom.getId(), teamName, count, createdUser, currentNum, url, userList, startAt);
+                    eachRoom.getId(), teamName, createdUser, currentNum, url, userList, startAt);
 
             roomResponseDtoList.add(roomResponseDto);
         }

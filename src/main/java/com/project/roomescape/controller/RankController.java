@@ -16,9 +16,6 @@ public class RankController {
 
     private final RankService rankService;
 
-
-
-
     // 전체 랭킹 조회하기
     @GetMapping("/ranks")
     public List<RankResponseDto> getRanks() {
