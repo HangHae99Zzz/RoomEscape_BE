@@ -28,29 +28,17 @@ public class QuizService {
     private final QuizRepository quizRepository;
     private final ClueRepository clueRepository;
 
-
     // Quiz 조회하기
     public QuizResponseDto getQuiz(Long roomId, String quizType) {
-
         QuizResponseDto quizResponseDto = new QuizResponseDto();
-        Room room;
-
-        Optional<Room> temp = roomRepository.findById(roomId);
-        if(temp.isPresent()) {
-            room = temp.get();
-        } else {
-            throw new CustomException(ROOM_NOT_FOUND);
-        }
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
 
         Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
         if(temporary.isPresent()) {
             Quiz quiz = temporary.get();
-            quizResponseDto.setQuestion(quiz.getQuestion());
-            quizResponseDto.setContent(quiz.getContent());
-            quizResponseDto.setHint(quiz.getHint());
-            quizResponseDto.setChance(quiz.getChance());
-            quizResponseDto.setIngUrl(quiz.getImgUrl());
-            quizResponseDto.setAnswer(quiz.getAnswer());
+            quizResponseDto = new QuizResponseDto(quiz.getQuestion(), quiz.getContent(),
+                    quiz.getHint(), quiz.getChance(), quiz.getImgUrl(), quiz.getAnswer());
         }
         else {
             if (quizType.equals("Aa")) quizResponseDto = getQuizAa(room, quizType);
@@ -59,58 +47,6 @@ public class QuizService {
             if (quizType.equals("Bb")) quizResponseDto = getQuizBb(room, quizType);
             if (quizType.equals("Ca")) quizResponseDto = getQuizCa(room, quizType);
         }
-
-//        if (quizType.equals("Aa")) {
-//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-//            if(temporary.isPresent()) {
-//                Quiz quiz = temporary.get();
-//                quizResponseDto = setQuizResponseDto(quiz);
-//            }
-//            else{
-//                quizResponseDto = getQuizAa(room, quizType);
-//            }
-//
-//        } else if (quizType.equals("Ab")) {
-//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-//            if(temporary.isPresent()) {
-//                Quiz quiz = temporary.get();
-//                quizResponseDto = setQuizResponseDto(quiz);
-//            }
-//            else{
-//                quizResponseDto = getQuizAb(room, quizType);
-//            }
-//
-//        } else if (quizType.equals("Ba")) {
-//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-//            if (temporary.isPresent()) {
-//                Quiz quiz = temporary.get();
-//                quizResponseDto = setQuizResponseDto(quiz);
-//            }
-//            else {
-//                quizResponseDto = getQuizBa(room, quizType);
-//            }
-//        } else if (quizType.equals("Bb")) {
-//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-//            if (temporary.isPresent()) {
-//                Quiz quiz = temporary.get();
-//                quizResponseDto = setQuizResponseDto(quiz);
-//            }
-//            else {
-//                quizResponseDto = getQuizBb(room, quizType);
-//            }
-//        } else if (quizType.equals("Ca")) {
-//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-//            if(temporary.isPresent()) {
-//                Quiz quiz = temporary.get();
-//                quizResponseDto = setQuizResponseDto(quiz);
-//            }
-//            else{
-//                quizResponseDto = getQuizCa(room, quizType);
-//            }
-//        } else {
-//            throw new CustomException(QUIZ_NOT_FOUND);
-//        }
-
         return quizResponseDto;
     }
 
@@ -142,8 +78,6 @@ public class QuizService {
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
-
-
 
     private QuizResponseDto getQuizAb(Room room, String quizType) {
         Random random = new Random();
@@ -241,8 +175,6 @@ public class QuizService {
     }
 
 
-
-
     private QuizResponseDto getQuizBa(Room room, String quizType) {
         List<Clue> clueList = clueRepository.findAllByRoomId(room.getId());
 
@@ -279,8 +211,6 @@ public class QuizService {
     }
 
 
-
-
     private QuizResponseDto getQuizBb(Room room, String quizType){
 
         String question = "비밀번호가 숨겨진 장소는 어디일까?";
@@ -302,9 +232,6 @@ public class QuizService {
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
-
-
-
 
 
     //  ㄱㄴㄷㅁ 퀴즈
@@ -348,8 +275,6 @@ public class QuizService {
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
-
-
 
     public void finishedQuiz(Long roomId, String quizType) {
         Optional<Room> temp = roomRepository.findById(roomId);
