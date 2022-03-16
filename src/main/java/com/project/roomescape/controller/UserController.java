@@ -28,8 +28,8 @@ public class UserController {
 
     // 유저 삭제하기
 
-    @PostMapping("/user")
-    public GameLoadingResponseDto deleteUser(@RequestBody RoomAddRequestDto roomAddRequestDto) {
-        return userService.deleteUser(roomAddRequestDto);
-    }
+//    @PostMapping("/user")
+//    public GameLoadingResponseDto deleteUser(@RequestBody RoomAddRequestDto roomAddRequestDto) {
+//        return userService.deleteUser(roomAddRequestDto);
+//    }
 }

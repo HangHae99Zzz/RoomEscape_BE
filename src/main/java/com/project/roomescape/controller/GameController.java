@@ -33,10 +33,10 @@ public class GameController {
 //    }
 
 //    게임 로딩 체크하기.
-    @PostMapping("/game/check")
-    public GameLoadingResponseDto checkGameLoading(@RequestBody GameLoadingDto gameLoadingDto) {
-        return gameService.checkGameLoading(gameLoadingDto);
-    }
+//    @PostMapping("/game/check")
+//    public GameLoadingResponseDto checkGameLoading(@RequestBody GameLoadingDto gameLoadingDto) {
+//        return gameService.checkGameLoading(gameLoadingDto);
+//    }
 
 
     // 게임 종료하기

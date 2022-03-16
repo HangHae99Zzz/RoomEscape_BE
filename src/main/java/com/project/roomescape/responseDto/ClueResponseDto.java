@@ -8,5 +8,4 @@ import lombok.Getter;
 public class ClueResponseDto {
     String type;
     String content;
-
 }
