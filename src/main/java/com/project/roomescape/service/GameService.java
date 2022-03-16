@@ -75,48 +75,48 @@ public class GameService {
 //        gameResourceRepository.save(gameResource);
 //    }
 
-    public GameLoadingResponseDto checkGameLoading(GameLoadingDto gameLoadingDto) {
-        Room room;
-        GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
-        Optional<Room> temp = roomRepository.findById(gameLoadingDto.getRoomId());
-        if(temp.isPresent()) {
-            room = temp.get();
-        } else {
-            throw new CustomException(ROOM_NOT_FOUND);
-        }
-
-//한명씩 로딩이 끝날때마다
-        if(room.getUserList().size() > room.getLoadingCount() + 1) {
-            gameLoadingResponseDto.setCheck(null);
-            room.setLoadingCount(room.getLoadingCount() + 1);
-        } else if(room.getUserList().size() == room.getLoadingCount() + 1){
-            gameLoadingResponseDto.setCheck("true");
-            room.setStartAt(System.currentTimeMillis());
-            room.setLoadingCount(room.getLoadingCount() + 1);
-        } else {
-            throw new CustomException(ROOM_MEMBER_FULL);
-        }
-
-        for(int i = 0; i < room.getUserList().size(); i++) {
-            if (room.getUserList().get(i).getUserId().equals(gameLoadingDto.getUserId())) {
-                room.getUserList().get(i).setLoading(true);
-            }
-        }
-        roomRepository.save(room);
-
-        gameLoadingResponseDto.setUserId(null);
-
-        return gameLoadingResponseDto;
-    }
-
-//    로딩중에 누군가가 한명 나갔는데 나머지 인원들은 전부 충족된 경우.
-    public  Boolean exitDuringLoading(Room room) {
-        if(room.getLoadingCount() > 0 && room.getUserList().size() == room.getLoadingCount()) {
-            return true;
-        } else{
-            return false;
-        }
-    }
+//    public GameLoadingResponseDto checkGameLoading(GameLoadingDto gameLoadingDto) {
+//        Room room;
+//        GameLoadingResponseDto gameLoadingResponseDto= new GameLoadingResponseDto();
+//        Optional<Room> temp = roomRepository.findById(gameLoadingDto.getRoomId());
+//        if(temp.isPresent()) {
+//            room = temp.get();
+//        } else {
+//            throw new CustomException(ROOM_NOT_FOUND);
+//        }
+//
+////한명씩 로딩이 끝날때마다
+//        if(room.getUserList().size() > room.getLoadingCount() + 1) {
+//            gameLoadingResponseDto.setCheck(null);
+//            room.setLoadingCount(room.getLoadingCount() + 1);
+//        } else if(room.getUserList().size() == room.getLoadingCount() + 1){
+//            gameLoadingResponseDto.setCheck("true");
+//            room.setStartAt(System.currentTimeMillis());
+//            room.setLoadingCount(room.getLoadingCount() + 1);
+//        } else {
+//            throw new CustomException(ROOM_MEMBER_FULL);
+//        }
+//
+//        for(int i = 0; i < room.getUserList().size(); i++) {
+//            if (room.getUserList().get(i).getUserId().equals(gameLoadingDto.getUserId())) {
+//                room.getUserList().get(i).setLoading(true);
+//            }
+//        }
+//        roomRepository.save(room);
+//
+//        gameLoadingResponseDto.setUserId(null);
+//
+//        return gameLoadingResponseDto;
+//    }
+//
+////    로딩중에 누군가가 한명 나갔는데 나머지 인원들은 전부 충족된 경우.
+//    public  Boolean exitDuringLoading(Room room) {
+//        if(room.getLoadingCount() > 0 && room.getUserList().size() == room.getLoadingCount()) {
+//            return true;
+//        } else{
+//            return false;
+//        }
+//    }
 
 
 
@@ -133,7 +133,7 @@ public class GameService {
         String time = rankRequestDto.getTime();
 
 //        // userNum찾기
-        Integer userNum = room.getUserList().size();
+        int userNum = room.getUserList().size();
 
         // 걸린 시간 등록 추가하기
         Rank rank = new Rank(teamName, time, room.getId(), userNum);
@@ -155,9 +155,6 @@ public class GameService {
         roomRepository.deleteById(roomId);
 
     }
-
-
-
 
 
 

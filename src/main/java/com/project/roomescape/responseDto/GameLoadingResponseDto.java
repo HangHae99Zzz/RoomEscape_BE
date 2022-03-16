@@ -1,9 +1,9 @@
 package com.project.roomescape.responseDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
+@AllArgsConstructor
 @Getter
 public class GameLoadingResponseDto {
     private String check;
