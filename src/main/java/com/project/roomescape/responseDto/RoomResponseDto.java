@@ -3,7 +3,6 @@ package com.project.roomescape.responseDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Getter

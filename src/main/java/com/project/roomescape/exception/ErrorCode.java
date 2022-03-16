@@ -13,7 +13,8 @@ public enum ErrorCode {
     //404 Not Found
     ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "404_1", "방을 찾을 수 없습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "404_2", "유저를 찾을 수 없습니다."),
-    QUIZ_NOT_FOUND(HttpStatus.NOT_FOUND, "404_3", "quiz를 찾을 수 없습니다.");
+    QUIZ_NOT_FOUND(HttpStatus.NOT_FOUND, "404_3", "quiz를 찾을 수 없습니다."),
+    CLUE_NOT_FOUND(HttpStatus.NOT_FOUND, "404_4", "clue를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String errorCode;

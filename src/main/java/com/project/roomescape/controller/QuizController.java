@@ -3,10 +3,7 @@ package com.project.roomescape.controller;
 import com.project.roomescape.responseDto.QuizResponseDto;
 import com.project.roomescape.service.QuizService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,10 +17,16 @@ public class QuizController {
         return quizService.getQuiz(roomId, quizType);
     }
 
-    // count +1
-    @PostMapping("/escape/{roomId}")
-    public void getCount(@PathVariable Long roomId) {
-        quizService.getCount(roomId);
+    // Quiz 완료시
+    @PutMapping(value = {"/escape/{roomId}/{quizType}"})
+    public void finishedQuiz(@PathVariable Long roomId, @PathVariable String quizType) {
+        quizService.finishedQuiz(roomId, quizType);
     }
+
+    // count +1(현재는 사용안함)
+//    @PostMapping("/escape/{roomId}")
+//    public void getCount(@PathVariable Long roomId) {
+//        quizService.getCount(roomId);
+//    }
 
 }
