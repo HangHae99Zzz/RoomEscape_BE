@@ -1,16 +1,12 @@
 package com.project.roomescape.model;
 
-
 import lombok.*;
-
 import javax.persistence.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity
-public class Quiz extends Timestamped{
+public class Quiz extends Timestamped {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -78,7 +74,6 @@ public class Quiz extends Timestamped{
             this.chance = hint;
             return this;
         }
-
         public Builder imgUrl(String imgUrl) {
             this.imgUrl = imgUrl;
             return this;

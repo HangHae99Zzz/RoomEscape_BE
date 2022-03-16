@@ -8,11 +8,4 @@ public class GameResourceRequestDto {
     private String url;
     private String time;
 
-    public GameResourceRequestDto(String type, String url, String time) {
-        this.type = type;
-        this.url = url;
-        this.time = time;
-
-
-    }
 }
