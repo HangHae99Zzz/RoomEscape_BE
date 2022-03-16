@@ -283,8 +283,6 @@ public class QuizService {
 
     private QuizResponseDto getQuizBb(Room room, String quizType){
 
-        Long clueD = 0L;
-
         String question = "비밀번호가 숨겨진 장소는 어디일까?";
 
         String content = "";

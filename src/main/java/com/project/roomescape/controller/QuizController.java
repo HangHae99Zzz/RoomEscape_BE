@@ -23,10 +23,5 @@ public class QuizController {
         quizService.finishedQuiz(roomId, quizType);
     }
 
-    // count +1(현재는 사용안함)
-//    @PostMapping("/escape/{roomId}")
-//    public void getCount(@PathVariable Long roomId) {
-//        quizService.getCount(roomId);
-//    }
 
 }
