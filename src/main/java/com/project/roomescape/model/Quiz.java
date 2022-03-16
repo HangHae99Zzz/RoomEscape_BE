@@ -79,6 +79,11 @@ public class Quiz extends Timestamped{
             return this;
         }
 
+        public Builder imgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
+            return this;
+        }
+
         public Quiz build() {
             return new Quiz(this);
         }
