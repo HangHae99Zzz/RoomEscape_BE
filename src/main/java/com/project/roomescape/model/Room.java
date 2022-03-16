@@ -41,10 +41,10 @@ public class Room extends Timestamped {
         this.startAt = null;
     }
 
-    public void changeOwner() {
+    public  String changeOwner() {
 
         this.createdUser = this.userList.get(0).getUserId();
-        System.out.println(this.userList);
+        return this.createdUser;
     }
 
 
