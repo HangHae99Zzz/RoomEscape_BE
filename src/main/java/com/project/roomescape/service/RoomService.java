@@ -107,7 +107,7 @@ public class RoomService {
         for(Room eachRoom : roomList){
             String teamName = eachRoom.getTeamName();
             String createdUser = eachRoom.getCreatedUser();
-            Integer currentNum = eachRoom.getUserList().size();
+            int currentNum = eachRoom.getUserList().size();
             Long roomId = eachRoom.getId();
             Long startAt = eachRoom.getStartAt();
 
@@ -129,7 +129,7 @@ public class RoomService {
     }
 
 
-//    // 방 삭제하기
+
 //    public void deleteRoom(Long roomId) {
 //        // room을 찾는다
 //        Room room = roomRepository.findById(roomId)

@@ -23,5 +23,4 @@ public class QuizController {
         quizService.finishedQuiz(roomId, quizType);
     }
 
-
 }

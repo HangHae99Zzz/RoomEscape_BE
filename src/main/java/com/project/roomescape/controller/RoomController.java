@@ -45,10 +45,10 @@ public class RoomController {
 
 
     // 방 삭제하기
-    @DeleteMapping("/room/{roomId}")
-    public void deleteRoom(@PathVariable Long roomId) {
-        roomService.deleteRoom(roomId);
-    }
+//    @DeleteMapping("/room/{roomId}")
+//    public void deleteRoom(@PathVariable Long roomId) {
+//        roomService.deleteRoom(roomId);
+//    }
 
 
 

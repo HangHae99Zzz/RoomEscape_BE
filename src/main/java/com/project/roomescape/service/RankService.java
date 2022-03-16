@@ -75,7 +75,7 @@ public class RankService {
                 }
 
                 String time = rankList.get(i).getTime();
-                Integer userNum = rankList.get(i).getUserNum();
+                int userNum = rankList.get(i).getUserNum();
                 Long rankRoomId = rankList.get(i).getRoomId();
 
                 RankResponseDto rankResponseDto = new RankResponseDto(rankRoomId, rank, teamName, time, userNum);
