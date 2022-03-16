@@ -12,8 +12,9 @@ import lombok.Setter;
 public class QuizResponseDto {
     private String question;
     private String content;
-    private String clue;
     private String hint;
+    private String chance;
+    private String ingUrl;
     private String answer;
 
 }

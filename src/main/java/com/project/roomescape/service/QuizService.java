@@ -47,8 +47,9 @@ public class QuizService {
                 Quiz quiz = temporary.get();
                 quizResponseDto.setQuestion(quiz.getQuestion());
                 quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setClue(quiz.getClue());
                 quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setChance(quiz.getChance());
+                quizResponseDto.setIngUrl(quiz.getImgUrl());
                 quizResponseDto.setAnswer(quiz.getAnswer());
             }
             else{
@@ -61,8 +62,9 @@ public class QuizService {
                 Quiz quiz = temporary.get();
                 quizResponseDto.setQuestion(quiz.getQuestion());
                 quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setClue(quiz.getClue());
                 quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setChance(quiz.getChance());
+                quizResponseDto.setIngUrl(quiz.getImgUrl());
                 quizResponseDto.setAnswer(quiz.getAnswer());
             }
             else{
@@ -75,8 +77,9 @@ public class QuizService {
                 Quiz quiz = temporary.get();
                 quizResponseDto.setQuestion(quiz.getQuestion());
                 quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setClue(quiz.getClue());
                 quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setChance(quiz.getChance());
+                quizResponseDto.setIngUrl(quiz.getImgUrl());
                 quizResponseDto.setAnswer(quiz.getAnswer());
             }
             else {
@@ -88,8 +91,9 @@ public class QuizService {
                 Quiz quiz = temporary.get();
                 quizResponseDto.setQuestion(quiz.getQuestion());
                 quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setClue(quiz.getClue());
                 quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setChance(quiz.getChance());
+                quizResponseDto.setIngUrl(quiz.getImgUrl());
                 quizResponseDto.setAnswer(quiz.getAnswer());
             }
             else {
@@ -101,8 +105,9 @@ public class QuizService {
                 Quiz quiz = temporary.get();
                 quizResponseDto.setQuestion(quiz.getQuestion());
                 quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setClue(quiz.getClue());
                 quizResponseDto.setHint(quiz.getHint());
+                quizResponseDto.setChance(quiz.getChance());
+                quizResponseDto.setIngUrl(quiz.getImgUrl());
                 quizResponseDto.setAnswer(quiz.getAnswer());
             }
             else{
@@ -128,18 +133,19 @@ public class QuizService {
         String content = "어제 " + a + "시에 잔거 같다. 시간이 " + direction + " 돌고 있어. "
                 + b + "라고 써있는 건 뭐지? 지금 몇시지?";
 
-        String clue = null;
-        String hint = "시계를 돌려볼까?";
+        String hint = null;
+        String chance = "시계를 돌려볼까?";
+        String imgUrl = null;
 
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
         int ans = (q) ? a + (b - 96) : a - (b - 96);
         String answer = ans > 12 ? String.valueOf(ans - 12) : String.valueOf(Math.abs(ans));
 //        퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
-                .hint(hint)
+                .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, clue, hint, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
 
 
@@ -167,9 +173,10 @@ public class QuizService {
         // content
         String content = a+b+c+d+"?";
         // clue
-        String clue = null;
+        String hint = null;
         // hint
-        String hint = "낫 놓고...";
+        String chance = "낫 놓고...";
+        String imgUrl = null;
 
         questionList.set(0, "G");
         questionList.set(1, "C");
@@ -182,7 +189,7 @@ public class QuizService {
                 .hint(hint)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, clue, hint, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
 
 
@@ -210,9 +217,10 @@ public class QuizService {
         // content   // 문제의 url을 보내면 되는거지
         String content = "";
         // clue
-        String clue = null;
+        String chance = null;
         // hint
         String hint = "배고파";
+        String imgUrl = null;
 
         // answer에 적을 답들로 바꿔주면되지
 //        questionList.set(0, "책상밑휴지통");
@@ -229,7 +237,7 @@ public class QuizService {
                 .hint(hint)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, clue, hint, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
 
 
@@ -315,16 +323,17 @@ public class QuizService {
 
         content = arr.toString();
 
-        String clue = null;
-        String hint = "개수";
+        String hint = null;
+        String chance = "개수";
+        String imgUrl = null;
 
         //        퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
-                .hint(hint)
+                .chance(chance)
                 .build();
         quizRepository.save(quiz);
 
-        return new QuizResponseDto(question, content, clue, hint, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
 
     }
 
@@ -349,8 +358,9 @@ public class QuizService {
         String question = "비밀번호";
         String content = "HackerRoom";
 
-        String clue = "포스터들을 눈여겨 보세요";
-        String hint = "r = 5";
+        String hint = "포스터들을 눈여겨 보세요";
+        String chance = "r = 5";
+        String imgUrl = null;
 
         String answer = "";
         int[] arr = Stream.of(String.valueOf(clueABC).split("")).mapToInt(Integer::parseInt).toArray();
@@ -359,12 +369,11 @@ public class QuizService {
         }
         //        퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
-                .hint(hint)
+                .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, clue, hint, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
-
 
     public void finishedQuiz(Long roomId, String quizType) {
         Optional<Room> temp = roomRepository.findById(roomId);
