@@ -11,8 +11,10 @@ import com.project.roomescape.responseDto.QuizResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import static com.project.roomescape.exception.ErrorCode.QUIZ_NOT_FOUND;
@@ -42,7 +44,6 @@ public class QuizService {
 
         if (quizType.equals("Aa")) {
             Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-
             if(temporary.isPresent()) {
                 Quiz quiz = temporary.get();
                 quizResponseDto.setQuestion(quiz.getQuestion());
@@ -71,7 +72,7 @@ public class QuizService {
                 quizResponseDto = getQuizAb(room, quizType);
             }
 
-        } else if (quizType.equals("Ca")) {
+        } else if (quizType.equals("Ba")) {
             Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
             if (temporary.isPresent()) {
                 Quiz quiz = temporary.get();
@@ -83,7 +84,7 @@ public class QuizService {
                 quizResponseDto.setAnswer(quiz.getAnswer());
             }
             else {
-                quizResponseDto = getQuizCa(room, quizType);
+                quizResponseDto = getQuizBa(room, quizType);
             }
         } else if (quizType.equals("Bb")) {
             Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
@@ -99,7 +100,7 @@ public class QuizService {
             else {
                 quizResponseDto = getQuizBb(room, quizType);
             }
-        } else if (quizType.equals("Ba")) {
+        } else if (quizType.equals("Ca")) {
             Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
             if(temporary.isPresent()) {
                 Quiz quiz = temporary.get();
@@ -111,7 +112,7 @@ public class QuizService {
                 quizResponseDto.setAnswer(quiz.getAnswer());
             }
             else{
-                quizResponseDto = getQuizBa(room, quizType);
+                quizResponseDto = getQuizCa(room, quizType);
             }
         } else {
             throw new CustomException(QUIZ_NOT_FOUND);
@@ -143,98 +144,6 @@ public class QuizService {
 //        퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
                 .chance(chance)
-                .build();
-        quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
-    }
-
-
-
-    //  ㄱㄴㄷㅁ 퀴즈
-    private QuizResponseDto getQuizCa(Room room, String quizType){
-        Random random = new Random();
-
-        ArrayList<String> questionList = new ArrayList<String>();
-        questionList.add("ㄱ");
-        questionList.add("ㄴ");
-        questionList.add("ㄷ");
-        questionList.add("ㅁ");
-        // questionList에서 랜덤으로 문제 가져오기
-        int num1 = random.nextInt(questionList.size());
-        int num2 = random.nextInt(questionList.size());
-        int num3 = random.nextInt(questionList.size());
-        int num4 = random.nextInt(questionList.size());
-        String a = questionList.get(num1);
-        String b = questionList.get(num2);
-        String c = questionList.get(num3);
-        String d = questionList.get(num4);
-        //question
-        String question = "한글의 위대함이 느껴진다.";
-        // content
-        String content = a+b+c+d+"?";
-        // clue
-        String hint = null;
-        // hint
-        String chance = "낫 놓고...";
-        String imgUrl = null;
-
-        questionList.set(0, "G");
-        questionList.set(1, "C");
-        questionList.set(2, "F");
-        questionList.set(3, "E");
-        // answer
-        String answer = questionList.get(num1)+questionList.get(num2)+questionList.get(num3)+questionList.get(num4);
-        // 퀴즈 저장
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
-                .hint(hint)
-                .build();
-        quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
-    }
-
-
-
-
-    //   이미지 퀴즈(방 탈출할 열쇠가 있는 곳)
-    private QuizResponseDto getQuizBb(Room room, String quizType){
-//        Random random = new Random();
-
-        // 5가지 url주소 적어놔    -> 한가지 고정 이미지로 간다 (디자이너님 해주시면 업로드)
-//        ArrayList<String> questionList = new ArrayList<String>();
-//        questionList.add("https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/trash.png");
-//        questionList.add("https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/cushion.png");
-//        questionList.add("https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/books.png");
-//        questionList.add("https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/sandwich.png");
-//        questionList.add("https://test001-s3-bucket.s3.ap-northeast-2.amazonaws.com/poster.png");
-
-//        // questionList에서 랜덤으로 문제 가져오기
-//        int num1 = random.nextInt(questionList.size());
-//
-//        String a = questionList.get(num1);
-
-        //question
-        String question = "방 탈출할 열쇠가 있는 곳";
-        // content   // 문제의 url을 보내면 되는거지
-        String content = "";
-        // clue
-        String chance = null;
-        // hint
-        String hint = "배고파";
-        String imgUrl = null;
-
-        // answer에 적을 답들로 바꿔주면되지
-//        questionList.set(0, "책상밑휴지통");
-//        questionList.set(1, "소파위쿠션밑");
-//        questionList.set(2, "선반책들사이");
-//        questionList.set(3, "샌드위치안쪽");
-//        questionList.set(4, "벽포스터뒤쪽");
-
-//        // answer
-//        String answer = questionList.get(num1);
-        String answer = "냉장고";
-        // 퀴즈 저장
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
-                .hint(hint)
                 .build();
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
@@ -374,6 +283,84 @@ public class QuizService {
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
+
+
+
+
+    private QuizResponseDto getQuizBb(Room room, String quizType){
+
+        Long clueD = 0L;
+
+        String question = "비밀번호가 숨겨진 장소는 어디일까?";
+
+        String content = null;
+
+        String chance = "배고프다...";
+
+        String hint = "벽을 보세요";
+
+        String imgUrl = null;
+
+
+        String answer = "7799";
+        // 퀴즈 저장
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+                .hint(hint)
+                .build();
+        quizRepository.save(quiz);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
+    }
+
+
+
+
+
+    //  ㄱㄴㄷㅁ 퀴즈
+    private QuizResponseDto getQuizCa(Room room, String quizType){
+        Random random = new Random();
+
+        ArrayList<String> questionList = new ArrayList<String>();
+        questionList.add("ㄱ");
+        questionList.add("ㄴ");
+        questionList.add("ㄷ");
+        questionList.add("ㅁ");
+        // questionList에서 랜덤으로 문제 가져오기
+        int num1 = random.nextInt(questionList.size());
+        int num2 = random.nextInt(questionList.size());
+        int num3 = random.nextInt(questionList.size());
+        int num4 = random.nextInt(questionList.size());
+        String a = questionList.get(num1);
+        String b = questionList.get(num2);
+        String c = questionList.get(num3);
+        String d = questionList.get(num4);
+        //question
+        String question = "한글의 위대함이 느껴진다.";
+        // content
+        String content = a+b+c+d+"?";
+        // clue
+        String hint = null;
+        // hint
+        String chance = "낫 놓고...";
+        String imgUrl = null;
+
+        questionList.set(0, "G");
+        questionList.set(1, "C");
+        questionList.set(2, "F");
+        questionList.set(3, "E");
+        // answer
+        String answer = questionList.get(num1)+questionList.get(num2)+questionList.get(num3)+questionList.get(num4);
+        // 퀴즈 저장
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+                .hint(hint)
+                .build();
+        quizRepository.save(quiz);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
+    }
+
+
+
+
+
 
     public void finishedQuiz(Long roomId, String quizType) {
         Optional<Room> temp = roomRepository.findById(roomId);
