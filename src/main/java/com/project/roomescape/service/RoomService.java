@@ -129,17 +129,17 @@ public class RoomService {
     }
 
 
-    // 방 삭제하기
-    public void deleteRoom(Long roomId) {
-        // room을 찾는다
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
-        // room에 있는 모든 user들을 찾아줘야 해서 userList를 찾는다
-        List<User> userList = room.getUserList();
-        // room과 userList를 각각 지워준다
-        userRepository.deleteAll(userList);
-        roomRepository.delete(room);
-    }
+//    // 방 삭제하기
+//    public void deleteRoom(Long roomId) {
+//        // room을 찾는다
+//        Room room = roomRepository.findById(roomId)
+//                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
+//        // room에 있는 모든 user들을 찾아줘야 해서 userList를 찾는다
+//        List<User> userList = room.getUserList();
+//        // room과 userList를 각각 지워준다
+//        userRepository.deleteAll(userList);
+//        roomRepository.delete(room);
+//    }
 
 
     // 방 참여하기
@@ -176,6 +176,9 @@ public class RoomService {
             userRepository.save(user);
         }
     }
+
+
+
 
     private String getNickName() {
         // User에 nickNameList 만들기
