@@ -42,81 +42,75 @@ public class QuizService {
             throw new CustomException(ROOM_NOT_FOUND);
         }
 
-        if (quizType.equals("Aa")) {
-            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-            if(temporary.isPresent()) {
-                Quiz quiz = temporary.get();
-                quizResponseDto.setQuestion(quiz.getQuestion());
-                quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setHint(quiz.getHint());
-                quizResponseDto.setChance(quiz.getChance());
-                quizResponseDto.setIngUrl(quiz.getImgUrl());
-                quizResponseDto.setAnswer(quiz.getAnswer());
-            }
-            else{
-                quizResponseDto = getQuizAa(room, quizType);
-            }
-
-        } else if (quizType.equals("Ab")) {
-            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-            if(temporary.isPresent()) {
-                Quiz quiz = temporary.get();
-                quizResponseDto.setQuestion(quiz.getQuestion());
-                quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setHint(quiz.getHint());
-                quizResponseDto.setChance(quiz.getChance());
-                quizResponseDto.setIngUrl(quiz.getImgUrl());
-                quizResponseDto.setAnswer(quiz.getAnswer());
-            }
-            else{
-                quizResponseDto = getQuizAb(room, quizType);
-            }
-
-        } else if (quizType.equals("Ba")) {
-            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-            if (temporary.isPresent()) {
-                Quiz quiz = temporary.get();
-                quizResponseDto.setQuestion(quiz.getQuestion());
-                quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setHint(quiz.getHint());
-                quizResponseDto.setChance(quiz.getChance());
-                quizResponseDto.setIngUrl(quiz.getImgUrl());
-                quizResponseDto.setAnswer(quiz.getAnswer());
-            }
-            else {
-                quizResponseDto = getQuizBa(room, quizType);
-            }
-        } else if (quizType.equals("Bb")) {
-            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-            if (temporary.isPresent()) {
-                Quiz quiz = temporary.get();
-                quizResponseDto.setQuestion(quiz.getQuestion());
-                quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setHint(quiz.getHint());
-                quizResponseDto.setChance(quiz.getChance());
-                quizResponseDto.setIngUrl(quiz.getImgUrl());
-                quizResponseDto.setAnswer(quiz.getAnswer());
-            }
-            else {
-                quizResponseDto = getQuizBb(room, quizType);
-            }
-        } else if (quizType.equals("Ca")) {
-            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
-            if(temporary.isPresent()) {
-                Quiz quiz = temporary.get();
-                quizResponseDto.setQuestion(quiz.getQuestion());
-                quizResponseDto.setContent(quiz.getContent());
-                quizResponseDto.setHint(quiz.getHint());
-                quizResponseDto.setChance(quiz.getChance());
-                quizResponseDto.setIngUrl(quiz.getImgUrl());
-                quizResponseDto.setAnswer(quiz.getAnswer());
-            }
-            else{
-                quizResponseDto = getQuizCa(room, quizType);
-            }
-        } else {
-            throw new CustomException(QUIZ_NOT_FOUND);
+        Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+        if(temporary.isPresent()) {
+            Quiz quiz = temporary.get();
+            quizResponseDto.setQuestion(quiz.getQuestion());
+            quizResponseDto.setContent(quiz.getContent());
+            quizResponseDto.setHint(quiz.getHint());
+            quizResponseDto.setChance(quiz.getChance());
+            quizResponseDto.setIngUrl(quiz.getImgUrl());
+            quizResponseDto.setAnswer(quiz.getAnswer());
         }
+        else {
+            if (quizType.equals("Aa")) quizResponseDto = getQuizAa(room, quizType);
+            if (quizType.equals("Ab")) quizResponseDto = getQuizAb(room, quizType);
+            if (quizType.equals("Ba")) quizResponseDto = getQuizBa(room, quizType);
+            if (quizType.equals("Bb")) quizResponseDto = getQuizBb(room, quizType);
+            if (quizType.equals("Ca")) quizResponseDto = getQuizCa(room, quizType);
+        }
+
+//        if (quizType.equals("Aa")) {
+//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+//            if(temporary.isPresent()) {
+//                Quiz quiz = temporary.get();
+//                quizResponseDto = setQuizResponseDto(quiz);
+//            }
+//            else{
+//                quizResponseDto = getQuizAa(room, quizType);
+//            }
+//
+//        } else if (quizType.equals("Ab")) {
+//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+//            if(temporary.isPresent()) {
+//                Quiz quiz = temporary.get();
+//                quizResponseDto = setQuizResponseDto(quiz);
+//            }
+//            else{
+//                quizResponseDto = getQuizAb(room, quizType);
+//            }
+//
+//        } else if (quizType.equals("Ba")) {
+//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+//            if (temporary.isPresent()) {
+//                Quiz quiz = temporary.get();
+//                quizResponseDto = setQuizResponseDto(quiz);
+//            }
+//            else {
+//                quizResponseDto = getQuizBa(room, quizType);
+//            }
+//        } else if (quizType.equals("Bb")) {
+//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+//            if (temporary.isPresent()) {
+//                Quiz quiz = temporary.get();
+//                quizResponseDto = setQuizResponseDto(quiz);
+//            }
+//            else {
+//                quizResponseDto = getQuizBb(room, quizType);
+//            }
+//        } else if (quizType.equals("Ca")) {
+//            Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+//            if(temporary.isPresent()) {
+//                Quiz quiz = temporary.get();
+//                quizResponseDto = setQuizResponseDto(quiz);
+//            }
+//            else{
+//                quizResponseDto = getQuizCa(room, quizType);
+//            }
+//        } else {
+//            throw new CustomException(QUIZ_NOT_FOUND);
+//        }
+
         return quizResponseDto;
     }
 
@@ -290,10 +284,9 @@ public class QuizService {
     private QuizResponseDto getQuizBb(Room room, String quizType){
 
 
-
         String question = "비밀번호가 숨겨진 장소는 어디일까?";
 
-        String content = null;
+        String content = "";
 
         String chance = "배고프다...";
 
@@ -359,9 +352,6 @@ public class QuizService {
 
 
 
-
-
-
     public void finishedQuiz(Long roomId, String quizType) {
         Optional<Room> temp = roomRepository.findById(roomId);
         Room room;
@@ -381,14 +371,5 @@ public class QuizService {
         quizRepository.save(quiz);
     }
 
-    // count +1
-//    @Transactional
-//    public void getCount(Long roomId) {
-//        Room room = roomRepository.findById(roomId)
-//                .orElseThrow(()-> new CustomException(ROOM_NOT_FOUND));
-//        Long count = room.getCount();
-//        room.setCount(count + 1);
-//        roomRepository.save(room);
-//    }
 
 }
