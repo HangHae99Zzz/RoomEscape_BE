@@ -11,6 +11,7 @@ import com.project.roomescape.responseDto.QuizResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,15 +51,15 @@ public class QuizService {
         return quizResponseDto;
     }
 
-
-    private QuizResponseDto getQuizAa(Room room, String quizType) {
+    @Transactional
+    public QuizResponseDto getQuizAa(Room room, String quizType) {
         Random random = new Random();
         String question = "지금 몇시지?";
 
         // 1~12 중 랜덤
-        int a = random.nextInt(11) + 1;
+        int a = random.nextInt(12) + 1;
         // 97(a) ~ 108(l) 중 랜덤
-        char b = (char) (random.nextInt(11) + 97);
+        char b = (char) (random.nextInt(12) + 97);
         boolean q = random.nextBoolean();
         String direction = (q) ? "앞으로" : "거꾸로";
         String content = "어제 " + a + "시에 잔거 같다. 시간이 " + direction + " 돌고 있어. "
@@ -79,7 +80,8 @@ public class QuizService {
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
 
-    private QuizResponseDto getQuizAb(Room room, String quizType) {
+    @Transactional
+    public QuizResponseDto getQuizAb(Room room, String quizType) {
         Random random = new Random();
         String content;
         String answer;
@@ -105,10 +107,13 @@ public class QuizService {
         int standard1 = random.nextInt(2);
         int standard2;
 
+//        첫번쨰 숫자가 짝수인 경우
         if(standard1 % 2 == 0) {
             for (int i = 0; i < 15; i++) {
                 temp = random.nextInt(even.size());
+//                슷자에 해당되는 카운트를 하나 올려준다.
                 count[even.get(temp)]++;
+//                문제를 만든다.
                 arr.add(String.valueOf(even.get(temp)));
                 if(count[even.get(temp)] == 5) {
                     even.remove(temp);
@@ -140,6 +145,7 @@ public class QuizService {
             }
         }
 
+//        ?가 들어갈 위치 선정.
         standard1 = random.nextInt(30);
         if(standard1 % 2 == 0) {
             standard2 = random.nextInt(15) * 2 + 1;
@@ -147,21 +153,24 @@ public class QuizService {
             standard2 = random.nextInt(15) * 2;
         }
 
+//      standard1이 항상 standard2보다 작게끔 만든다.
         if(standard1 > standard2) {
             temp = standard1;
             standard1 = standard2;
             standard2 = temp;
         }
 
+//        정답.
         answer = arr.get(standard1) + ", " + arr.get(standard2);
 
+//        정답이 들어가는 부분 숫자에서 ?로 바꾼다.
         arr.set(standard1, "?");
         arr.set(standard2, "?");
-
+//      list형식을 하나의 String으로 바꿔준다.
         content = arr.toString();
 
         String hint = null;
-        String chance = "개수";
+        String chance = "홀짝";
         String imgUrl = null;
 
         //        퀴즈 저장.
@@ -174,8 +183,8 @@ public class QuizService {
 
     }
 
-
-    private QuizResponseDto getQuizBa(Room room, String quizType) {
+    @Transactional
+    public QuizResponseDto getQuizBa(Room room, String quizType) {
         List<Clue> clueList = clueRepository.findAllByRoomId(room.getId());
 
         Long clueA = 0L;
@@ -187,7 +196,7 @@ public class QuizService {
             if (clue.getType().equals("Ba2")) clueB = Long.valueOf(clue.getContent());
             if (clue.getType().equals("Ba3")) clueC = clue.getContent();
         }
-
+        // 5016
         Long clueABC = (clueC.equals("+")) ? clueA + clueB : Math.abs(clueA - clueB);
 
         String question = "비밀번호";
@@ -198,6 +207,7 @@ public class QuizService {
         String imgUrl = null;
 
         String answer = "";
+        // [5, 0, 1, 6]
         int[] arr = Stream.of(String.valueOf(clueABC).split("")).mapToInt(Integer::parseInt).toArray();
         for (int i = 0; i < arr.length; i++) {
             answer += content.charAt(arr[i]);
@@ -205,13 +215,14 @@ public class QuizService {
         //        퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
                 .chance(chance)
+                .hint(hint)
                 .build();
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
 
-
-    private QuizResponseDto getQuizBb(Room room, String quizType){
+    @Transactional
+    public QuizResponseDto getQuizBb(Room room, String quizType){
 
 
         String question = "비밀번호가 숨겨진 장소는 어디일까?";
@@ -237,7 +248,8 @@ public class QuizService {
 
 
     //  ㄱㄴㄷㅁ 퀴즈
-    private QuizResponseDto getQuizCa(Room room, String quizType){
+    @Transactional
+    public QuizResponseDto getQuizCa(Room room, String quizType){
         Random random = new Random();
 
         ArrayList<String> questionList = new ArrayList<String>();
@@ -280,15 +292,12 @@ public class QuizService {
 
 
 
+    @Transactional
     public void finishedQuiz(Long roomId, String quizType) {
-        Optional<Room> temp = roomRepository.findById(roomId);
-        Room room;
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
         Quiz quiz;
-        if(temp.isPresent()) {
-            room = temp.get();
-        } else {
-            throw new CustomException(ROOM_NOT_FOUND);
-        }
+
         Optional<Quiz> tempQuiz = quizRepository.findByRoomAndType(room, quizType);
         if(tempQuiz.isPresent()) {
             quiz = tempQuiz.get();
@@ -298,6 +307,5 @@ public class QuizService {
         quiz.finishedQuiz();
         quizRepository.save(quiz);
     }
-
-
+    
 }
