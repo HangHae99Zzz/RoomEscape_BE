@@ -129,7 +129,7 @@ public class RoomService {
     }
 
 
-    // 방 삭제하기
+
 //    public void deleteRoom(Long roomId) {
 //        // room을 찾는다
 //        Room room = roomRepository.findById(roomId)
@@ -176,6 +176,9 @@ public class RoomService {
             userRepository.save(user);
         }
     }
+
+
+
 
     private String getNickName() {
         // User에 nickNameList 만들기
