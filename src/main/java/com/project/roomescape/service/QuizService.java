@@ -296,5 +296,5 @@ public class QuizService {
         quiz.finishedQuiz();
         quizRepository.save(quiz);
     }
-    
+
 }

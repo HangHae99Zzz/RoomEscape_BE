@@ -17,10 +17,7 @@ public class RankService {
     private final RoomRepository roomRepository;
     private final RankRepository rankRepository;
 
-
-
-
-
+    
 
     // 전체 랭킹 조회하기 & 게임종료 후 랭킹 5개 조회하기 : 2가지 컨트롤러를 이 한번으로 처리함
     public List<RankResponseDto> getRanks(Long roomId) {
