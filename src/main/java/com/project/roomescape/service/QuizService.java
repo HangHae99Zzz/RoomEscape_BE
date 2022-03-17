@@ -224,6 +224,7 @@ public class QuizService {
     @Transactional
     public QuizResponseDto getQuizBb(Room room, String quizType){
 
+
         String question = "비밀번호가 숨겨진 장소는 어디일까?";
 
         String content = "";
@@ -239,6 +240,7 @@ public class QuizService {
         // 퀴즈 저장
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
                 .hint(hint)
+                .chance(chance)
                 .build();
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
@@ -282,11 +284,13 @@ public class QuizService {
         String answer = questionList.get(num1)+questionList.get(num2)+questionList.get(num3)+questionList.get(num4);
         // 퀴즈 저장
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
-                .hint(hint)
+                .chance(chance)
                 .build();
         quizRepository.save(quiz);
         return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
     }
+
+
 
     @Transactional
     public void finishedQuiz(Long roomId, String quizType) {
