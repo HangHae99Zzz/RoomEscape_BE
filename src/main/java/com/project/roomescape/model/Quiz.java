@@ -1,16 +1,12 @@
 package com.project.roomescape.model;
 
-
 import lombok.*;
-
 import javax.persistence.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity
-public class Quiz extends Timestamped{
+public class Quiz extends Timestamped {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -23,17 +19,20 @@ public class Quiz extends Timestamped{
     @Column(nullable = false)
     private String type;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String question;
 
     @Column(nullable = false)
     private String content;
 
     @Column(nullable = true)
-    private String clue;
+    private String hint;
 
     @Column(nullable = true)
-    private String hint;
+    private String chance;
+
+    @Column(nullable = true)
+    private String imgUrl;
 
     @Column(nullable = false)
     private String answer;
@@ -43,8 +42,8 @@ public class Quiz extends Timestamped{
         this.type = builder.type;
         this.question = builder.question;
         this.content = builder.content;
-        this.clue = builder.clue;
         this.hint = builder.hint;
+        this.chance = builder.chance;
         this.answer = builder.answer;
     }
 
@@ -54,8 +53,9 @@ public class Quiz extends Timestamped{
         private String type;
         private String question;
         private String content;
-        private String clue;
         private String hint;
+        private String chance;
+        private String imgUrl;
         private String answer;
 
         // 필수적인 필드 : room, type, question, content, answer
@@ -66,18 +66,26 @@ public class Quiz extends Timestamped{
             this.content = content;
             this.answer = answer;
         }
-        public Builder clue(String clue) {
-            this.clue = clue;
+        public Builder hint(String clue) {
+            this.hint = clue;
             return this;
         }
-        public Builder hint(String hint) {
-            this.hint = hint;
+        public Builder chance(String hint) {
+            this.chance = hint;
+            return this;
+        }
+        public Builder imgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
             return this;
         }
 
         public Quiz build() {
             return new Quiz(this);
         }
+    }
+
+    public void finishedQuiz() {
+        this.question = null;
     }
 
 

@@ -41,6 +41,8 @@ public class ClueService {
         clueRepository.saveAll(clueList);
     }
 
+
+    // clue 조회하기
     public List<ClueResponseDto> getClue(Long roomId) {
         // roomId가 일치하는 clue 찾기
         List<Clue> clueList = clueRepository.findAllByRoomId(roomId);

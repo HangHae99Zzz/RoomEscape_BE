@@ -6,12 +6,6 @@ import lombok.Getter;
 public class GameResourceRequestDto {
     private String type;
     private String url;
+    private String time;
 
-
-    public GameResourceRequestDto(String type, String url) {
-        this.type = type;
-        this.url = url;
-
-
-    }
 }

@@ -2,9 +2,7 @@ package com.project.roomescape.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-
 
 @NoArgsConstructor
 @Getter
