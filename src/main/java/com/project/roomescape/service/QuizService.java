@@ -105,10 +105,13 @@ public class QuizService {
         int standard1 = random.nextInt(2);
         int standard2;
 
+//        첫번쨰 숫자가 짝수인 경우
         if(standard1 % 2 == 0) {
             for (int i = 0; i < 15; i++) {
                 temp = random.nextInt(even.size());
+//                슷자에 해당되는 카운트를 하나 올려준다.
                 count[even.get(temp)]++;
+//                문제를 만든다.
                 arr.add(String.valueOf(even.get(temp)));
                 if(count[even.get(temp)] == 5) {
                     even.remove(temp);
@@ -140,6 +143,7 @@ public class QuizService {
             }
         }
 
+//        ?가 들어갈 위치 선정.
         standard1 = random.nextInt(30);
         if(standard1 % 2 == 0) {
             standard2 = random.nextInt(15) * 2 + 1;
@@ -147,21 +151,24 @@ public class QuizService {
             standard2 = random.nextInt(15) * 2;
         }
 
+//      standard1이 항상 standard2보다 작게끔 만든다.
         if(standard1 > standard2) {
             temp = standard1;
             standard1 = standard2;
             standard2 = temp;
         }
 
+//        정답.
         answer = arr.get(standard1) + ", " + arr.get(standard2);
 
+//        정답이 들어가는 부분 숫자에서 ?로 바꾼다.
         arr.set(standard1, "?");
         arr.set(standard2, "?");
-
+//      list형식을 하나의 String으로 바꿔준다.
         content = arr.toString();
 
         String hint = null;
-        String chance = "개수";
+        String chance = "홀짝";
         String imgUrl = null;
 
         //        퀴즈 저장.
