@@ -8,6 +8,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
 @Configuration
@@ -39,6 +41,10 @@ public class RedisConfig {
     public RedisTemplate<?, ?> redisTemplate() {
         RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
+//        redis에 저장될때는 바이트 형식으로 저장되므로 String으로 들어온 key들을 바이트 형식으로 바꿔준다.
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));  // Value: 직렬화에 사용할 Object 사용하기
         return redisTemplate;
     }
 }
