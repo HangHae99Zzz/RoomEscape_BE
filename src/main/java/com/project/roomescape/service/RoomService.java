@@ -14,6 +14,7 @@ import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +33,7 @@ public class RoomService {
     private final int ROOM_CAPACITY = 4;
 
     // 방 개설하기 //
+    @Transactional
     public RoomResponseDto createRoom(RoomRequestDto roomRequestDto) {
 
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
