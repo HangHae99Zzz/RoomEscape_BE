@@ -8,12 +8,13 @@ import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.responseDto.ClueResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +23,9 @@ public class ClueService {
     private final ClueRepository clueRepository;
     private final RoomRepository roomRepository;
 
+    @Resource(name = "redisTemplate")
+    private RedisTemplate<String, Object> redisTemplate;
+
     // clue 생성하기
     @Transactional
     public void createClue(Long roomId) {
@@ -29,16 +33,25 @@ public class ClueService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
-        // clue 생성해서 List에 담기
-        List<Clue> clueList = new ArrayList<>();
-        String[] arr = new String[]{"+", "-"};
 
-        clueList.add(new Clue(room, "Ba1", String.valueOf(random.nextInt(3999) + 1000)));
-        clueList.add(new Clue(room, "Ba2", String.valueOf(random.nextInt(3999) + 1000)));
-        clueList.add(new Clue(room, "Ba3", arr[random.nextInt(1)]));
+        HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
 
-        // List 저장하기
-        clueRepository.saveAll(clueList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("Room", room);
+        map.put("type", "Ba1");
+        map.put("content", String.valueOf(random.nextInt(3999) + 1000));
+        hashOperations.putAll("Clue1", map);
+
+//        // clue 생성해서 List에 담기
+//        List<Clue> clueList = new ArrayList<>();
+//        String[] arr = new String[]{"+", "-"};
+//
+//        clueList.add(new Clue(room, "Ba1", String.valueOf(random.nextInt(3999) + 1000)));
+//        clueList.add(new Clue(room, "Ba2", String.valueOf(random.nextInt(3999) + 1000)));
+//        clueList.add(new Clue(room, "Ba3", arr[random.nextInt(1)]));
+//
+//        // List 저장하기
+//        clueRepository.saveAll(clueList);
     }
 
 

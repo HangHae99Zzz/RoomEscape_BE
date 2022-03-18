@@ -3,13 +3,14 @@ package com.project.roomescape.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Entity
-public class Room extends Timestamped {
+public class Room extends Timestamped implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "roomId")
