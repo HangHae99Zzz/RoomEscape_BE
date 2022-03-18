@@ -71,7 +71,9 @@ public class QuizService {
 
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
         int ans = (q) ? a + (b - 96) : a - (b - 96);
-        String answer = ans > 12 ? String.valueOf(ans - 12) : String.valueOf(Math.abs(ans));
+        if (ans < 0) ans += 12;
+        if (ans > 12) ans -= 12;
+        String answer = String.valueOf(ans);
 //        퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
                 .chance(chance)
