@@ -37,9 +37,18 @@ public class ClueService {
         HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
 
         Map<String, Object> map = new HashMap<>();
-        map.put("Room", room);
+//        map.put("Room", room);
         map.put("type", "Ba1");
         map.put("content", String.valueOf(random.nextInt(3999) + 1000));
+
+//        Object firstName = redisTemplate.opsForHash().get("Clue1", "Room");
+//        String lastName = (String) redisTemplate.opsForHash().get("Clue1", "type");
+//        String gender = (String) redisTemplate.opsForHash().get("Clue1", "content");
+//        System.out.println(firstName);
+//        System.out.println(lastName);
+//        System.out.println(gender);
+
+
         hashOperations.putAll("Clue1", map);
 
 //        // clue 생성해서 List에 담기

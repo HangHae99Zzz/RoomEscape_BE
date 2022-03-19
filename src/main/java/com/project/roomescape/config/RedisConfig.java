@@ -51,9 +51,11 @@ public class RedisConfig {
 //        redis에 저장될때는 바이트 형식으로 저장되므로 String으로 들어온 key들을 바이트 형식으로 바꿔준다.
 //         기본 key String 값을 byte[](UTF-8)로 변환해서 가져오는 것
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
 //      GenericJackson2JsonRedisSerializer 클래스는 redis에 Object를 JSON화 시켜 저장.
         // Value: 직렬화에 사용할 Object 사용하기
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
+        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         return redisTemplate;
     }
 }
