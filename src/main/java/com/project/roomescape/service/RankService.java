@@ -28,6 +28,7 @@ public class RankService {
 
             List<Rank> tempList = new ArrayList();  // +-2해서 총 5개의 배열을 담을 새로운 ArrayList
 
+
             // 해당 방의 index를 알아야해
             int i; // i를 밑에 for문 말고 여기서 선언해줘야 빼서 쓸수가 있다.
             for (i = 0; i < rankList.size(); i++) { // for문 안에서 int i를 안쓴거는 for문 밖에서 i 사용하려고    // for each 해서 eachRank를 안한이유는 개별적인 rank가 아니라 특정한 roomId랑 같은 rank의 인덱스를 찾아야해서다
