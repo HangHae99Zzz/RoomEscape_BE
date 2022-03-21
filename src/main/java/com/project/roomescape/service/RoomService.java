@@ -99,9 +99,11 @@ public class RoomService {
     public List<RoomResponseDto> getAllRooms(int page) {
 
         List<RoomResponseDto> roomResponseDtoList = new ArrayList<>();
+        //생성일자 내림차순으로 정렬할 것이다.
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        //페이지의 4배씩 roomlist를 보내준다.
         int size = page * 4;
-
+        //항상 0페이지를 내려주는데 사이즈만 4개씩 늘리는 방식으로 내려준다.
         Pageable pageable = PageRequest.of(0, size, sort);
 
         Page<Room> roomList = roomRepository.findAll(pageable);
