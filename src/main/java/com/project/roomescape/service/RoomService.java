@@ -55,7 +55,7 @@ public class RoomService {
         String url = "/room/" + room.getId();
 
         List<UserResponseDto> userList = new ArrayList<>();
-        userList.add(new UserResponseDto(nickName, img));
+        userList.add(new UserResponseDto(nickName, img, userId));
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
@@ -77,7 +77,7 @@ public class RoomService {
         List<UserResponseDto> userList = new ArrayList<>();
         List<User> users = userRepository.findAllByRoomId(roomId);
         for(User eachUser : users) {
-            userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
+            userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg(), eachUser.getUserId()));
         }
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
@@ -103,7 +103,7 @@ public class RoomService {
             List<UserResponseDto> userList = new ArrayList<>();
             List<User> users = userRepository.findAllByRoomId(eachRoom.getId());
             for(User eachUser : users) {
-                userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
+                userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg(), eachUser.getUserId()));
             }
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
