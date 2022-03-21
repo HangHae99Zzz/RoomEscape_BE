@@ -293,7 +293,6 @@ public class QuizService {
     }
 
 
-
     @Transactional
     public void finishedQuiz(Long roomId, String quizType) {
         Room room = roomRepository.findById(roomId)
