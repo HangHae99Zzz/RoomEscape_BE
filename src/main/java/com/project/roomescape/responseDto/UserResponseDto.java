@@ -8,4 +8,5 @@ import lombok.Getter;
 public class UserResponseDto {
     String nickName;
     String img;
+    String userId;
 }

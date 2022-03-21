@@ -12,13 +12,13 @@ public class QuizController {
     public final QuizService quizService;
 
     // Quiz 조회하기
-    @GetMapping(value = {"/quiz/{roomId}/{quizType}"})
+    @GetMapping("/quiz/{roomId}/{quizType}")
     public QuizResponseDto getQuiz(@PathVariable Long roomId, @PathVariable String quizType) {
         return quizService.getQuiz(roomId, quizType);
     }
 
     // Quiz 완료시
-    @PutMapping(value = {"/quiz/{roomId}/{quizType}"})
+    @PutMapping("/quiz/{roomId}/{quizType}")
     public void finishedQuiz(@PathVariable Long roomId, @PathVariable String quizType) {
         quizService.finishedQuiz(roomId, quizType);
     }

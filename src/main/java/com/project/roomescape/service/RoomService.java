@@ -60,7 +60,7 @@ public class RoomService {
         String url = "/room/" + room.getId();
 
         List<UserResponseDto> userList = new ArrayList<>();
-        userList.add(new UserResponseDto(nickName, img));
+        userList.add(new UserResponseDto(nickName, img, userId));
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
@@ -79,11 +79,7 @@ public class RoomService {
         String url = "/room/" + roomId;
 
         // user for문 돌려서 다 찾아서 보내야해
-        List<UserResponseDto> userList = new ArrayList<>();
-        List<User> users = userRepository.findAllByRoomId(roomId);
-        for(User eachUser : users) {
-            userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
-        }
+        List<UserResponseDto> userList = findUserList(roomId);
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
@@ -111,11 +107,7 @@ public class RoomService {
             String url = "/room/" + eachRoom.getId();
 
             // user for문 돌려서 다 찾아서 보내야해
-            List<UserResponseDto> userList = new ArrayList<>();
-            List<User> users = userRepository.findAllByRoomId(eachRoom.getId());
-            for(User eachUser : users) {
-                userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
-            }
+            List<UserResponseDto> userList = findUserList(eachRoom.getId());
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
                     eachRoom.getId(), eachRoom.getTeamName(), eachRoom.getCreatedUser(),
@@ -126,6 +118,14 @@ public class RoomService {
         return roomResponseDtoList;
     }
 
+    public List<UserResponseDto> findUserList(Long roomId) {
+        List<UserResponseDto> userList = new ArrayList<>();
+        List<User> users = userRepository.findAllByRoomId(roomId);
+        for(User eachUser : users) {
+            userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg(), eachUser.getUserId()));
+        }
+        return userList;
+    }
 
     // 방 참여하기
     public void addMember(Long roomId, RoomAddRequestDto roomAddRequestDto) {
