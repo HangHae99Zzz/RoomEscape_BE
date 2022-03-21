@@ -12,6 +12,10 @@ import com.project.roomescape.requestDto.RoomRequestDto;
 import com.project.roomescape.responseDto.RoomResponseDto;
 import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -91,11 +95,15 @@ public class RoomService {
 
 
     // 방 리스트 조회하기
-    public List<RoomResponseDto> getAllRooms() {
+    public List<RoomResponseDto> getAllRooms(int page) {
 
         List<RoomResponseDto> roomResponseDtoList = new ArrayList<>();
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        int size = page * 4;
 
-        List<Room> roomList = roomRepository.findAll();
+        Pageable pageable = PageRequest.of(0, size, sort);
+
+        Page<Room> roomList = roomRepository.findAll(pageable);
         for(Room eachRoom : roomList){
             String url = "/room/" + eachRoom.getId();
 
