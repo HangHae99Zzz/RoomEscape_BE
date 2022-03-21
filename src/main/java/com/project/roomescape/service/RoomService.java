@@ -34,6 +34,7 @@ public class RoomService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final GameResourceRepository gameResourceRepository;
+    // 상수 선언
     private final int ROOM_CAPACITY = 4;
 
     // 방 개설하기 //
