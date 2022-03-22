@@ -25,13 +25,21 @@ public class Room extends Timestamped {
     @OneToMany(mappedBy = "room")
     private List<User> userList = new ArrayList<>();
 
-    @Column
+    @Column(nullable = true)
     private Long startAt;
+
+    @Column(nullable = true)
+    private Pass pass;
+
+    @Column(nullable = false)
+    private State state;
 
     public Room(String teamName, String createdUser) {
         this.teamName = teamName;
         this.createdUser = createdUser;
         this.startAt = null;
+        this.pass = null;
+        this.state = State.ACTIVE;
     }
 
     public void setStartAt(Long startAt) {
