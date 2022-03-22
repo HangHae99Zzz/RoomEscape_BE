@@ -26,7 +26,7 @@ public class RankController {
     }
 
     // 게임 종료 후 랭킹 5개 조회하기
-    @GetMapping("/rank/{roomId}")
+    @GetMapping("/ranks/{roomId}")
     public List<RankResponseDto> getRanks(@PathVariable Long roomId) {
         return rankService.getRanks(roomId);
     }

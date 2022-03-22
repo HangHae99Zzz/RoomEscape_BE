@@ -17,13 +17,13 @@ public class ClueController {
     private final ClueService clueService;
 
     // Clue 생성하기
-    @PostMapping("/clue/{roomId}")
+    @PostMapping("/rooms/{roomId}/clues")
     public void createClue(@PathVariable Long roomId) {
         clueService.createClue(roomId);
     }
 
     // Clue 조회하기
-    @GetMapping("/clue/{roomId}")
+    @GetMapping("/rooms/{roomId}/clues")
     public List<ClueResponseDto> getClue(@PathVariable Long roomId) {
         return clueService.getClue(roomId);
     }
