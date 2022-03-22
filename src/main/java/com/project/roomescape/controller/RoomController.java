@@ -17,21 +17,21 @@ public class RoomController {
     private final RoomService roomService;
 
     // 방 개설하기 // request를 받아
-    @PostMapping("/room")
+    @PostMapping("/rooms")
     public RoomResponseDto createRoom(@RequestBody RoomRequestDto roomRequestDto) {
         return roomService.createRoom(roomRequestDto);
     }
 
 
     // 방 조회하기
-    @GetMapping("/room/{roomId}")
+    @GetMapping("/rooms/{roomId}")
     public RoomResponseDto getRoom(@PathVariable Long roomId) {
         return roomService.getRoom(roomId);
     }
 
 
     // 방 참여하기
-    @PostMapping("/room/{roomId}")
+    @PostMapping("/rooms/{roomId}")
     public void addMember(@PathVariable Long roomId, @RequestBody RoomAddRequestDto roomAddRequestDto) {
         roomService.addMember(roomId, roomAddRequestDto);
     }
