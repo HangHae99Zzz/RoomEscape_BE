@@ -37,6 +37,12 @@ public class Quiz extends Timestamped {
     @Column(nullable = false)
     private String answer;
 
+    @Column(nullable = false)
+    private Pass pass;
+
+    @Column(nullable = false)
+    private State state;
+
     Quiz(Builder builder) {
         this.room = builder.room;
         this.type = builder.type;
@@ -45,6 +51,8 @@ public class Quiz extends Timestamped {
         this.hint = builder.hint;
         this.chance = builder.chance;
         this.answer = builder.answer;
+        this.pass = builder.pass;
+        this.state = builder.state;
     }
 
 //    static을 통해 상위 클래스를 생성하지 않고도 외부에서 바로 Quiz.Builder로 접근이 가능하다.
@@ -57,14 +65,19 @@ public class Quiz extends Timestamped {
         private String chance;
         private String imgUrl;
         private String answer;
+        private Pass pass;
+        private State state;
 
         // 필수적인 필드 : room, type, question, content, answer
-        public Builder(Room room, String type, String question, String content, String answer) {
+        public Builder(Room room, String type, String question, String content, String answer,
+                       Pass pass, State state) {
             this.room = room;
             this.type = type;
             this.question = question;
             this.content = content;
             this.answer = answer;
+            this.pass = pass;
+            this.state = state;
         }
         public Builder hint(String clue) {
             this.hint = clue;
@@ -85,7 +98,7 @@ public class Quiz extends Timestamped {
     }
 
     public void finishedQuiz() {
-        this.question = null;
+        this.pass = Pass.SUCCESS;
     }
 
 
