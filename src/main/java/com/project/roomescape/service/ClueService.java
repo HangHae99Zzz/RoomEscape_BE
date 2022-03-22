@@ -1,11 +1,7 @@
 package com.project.roomescape.service;
 
-import com.project.roomescape.exception.CustomException;
-import com.project.roomescape.exception.ErrorCode;
 import com.project.roomescape.model.Clue;
-import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.ClueRepository;
-import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.responseDto.ClueResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,22 +16,19 @@ import java.util.Random;
 public class ClueService {
 
     private final ClueRepository clueRepository;
-    private final RoomRepository roomRepository;
 
     // clue 생성하기
     @Transactional
     public void createClue(Long roomId) {
         Random random = new Random();
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
         // clue 생성해서 List에 담기
         List<Clue> clueList = new ArrayList<>();
         String[] arr = new String[]{"+", "-"};
 
-        clueList.add(new Clue(room, "Ba1", String.valueOf(random.nextInt(3999) + 1000)));
-        clueList.add(new Clue(room, "Ba2", String.valueOf(random.nextInt(3999) + 1000)));
-        clueList.add(new Clue(room, "Ba3", arr[random.nextInt(1)]));
+        clueList.add(new Clue(roomId, "Ba1", String.valueOf(random.nextInt(3999) + 1000)));
+        clueList.add(new Clue(roomId, "Ba2", String.valueOf(random.nextInt(3999) + 1000)));
+        clueList.add(new Clue(roomId, "Ba3", arr[random.nextInt(1)]));
 
         // List 저장하기
         clueRepository.saveAll(clueList);
