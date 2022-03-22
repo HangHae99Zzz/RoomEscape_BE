@@ -18,7 +18,7 @@ public class CommentController {
     private final CommentService commentService;
 
     // 코멘트 입력하기
-    @PostMapping("/comment")
+    @PostMapping("/comments")
     public void createComment(@RequestBody CommentRequestDto commentRequestDto){
         commentService.createComment(commentRequestDto);
     }
