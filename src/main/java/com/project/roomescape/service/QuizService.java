@@ -75,8 +75,7 @@ public class QuizService {
         String answer = String.valueOf(ans);
         Pass pass = Pass.FAIL;
 //        퀴즈 저장.
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
-                pass, State.ACTIVE)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
@@ -178,8 +177,7 @@ public class QuizService {
         Pass pass = Pass.FAIL;
 
         //        퀴즈 저장.
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
-                pass, State.ACTIVE)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
@@ -219,8 +217,7 @@ public class QuizService {
         }
         Pass pass = Pass.FAIL;
         //        퀴즈 저장.
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
-                pass, State.ACTIVE)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .hint(hint)
                 .build();
@@ -245,8 +242,7 @@ public class QuizService {
         String answer = "7799";
         Pass pass = Pass.FAIL;
         // 퀴즈 저장
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
-                Pass.FAIL, State.ACTIVE)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .hint(hint)
                 .chance(chance)
                 .build();
@@ -292,8 +288,7 @@ public class QuizService {
         String answer = questionList.get(num1)+questionList.get(num2)+questionList.get(num3)+questionList.get(num4);
         Pass pass = Pass.FAIL;
         // 퀴즈 저장
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
-                pass, State.ACTIVE)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
