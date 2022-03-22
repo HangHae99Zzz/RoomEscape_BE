@@ -275,9 +275,9 @@ public class QuizService {
         String c = questionList.get(num3);
         String d = questionList.get(num4);
         //question
-        String question = "한글의 위대함이 느껴진다.";
+        String question = a+b+c+d+"?";
         // content
-        String content = a+b+c+d+"?";
+        String content = null;
         // clue
         String hint = null;
         // hint

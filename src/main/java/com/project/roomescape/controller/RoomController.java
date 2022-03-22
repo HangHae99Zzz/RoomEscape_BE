@@ -38,7 +38,7 @@ public class RoomController {
 
 
     // 방 리스트 조회하기
-    @GetMapping("/rooms/{page}")
+    @GetMapping("/rooms/pages/{page}")
     public List<RoomResponseDto> getAllRooms(@PathVariable int page) {
         return roomService.getAllRooms(page);
     }
