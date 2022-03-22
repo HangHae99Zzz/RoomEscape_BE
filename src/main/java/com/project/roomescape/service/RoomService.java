@@ -3,6 +3,7 @@ package com.project.roomescape.service;
 import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.model.GameResource;
 import com.project.roomescape.model.Room;
+import com.project.roomescape.model.State;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.GameResourceRepository;
 import com.project.roomescape.repository.RoomRepository;
@@ -102,7 +103,7 @@ public class RoomService {
         //항상 0페이지를 내려주는데 사이즈만 4개씩 늘리는 방식으로 내려준다.
         Pageable pageable = PageRequest.of(0, size, sort);
 
-        Page<Room> roomList = roomRepository.findAll(pageable);
+        Page<Room> roomList = roomRepository.findAllByState(pageable, State.ACTIVE);
         for(Room eachRoom : roomList){
             String url = "/room/" + eachRoom.getId();
 
