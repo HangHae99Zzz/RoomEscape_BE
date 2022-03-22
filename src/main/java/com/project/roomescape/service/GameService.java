@@ -3,6 +3,7 @@ package com.project.roomescape.service;
 import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.exception.ErrorCode;
 import com.project.roomescape.model.GameResource;
+import com.project.roomescape.model.Quiz;
 import com.project.roomescape.model.Rank;
 import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.*;
@@ -58,8 +59,6 @@ public class GameService {
 
         // user
         userRepository.deleteUserByRoomId(roomId);
-        // quiz
-        quizRepository.deleteQuizByRoomId(roomId);
         // clue
         clueRepository.deleteClueByRoomId(roomId);
         // room  // 순서문제!!!!! room을 마지막에 지워야한다

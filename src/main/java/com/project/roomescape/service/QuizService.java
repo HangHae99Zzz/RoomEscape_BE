@@ -1,9 +1,7 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
-import com.project.roomescape.model.Clue;
-import com.project.roomescape.model.Quiz;
-import com.project.roomescape.model.Room;
+import com.project.roomescape.model.*;
 import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.repository.QuizRepository;
 import com.project.roomescape.repository.RoomRepository;
@@ -38,8 +36,9 @@ public class QuizService {
         Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
         if(temporary.isPresent()) {
             Quiz quiz = temporary.get();
-            quizResponseDto = new QuizResponseDto(quiz.getQuestion(), quiz.getContent(),
-                    quiz.getHint(), quiz.getChance(), quiz.getImgUrl(), quiz.getAnswer());
+            quizResponseDto = new QuizResponseDto(
+                    quiz.getQuestion(), quiz.getContent(), quiz.getHint(),
+                    quiz.getChance(), quiz.getImgUrl(), quiz.getAnswer(), quiz.getPass());
         }
         else {
             if (quizType.equals("Aa")) quizResponseDto = getQuizAa(room, quizType);
@@ -74,12 +73,14 @@ public class QuizService {
         if (ans < 0) ans += 12;
         if (ans > 12) ans -= 12;
         String answer = String.valueOf(ans);
+        Pass pass = Pass.FAIL;
 //        퀴즈 저장.
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
+                pass, State.ACTIVE)
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
     }
 
     @Transactional
@@ -174,14 +175,16 @@ public class QuizService {
         String hint = null;
         String chance = "홀짝";
         String imgUrl = null;
+        Pass pass = Pass.FAIL;
 
         //        퀴즈 저장.
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
+                pass, State.ACTIVE)
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
 
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
 
     }
 
@@ -214,13 +217,15 @@ public class QuizService {
         for (int i = 0; i < arr.length; i++) {
             answer += content.charAt(arr[i]);
         }
+        Pass pass = Pass.FAIL;
         //        퀴즈 저장.
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
+                pass, State.ACTIVE)
                 .chance(chance)
                 .hint(hint)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
     }
 
     @Transactional
@@ -237,15 +242,16 @@ public class QuizService {
 
         String imgUrl = null;
 
-
         String answer = "7799";
+        Pass pass = Pass.FAIL;
         // 퀴즈 저장
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
+                Pass.FAIL, State.ACTIVE)
                 .hint(hint)
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
     }
 
 
@@ -284,12 +290,14 @@ public class QuizService {
         questionList.set(3, "E");
         // answer
         String answer = questionList.get(num1)+questionList.get(num2)+questionList.get(num3)+questionList.get(num4);
+        Pass pass = Pass.FAIL;
         // 퀴즈 저장
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer)
+        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer,
+                pass, State.ACTIVE)
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer);
+        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
     }
 
 
