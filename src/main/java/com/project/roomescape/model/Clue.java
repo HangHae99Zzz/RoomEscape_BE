@@ -13,9 +13,7 @@ public class Clue {
     @Id
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "roomId")
-    private Room room;
+    private Long roomId;
 
     @Column(nullable = false)
     private String type;
@@ -23,8 +21,8 @@ public class Clue {
     @Column(nullable = false)
     private String content;
 
-    public Clue(Room room, String type, String content) {
-        this.room = room;
+    public Clue(Long roomId, String type, String content) {
+        this.roomId = roomId;
         this.type = type;
         this.content = content;
     }
