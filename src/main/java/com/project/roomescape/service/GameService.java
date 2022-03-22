@@ -2,10 +2,7 @@ package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.exception.ErrorCode;
-import com.project.roomescape.model.GameResource;
-import com.project.roomescape.model.Quiz;
-import com.project.roomescape.model.Rank;
-import com.project.roomescape.model.Room;
+import com.project.roomescape.model.*;
 import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.requestDto.RankRequestDto;
@@ -47,22 +44,25 @@ public class GameService {
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
         String teamName = room.getTeamName();
 
-//        // time 찾기
+        // time 찾기
         String time = rankRequestDto.getTime();
 
-//        // userNum찾기
+        // userNum찾기
         int userNum = room.getUserList().size();
 
-        // 걸린 시간 등록 추가하기
-        Rank rank = new Rank(teamName, time, room.getId(), userNum);
-        rankRepository.save(rank);
+        // 게임 종료 처리
+        Pass pass = (rankRequestDto.isPass()) ? Pass.SUCCESS : Pass.FAIL;
+        room.gameOver(pass, (long) userNum);
 
+        // 게임 성공 시 rank 등록하기
+        if (pass == Pass.SUCCESS) {
+            Rank rank = new Rank(teamName, time, room.getId(), userNum);
+            rankRepository.save(rank);
+        }
         // user
         userRepository.deleteUserByRoomId(roomId);
         // clue
         clueRepository.deleteClueByRoomId(roomId);
-        // room  // 순서문제!!!!! room을 마지막에 지워야한다
-        roomRepository.deleteById(roomId);
 
     }
 
