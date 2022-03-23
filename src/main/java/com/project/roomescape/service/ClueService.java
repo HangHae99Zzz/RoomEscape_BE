@@ -36,15 +36,11 @@ public class ClueService {
 
 
     // clue 조회하기
-    public List<ClueResponseDto> getClue(Long roomId) {
-        // roomId가 일치하는 clue 찾기
-        List<Clue> clueList = clueRepository.findAllByRoomId(roomId);
+    public ClueResponseDto getClue(Long roomId, String clueType) {
+        Clue clue = clueRepository.findByRoomIdAndAndType(roomId, clueType);
 
-        // dto에 담아서 return
-        List<ClueResponseDto> clueResponseDtoList = new ArrayList<>();
-        for (Clue clue : clueList) {
-            clueResponseDtoList.add(new ClueResponseDto(clue.getType(), clue.getContent()));
-        }
-        return clueResponseDtoList;
+        ClueResponseDto clueResponseDto = new ClueResponseDto(clue.getContent());
+
+        return clueResponseDto;
     }
 }

@@ -23,8 +23,8 @@ public class ClueController {
 //    }
 
     // Clue 조회하기
-    @GetMapping("/rooms/{roomId}/clues")
-    public List<ClueResponseDto> getClue(@PathVariable Long roomId) {
-        return clueService.getClue(roomId);
+    @GetMapping("/rooms/{roomId}/clues/{clueType}")
+    public ClueResponseDto getClue(@PathVariable Long roomId, @PathVariable String clueType) {
+        return clueService.getClue(roomId, clueType);
     }
 }
