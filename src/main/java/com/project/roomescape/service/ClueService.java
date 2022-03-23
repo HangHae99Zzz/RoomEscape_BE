@@ -37,10 +37,15 @@ public class ClueService {
 
     // clue 조회하기
     public ClueResponseDto getClue(Long roomId, String clueType) {
-        Clue clue = clueRepository.findByRoomIdAndAndType(roomId, clueType);
+        ClueResponseDto clueResponseDto;
 
-        ClueResponseDto clueResponseDto = new ClueResponseDto(clue.getContent());
-
+        //Clue가 clue entity에 있는 정보면 찾아서 내려주고 그렇지 않다면 빈 문자열로 내려준다.
+        if(clueType.equals("Ba1") || clueType.equals("Ba2") || clueType.equals("Ba3")) {
+            Clue clue = clueRepository.findByRoomIdAndType(roomId, clueType);
+            clueResponseDto = new ClueResponseDto(clue.getContent());
+        } else {
+            clueResponseDto = new ClueResponseDto("");
+        }
         return clueResponseDto;
     }
 }
