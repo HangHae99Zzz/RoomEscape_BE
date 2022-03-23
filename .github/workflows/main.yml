@@ -23,7 +23,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout
+#      - name: Checkout
       - uses: actions/checkout@v2
       
       - name: Set up JDK 1.8
@@ -33,11 +33,11 @@ jobs:
           
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        shell: bash
+#        shell: bash
         
       - name: Build with Gradle
         run: ./gradlew build
-        shell: bash
+#        shell: bash
     
 
 #       # Runs a single command using the runners shell
