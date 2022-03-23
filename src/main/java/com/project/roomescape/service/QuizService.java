@@ -38,7 +38,7 @@ public class QuizService {
             Quiz quiz = temporary.get();
             quizResponseDto = new QuizResponseDto(
                     quiz.getQuestion(), quiz.getContent(), quiz.getHint(),
-                    quiz.getChance(), quiz.getImgUrl(), quiz.getAnswer(), quiz.getPass());
+                    quiz.getChance(), quiz.getAnswer(), quiz.getPass());
         }
         else {
             if (quizType.equals("Aa")) quizResponseDto = getQuizAa(room, quizType);
@@ -66,7 +66,6 @@ public class QuizService {
 
         String hint = null;
         String chance = "시계를 돌려볼까?";
-        String imgUrl = null;
 
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
         int ans = (q) ? a + (b - 96) : a - (b - 96);
@@ -79,7 +78,7 @@ public class QuizService {
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
+        return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
     @Transactional
@@ -173,7 +172,6 @@ public class QuizService {
 
         String hint = null;
         String chance = "홀짝";
-        String imgUrl = null;
         Pass pass = Pass.FAIL;
 
         //        퀴즈 저장.
@@ -182,7 +180,7 @@ public class QuizService {
                 .build();
         quizRepository.save(quiz);
 
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
+        return new QuizResponseDto(question, content, hint, chance, answer, pass);
 
     }
 
@@ -207,7 +205,6 @@ public class QuizService {
 
         String hint = "포스터들을 눈여겨 보세요";
         String chance = "r = 5";
-        String imgUrl = null;
 
         String answer = "";
         // [5, 0, 1, 6]
@@ -222,7 +219,7 @@ public class QuizService {
                 .hint(hint)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
+        return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
     @Transactional
@@ -237,8 +234,6 @@ public class QuizService {
 
         String hint = "벽을 보세요";
 
-        String imgUrl = null;
-
         String answer = "7799";
         Pass pass = Pass.FAIL;
         // 퀴즈 저장
@@ -247,7 +242,7 @@ public class QuizService {
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
+        return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
 
@@ -278,7 +273,6 @@ public class QuizService {
         String hint = null;
         // hint
         String chance = "낫 놓고...";
-        String imgUrl = null;
 
         questionList.set(0, "G");
         questionList.set(1, "C");
@@ -292,7 +286,7 @@ public class QuizService {
                 .chance(chance)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, imgUrl, answer, pass);
+        return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
 

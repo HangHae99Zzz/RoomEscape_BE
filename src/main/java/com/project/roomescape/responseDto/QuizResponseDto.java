@@ -13,7 +13,6 @@ public class QuizResponseDto {
     private String content;
     private String hint;
     private String chance;
-    private String ingUrl;
     private String answer;
     private Pass pass;
 
