@@ -226,13 +226,13 @@ public class QuizService {
     public QuizResponseDto getQuizBb(Room room, String quizType){
 
 
-        String question = "비밀번호가 숨겨진 장소는 어디일까?";
+        String question = "꿈을 탈출하기 위한 비밀번호를 입력하세요.";
 
         String content = "";
 
-        String chance = "배고프다...";
+        String chance = "3글자";
 
-        String hint = "벽을 보세요";
+        String hint = "그림에 적혀있는 물건 속에 비밀번호가 들어있습니다.";
 
         String answer = "7799";
         Pass pass = Pass.FAIL;
