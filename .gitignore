@@ -44,4 +44,4 @@ application-mysql.properties
 keystore.p12
 
 ###Issue_Template###
-.github/
+.github/ISSUE_TEMPLATE/
