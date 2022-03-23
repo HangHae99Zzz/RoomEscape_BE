@@ -16,11 +16,11 @@ public class ClueController {
 
     private final ClueService clueService;
 
-    // Clue 생성하기
-    @PostMapping("/rooms/{roomId}/clues")
-    public void createClue(@PathVariable Long roomId) {
-        clueService.createClue(roomId);
-    }
+//    // Clue 생성하기
+//    @PostMapping("/rooms/{roomId}/clues")
+//    public void createClue(@PathVariable Long roomId) {
+//        clueService.createClue(roomId);
+//    }
 
     // Clue 조회하기
     @GetMapping("/rooms/{roomId}/clues")
