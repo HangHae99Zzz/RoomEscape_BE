@@ -2,6 +2,7 @@ package com.project.roomescape.controller;
 
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.requestDto.RankRequestDto;
+import com.project.roomescape.service.ClueService;
 import com.project.roomescape.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
 
     private final GameService gameService;
+    private final ClueService clueService;
 
     // 게임 resource 저장하기
     @PostMapping("/games")
@@ -22,6 +24,7 @@ public class GameController {
     @PutMapping("/games/{roomId}")
     public void startGame(@PathVariable Long roomId) {
         gameService.startGame(roomId);
+        clueService.createClue(roomId);
     }
 
     // 게임 종료하기
