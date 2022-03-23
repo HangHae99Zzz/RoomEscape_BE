@@ -22,7 +22,7 @@ public class Quiz extends Timestamped {
     @Column(nullable = true)
     private String question;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String content;
 
     @Column(nullable = true)
@@ -30,9 +30,6 @@ public class Quiz extends Timestamped {
 
     @Column(nullable = true)
     private String chance;
-
-    @Column(nullable = true)
-    private String imgUrl;
 
     @Column(nullable = false)
     private String answer;
@@ -59,7 +56,6 @@ public class Quiz extends Timestamped {
         private String content;
         private String hint;
         private String chance;
-        private String imgUrl;
         private String answer;
         private Pass pass;
 
@@ -79,10 +75,6 @@ public class Quiz extends Timestamped {
         }
         public Builder chance(String hint) {
             this.chance = hint;
-            return this;
-        }
-        public Builder imgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
             return this;
         }
 
