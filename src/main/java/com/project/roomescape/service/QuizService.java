@@ -226,7 +226,7 @@ public class QuizService {
     public QuizResponseDto getQuizBb(Room room, String quizType){
 
 
-        String question = "꿈을 탈출하기 위한 비밀번호를 입력하세요.";
+        String question = "이제 꿈에서 깨어날 시간입니다.";
 
         String content = "";
 
