@@ -19,14 +19,13 @@ public class RankService {
     public List<RankResponseDto> getRanks(Long roomId) {
         // 반환할 responseDtoList
         List<RankResponseDto> rankResponseDtoList = new ArrayList<>();
-            // Top10위까지의 ranklist를 찾는다 (게임 플레이시간이 작은순으로 정렬) Top12까지찾아야 10위까지 나옴.
-            List<Rank> rankList = rankRepository.findTop12ByOrderByTimeAsc();
+        // 모든 ranklist를 찾고 (게임 플레이시간이 작은순으로 정렬)
+        List<Rank> rankList = rankRepository.findAllByOrderByTimeAsc();
+        //5개의 배열을 담을 새로운 ArrayList 또는 10개의 배열을 담을 새로운 ArrayList
+        List<Rank> tempList = new ArrayList();
+        int[] tempRankList = new int[5];
         // *** roomId가 있으면 : 0보다 크면 roomId가 있는거고 게임종료 후 랭킹 5개 조회하기 컨트롤러가 실행됨
         if (roomId > 0) {
-            // 모든 ranklist를 찾고 (게임 플레이시간이 작은순으로 정렬)
-            rankList = rankRepository.findAllByOrderByTimeAsc();
-            // +-2해서 총 5개의 배열을 담을 새로운 ArrayList
-            List<Rank> tempList = new ArrayList();
             // i를 밑에 for문 말고 여기서 선언해줘야 빼서 쓸수가 있다.
             int i;
             // 특정한 roomId랑 같은 rank의 인덱스를 찾는다
@@ -46,9 +45,16 @@ public class RankService {
             tempList.add(rankList.get(i + 1));
             // 현재에서 +2 순위
             tempList.add(rankList.get(i + 2));
-            // 이 tempList로 밑에 for문을 돌아서 값들을 구하려고 (게임종료 후 랭킹 5개 조회하기)
-            rankList = tempList;
+            // 순위만 저장하기
+            tempRankList = new int[] {i - 2, i - 1, i, i + 1, i + 2};
+        } else {
+            for(int i = 0; i < rankList.size(); i++) {
+                tempList.add(rankList.get(i));
+                if(i == 11) break;
+            }
         }
+        //tempList를 rankList로 옮겨준다.
+        rankList = tempList;
         // Long으로 한건 밑에서 계산을 편하게 하려고, 1값은 배열은 0부터 시작인데 순위는 1부터라서 1을 올려줘야해서 해준거다
         Long check = 1L;
         // 임의값 제거 (가짜 1 2 등 가짜 꼴지 1 2 등) : db에만 보여주고 실제로는 안보이게 할 거여서
@@ -62,7 +68,7 @@ public class RankService {
                     continue;
                 }
             }
-            Long rank = i + check;
+            Long rank = (roomId > 0) ? tempRankList[i] + check : i + check;
             // 해당 인덱스에서 보낼 것들을 찾는다
             String teamName = rankList.get(i).getTeamName();
             String time = rankList.get(i).getTime();
