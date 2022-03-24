@@ -23,6 +23,7 @@ public class RankService {
         List<Rank> rankList = rankRepository.findAllByOrderByTimeAsc();
         //5개의 배열을 담을 새로운 ArrayList 또는 10개의 배열을 담을 새로운 ArrayList
         List<Rank> tempList = new ArrayList();
+        int[] tempRankList = new int[5];
         // *** roomId가 있으면 : 0보다 크면 roomId가 있는거고 게임종료 후 랭킹 5개 조회하기 컨트롤러가 실행됨
         if (roomId > 0) {
             // i를 밑에 for문 말고 여기서 선언해줘야 빼서 쓸수가 있다.
@@ -44,6 +45,8 @@ public class RankService {
             tempList.add(rankList.get(i + 1));
             // 현재에서 +2 순위
             tempList.add(rankList.get(i + 2));
+            // 순위만 저장하기
+            tempRankList = new int[] {i - 2, i - 1, i, i + 1, i + 2};
         } else {
             for(int i = 0; i < rankList.size(); i++) {
                 tempList.add(rankList.get(i));
@@ -65,7 +68,7 @@ public class RankService {
                     continue;
                 }
             }
-            Long rank = i + check;
+            Long rank = (roomId > 0) ? tempRankList[i] + check : i + check;
             // 해당 인덱스에서 보낼 것들을 찾는다
             String teamName = rankList.get(i).getTeamName();
             String time = rankList.get(i).getTime();
