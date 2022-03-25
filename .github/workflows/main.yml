@@ -74,43 +74,43 @@ jobs:
 
       ### 내가 작성한 문법들 ###ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-
-
-      - name: HTTPS PORT
-        uses: actions/server
-        with:
-          port: 443
-
-      - name: HTTPS SSL
-        uses: actions/server-ssl
-        with:
-          enabled: true
-          key-store-type: ${{ secrets.KEY_STORE_TYPE }}
-          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}
-          key-store: ${{ secrets.KEY_STORE }}
-
-
-      - name: Generate Keystore file from Github Secrets
-        run: |
-          echo "$KEYSTORE" > /home/ubuntu/keystore.b64
-          base64 -d -i /home/ubuntu/keystore.b64 >
-        env:
-          KEYSTORE: ${{ secrets.HTTPS_KEYSTORE_BASE64 }}
-
-
-
-
-      - name: MySQL
-        uses: actions/spring-datasource
-        with:
-          #          url: ${{ secrets.SPRING_DATASOURCE_URL }}
-          username: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
-          password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-
-      - name: JPA
-        uses: actions/spring-jpa-hibernate
-        with:
-          ddl-auto: update
+#
+#
+#      - name: HTTPS PORT
+#        uses: actions/server
+#        with:
+#          port: 443
+#
+#      - name: HTTPS SSL
+#        uses: actions/server-ssl
+#        with:
+#          enabled: true
+#          key-store-type: ${{ secrets.KEY_STORE_TYPE }}
+#          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}
+#          key-store: ${{ secrets.KEY_STORE }}
+#
+#
+#      - name: Generate Keystore file from Github Secrets
+#        run: |
+#          echo "$KEYSTORE" > /home/ubuntu/keystore.b64
+#          base64 -d -i /home/ubuntu/keystore.b64 >
+#        env:
+#          KEYSTORE: ${{ secrets.HTTPS_KEYSTORE_BASE64 }}
+#
+#
+#
+#
+#      - name: MySQL
+#        uses: actions/spring-datasource
+#        with:
+#          #          url: ${{ secrets.SPRING_DATASOURCE_URL }}
+#          username: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+#          password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+#
+#      - name: JPA
+#        uses: actions/spring-jpa-hibernate
+#        with:
+#          ddl-auto: update
 
 
 
