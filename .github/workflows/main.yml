@@ -9,8 +9,8 @@ name: zzz-cicd
 # branch 단위 외에도, tag나 cron 식 등을 사용할 수 있음
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
   pull_request:
     branches: [ main ]
 
