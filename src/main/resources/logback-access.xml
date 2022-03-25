@@ -1,0 +1,8 @@
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%t{yyyy-MM-dd HH:mm:ss}\t%a\t%r\t%s\t%i{Referer}\t%i{User-Agent}\t%D\t%I</pattern>
+        </encoder>
+    </appender>
+    <appender-ref ref="CONSOLE"/>
+</configuration>
