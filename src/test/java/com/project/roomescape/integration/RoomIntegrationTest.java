@@ -22,6 +22,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -39,6 +40,9 @@ public class RoomIntegrationTest {
 
     @MockBean
     private RoomRepository mockRoomRepository;
+
+    @MockBean
+    private UserRepository mockUserRepository;
 
     @Test
     @Order(1)
@@ -80,6 +84,24 @@ public class RoomIntegrationTest {
     @Order(2)
     @DisplayName("방 조회하기")
     void getRoom() {
+
+        Room room = new Room("임시팀", "임시유저");
+
+        when(mockRoomRepository.findById(1L)).thenReturn(Optional.of(room));
+        when(mockRoomRepository.findAllByState).thenReturn(Optional.of(room));
+
+        webTestClient.get().uri("/rooms/{roomId}", 1)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.roomId").isNotEmpty()
+                .jsonPath("$.teamName").isEqualTo("테스트팀")
+                .jsonPath("$.createdUser").isEqualTo("테스트유저ID")
+                .jsonPath("$.currentNum").isEqualTo(1)
+                .jsonPath("$.url").isNotEmpty()
+                .jsonPath("$.userList").isNotEmpty()
+                .jsonPath("$.startAt").isEmpty();
 
     }
 

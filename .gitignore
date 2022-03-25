@@ -45,3 +45,9 @@ keystore.p12
 
 ###Issue_Template###
 #.github/
+
+##Test##
+QuizIntegrationTest
+
+/log.config.path_IS_UNDEFINED
+
