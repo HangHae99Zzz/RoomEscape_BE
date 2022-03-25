@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.roomescape.model.GameResource;
 import com.project.roomescape.model.Room;
+import com.project.roomescape.model.State;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.GameResourceRepository;
 import com.project.roomescape.repository.RoomRepository;
@@ -38,11 +39,11 @@ public class RoomIntegrationTest {
     @MockBean
     private GameResourceRepository mockGameResourceRepository;
 
-    @MockBean
-    private RoomRepository mockRoomRepository;
-
-    @MockBean
-    private UserRepository mockUserRepository;
+//    @MockBean
+//    private RoomRepository mockRoomRepository;
+//
+//    @MockBean
+//    private UserRepository mockUserRepository;
 
     @Test
     @Order(1)
@@ -85,10 +86,9 @@ public class RoomIntegrationTest {
     @DisplayName("방 조회하기")
     void getRoom() {
 
-        Room room = new Room("임시팀", "임시유저");
 
-        when(mockRoomRepository.findById(1L)).thenReturn(Optional.of(room));
-        when(mockRoomRepository.findAllByState).thenReturn(Optional.of(room));
+//        when(mockRoomRepository.findById(1L)).thenReturn(Optional.of(room));
+//        when(mockUserRepository.findAllByRoomId(room.getId())).thenReturn(users);
 
         webTestClient.get().uri("/rooms/{roomId}", 1)
                 .exchange()
