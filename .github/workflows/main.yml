@@ -9,8 +9,8 @@ name: zzz-cicd
 # branch 단위 외에도, tag나 cron 식 등을 사용할 수 있음
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -19,11 +19,28 @@ on:
 #   workflow_dispatch:
 
 
-
-
 env: # 새로 추가한 부분
   S3_BUCKET_NAME: zzz-deploy
   PROJECT_NAME: zzz-project
+
+
+
+#      spring:
+#         datasource:
+#           url: ${{ secrets.SPRING_DATASOURCE_URL }}
+#           username: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+#           password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+#         jpa:
+#           hibernate:
+#           ddl-auto: update
+#
+#      server:
+#        port: 443
+#        ssl:
+#          key-store: classpath:keystore.p12
+#          key-store-type: ${{ secrets.KEY_STORE_TYPE }}
+#          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}
+
 
 
 
@@ -39,6 +56,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     # Task의 sequence를 명시한다.
     steps:
+
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2
@@ -52,12 +71,54 @@ jobs:
         run: chmod +x gradlew
         shell: bash
 
+
+      ### 내가 작성한 문법들 ###ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+#
+#
+#      - name: HTTPS PORT
+#        uses: actions/server
+#        with:
+#          port: 443
+#
+#      - name: HTTPS SSL
+#        uses: actions/server-ssl
+#        with:
+#          enabled: true
+#          key-store-type: ${{ secrets.KEY_STORE_TYPE }}
+#          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}
+#          key-store: ${{ secrets.KEY_STORE }}
+#
+#
+#      - name: Generate Keystore file from Github Secrets
+#        run: |
+#          echo "$KEYSTORE" > /home/ubuntu/keystore.b64
+#          base64 -d -i /home/ubuntu/keystore.b64 >
+#        env:
+#          KEYSTORE: ${{ secrets.HTTPS_KEYSTORE_BASE64 }}
+#
+#
+#
+#
+#      - name: MySQL
+#        uses: actions/spring-datasource
+#        with:
+#          #          url: ${{ secrets.SPRING_DATASOURCE_URL }}
+#          username: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+#          password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+#
+#      - name: JPA
+#        uses: actions/spring-jpa-hibernate
+#        with:
+#          ddl-auto: update
+
+
+
         # Build
       - name: Build with Gradle
         run: ./gradlew build
         shell: bash
 #        run: ./gradlew clean build
-
 
       ### 새로 추가한 부분 ###
       - name: Make zip file
@@ -74,15 +135,54 @@ jobs:
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
-
-
-      #-------------------------------------------------------------------------밑에 변경해야할 것들
-
       ### 새로 추가한 부분 ###
       - name: Code Deploy
 #        run: aws deploy create-deployment --application-name logging-system-deploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name develop --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
         run: aws deploy create-deployment --application-name zzz-deploy-application --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name develop --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
 
 
-
-
+### 내가 작성한 문법들 ###ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+#
+#      - name: MySQL
+#        uses: actions/spring-datasource@v1
+#        with:
+##          url: ${{ secrets.SPRING_DATASOURCE_URL }}
+#          username: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+#          password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+#
+#      - name: JPA
+#        uses: actions/spring-jpa-hibernate@v1
+#        with:
+#          ddl-auto: update
+#
+#      - name: HTTPS PORT
+#        uses: actions/server@v1
+#        with:
+#          port: 443
+#
+#      - name: HTTPS SSL
+#        uses: actions/server-ssl@v1
+#        with:
+#          enabled: true
+#          key-store-type: ${{ secrets.KEY_STORE_TYPE }}
+#          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}
+#          key-store: ${{ secrets.KEY_STORE }}
+#
+##      spring:
+#         datasource:
+#           url: ${{ secrets.SPRING_DATASOURCE_URL }}
+#           username: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+#           password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+#         jpa:
+#           hibernate:
+#           ddl-auto: update
+#
+#      spring-datasource:
+#        url: ${{ secrets.SPRING_DATASOURCE_URL }}
+#
+#      server:
+#        port: 443
+#        ssl:
+#          key-store: classpath:keystore.p12
+#          key-store-type: ${{ secrets.KEY_STORE_TYPE }}
+#          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}

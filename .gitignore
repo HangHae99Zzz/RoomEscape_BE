@@ -49,5 +49,5 @@ keystore.p12
 ##Test##
 QuizIntegrationTest
 
-/log.config.path_IS_UNDEFINED
+/logs
 
