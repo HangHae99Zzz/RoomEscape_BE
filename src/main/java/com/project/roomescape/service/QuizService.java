@@ -165,8 +165,8 @@ public class QuizService {
         answer = arr.get(standard1) + ", " + arr.get(standard2);
 
 //        정답이 들어가는 부분 숫자에서 ?로 바꾼다.
-        arr.set(standard1, "?");
-        arr.set(standard2, "?");
+        arr.set(standard1, "?1");
+        arr.set(standard2, "?2");
 //      list형식을 하나의 String으로 바꿔준다.
         content = arr.toString();
 

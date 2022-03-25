@@ -48,7 +48,6 @@ public class RoomService {
 
         // 방 저장
         Room room = roomRepository.save(new Room(teamName, userId)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
-
         // nickName 부여
         String nickName = getNickName();
         String type = "userImg";
