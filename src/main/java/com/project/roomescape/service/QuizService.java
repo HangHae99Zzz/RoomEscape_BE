@@ -265,13 +265,9 @@ public class QuizService {
         String b = questionList.get(num2);
         String c = questionList.get(num3);
         String d = questionList.get(num4);
-        //question
         String question = a+b+c+d+"?";
-        // content
         String content = null;
-        // clue
         String hint = null;
-        // hint
         String chance = "낫 놓고...";
 
         questionList.set(0, "G");
