@@ -1,5 +1,5 @@
 # Crawl current connected port of WAS
-CURRENT_PORT=$(cat /etc/nginx/conf.d/service-url.inc | grep -Po '[0-9]+' | tail -1)
+CURRENT_PORT=$(cat /home/ubuntu/service-url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
 # Toggle port Number
