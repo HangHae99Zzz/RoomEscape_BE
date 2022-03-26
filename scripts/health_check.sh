@@ -1,5 +1,5 @@
 # Crawl current connected port of WAS
-CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
+CURRENT_PORT=$(cat /etc/nginx/conf.d/service-url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
 # Toggle port Number
@@ -24,6 +24,7 @@ do
     exit 0
   elif [ ${RETRY_COUNT} -eq 10 ]; then
     echo "> Health check failed."
+#    echo "> aaaa" + ${RESPONSE_CODE};  하마가 추가한거
     exit 1
   fi
   sleep 10
