@@ -268,7 +268,7 @@ public class QuizService {
         String question = a+b+c+d+"?";
         String content = null;
         String hint = null;
-        String chance = "test중 낫 놓고...";
+        String chance = "마지막테스트!!! 낫 놓고...";
 
         questionList.set(0, "G");
         questionList.set(1, "C");
