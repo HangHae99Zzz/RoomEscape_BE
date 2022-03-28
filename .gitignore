@@ -46,9 +46,11 @@ keystore.p12
 ###Issue_Template###
 #.github/
 
-##Test##
-QuizIntegrationTest
 
 /logs
 로고.png
+<<<<<<< HEAD
 flow chart.png
+=======
+
+>>>>>>> 9402098411e56b4c6da345f9b564b94ff7a6b557
