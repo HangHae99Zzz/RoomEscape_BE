@@ -46,8 +46,7 @@ keystore.p12
 ###Issue_Template###
 #.github/
 
-##Test##
-QuizIntegrationTest
 
 /logs
 로고.png
+

@@ -16,7 +16,6 @@ public class GameService {
 
     private final GameResourceRepository gameResourceRepository;
     private final RoomRepository roomRepository;
-    private final QuizRepository quizRepository;
     private final ClueRepository clueRepository;
     private final UserRepository userRepository;
     private final RankRepository rankRepository;
