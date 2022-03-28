@@ -15,7 +15,7 @@ public class GameController {
     private final ClueService clueService;
 
     // 게임 resource 저장하기
-    @PostMapping("/games")
+    @PostMapping("/games/resources")
     public void saveGameResource(@RequestBody GameResourceRequestDto gameResourceRequestDto) {
         gameService.saveGameResource(gameResourceRequestDto);
     }
