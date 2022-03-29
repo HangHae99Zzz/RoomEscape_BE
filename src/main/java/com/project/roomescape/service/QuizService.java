@@ -9,6 +9,7 @@ import com.project.roomescape.responseDto.QuizResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,14 +24,12 @@ import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class QuizService {
 
-    private RoomRepository roomRepository;
-    private QuizRepository quizRepository;
-    private ClueRepository clueRepository;
-
+    private final RoomRepository roomRepository;
+    private final QuizRepository quizRepository;
+    private final ClueRepository clueRepository;
 
     // Quiz 조회하기
     public QuizResponseDto getQuiz(Long roomId, String quizType) {
