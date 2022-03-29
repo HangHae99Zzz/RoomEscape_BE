@@ -222,29 +222,54 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 
 ```
 📑 Springboot를 사용하면 하나의 서버만 관리하면 되고, 팀원들 모두가 익숙한 프레임워크를 사용할 수 있다는 장점이 있으나,
-참고자료가 적어서 구현이 매우 어려울 것으로 보였다.
+참고자료가 많지 않다.
 📑 NodeJS를 사용하면 Socket.io 라이브러리를 사용해서 비교적 쉽게 구현이 가능하나,
 서버를 2개 관리해야 하기 때문에 유지관리에 시간이 더 소모되고, 익숙하지 않은 언어와 프레임워크를 사용해야 한다.
 📑 그럼에도 Springboot보다 NodeJS의 Socket.io를 사용하는 것이 프로젝트의 목표를 달성하기에 더 적합하다고 판단했다.
 ```
-📍 NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
-
 </details>
 
 <details markdown="2">
 <summary>유저 disconnect 처리 문제</summary>
+  
+### ✅ 문제상황
+
+```
+📑 유저가 브라우저를 종료하면 socket.io의 disconnect 이벤트가 발생
+📑 Client는 방장이 나가면 새로운 방장을 알아야한다(방장만 게임 시작 가능!)
+📑 DB에서는 disconnect된 유저 정보를 삭제하고, 방장이 변경된 경우 업데이트 필요
+```
+  
+### 해결방안 1️⃣ nodeJS → Client →← Spring → ⚠️ 에러 발생
+  
+```
+📑 nodeJS에서 disconnect시 event를 통해 disconnect된 유저의 socket.id를 Client로 보냄
+📑 Client는 Spring으로 HTTP 통신을 통해 socket.id를 넘겨주고, 방장이 바뀐 경우 return 값을 받음
+📑 유저가 1명 남았는데 disconnect가 되면 Client가 없으므로 nodeJS에서 DB로 쿼리를 보냄
+  
+  
+⚠️ Client에서 동시에 여러 번 업데이트/삭제 요청이 발생하여 에러 발생!! → 📍 DB에 한 번만 요청하자!
+
+```
+
+### 해결방안 2️⃣ disconnect와 관련된 모든 DB처리는 nodeJS에서 처리
+  
+```
+📑 disconnect시 DB에 필요한 업데이트/삭제 쿼리를 보내고, 방장이 변경되면 event로 해당 방 Client에게 알려줌
+```
 </details>
 
 <details markdown="3">
 <summary>게임 플레이 중 동시성 제어 문제</summary>
+  
+### ✅ 문제상황 → 📍 Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려줌!
+
+```
+📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
+📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
+```
+  
 </details>
-
-> 🍭 WebRTC 서버 구축 문제
-
-
-> 📍 유저 disconnect 처리 문제
-> 🔍 게임 플레이 중 동시성 제어 문제
-
 
 <br />
 
