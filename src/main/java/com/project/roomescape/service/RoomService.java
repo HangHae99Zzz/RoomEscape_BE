@@ -13,6 +13,7 @@ import com.project.roomescape.requestDto.RoomRequestDto;
 import com.project.roomescape.responseDto.RoomResponseDto;
 import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ import java.util.Random;
 import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
 import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RoomService {
@@ -56,6 +58,8 @@ public class RoomService {
         // 방장 User 저장
         User user = User.addUser(room, nickName, img, userId);
         userRepository.save(user);
+
+        log.info("roomId : " + room.getId() + "가 개설되었습니다!");
 
         String url = "/room/" + room.getId();
 
