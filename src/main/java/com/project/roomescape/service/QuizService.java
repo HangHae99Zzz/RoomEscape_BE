@@ -23,13 +23,12 @@ import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class QuizService {
 
-    private RoomRepository roomRepository;
-    private QuizRepository quizRepository;
-    private ClueRepository clueRepository;
+    private final RoomRepository roomRepository;
+    private final QuizRepository quizRepository;
+    private final ClueRepository clueRepository;
 
 
     // Quiz 조회하기

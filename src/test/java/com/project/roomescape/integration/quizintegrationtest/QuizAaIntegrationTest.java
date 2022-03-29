@@ -93,6 +93,7 @@ public class QuizAaIntegrationTest {
     @Order(2)
     @DisplayName("퀴즈 Aa 생성하기")
     void getQuizAa(){
+
         // when
         webTestClient.get().uri("/rooms/{roomId}/quizzes/{quizType}", 1, "Aa")
                 .exchange()
