@@ -7,7 +7,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class GameResource {
+public class GameResource extends Timestamped {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
