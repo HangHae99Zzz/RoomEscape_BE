@@ -27,6 +27,7 @@
 - 프론트엔드 GitHub Repository : https://github.com/HangHae99Zzz/dream_escape-fe
 - 백엔드 GitHub Respository(NodeJS) : https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS
 
+<br />
 
 ## ✨ 주요 기능
 
@@ -46,7 +47,7 @@
 |                 **김가은**                 |                  **최규원**                   |                  **반원재**                   |
 | [@Kim gaeun](https://github.com/paran22) | [@Choi kyuwon](https://github.com/cooked-developer)  |[@Ban wonjae](https://github.com/wonjaeban)  |
 
-<br>
+<br />
 
 ## 📚 기술스택
 
