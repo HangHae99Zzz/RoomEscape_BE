@@ -41,7 +41,7 @@ public class QuizAbIntegrationTest {
     private GameResourceRepository mockGameResourceRepository;
 
     //방 개설하기부터 할 수 밖에 없습니다. 왜냐하면 퀴즈 생성할때 findbyRoomAndType이 있는데 이 로직은 무조건 룸이 먼저
-    //저장되고 나서야 실행될 수 있는 로직이기 때문에 Room을 mock으로 처리할 수 없습니다.
+    //저장되고 나서야 실행될 수 있는 로직이기 때문에 Room을 mock으로 처리할 수 없습니다(실제로 저장이 되야합니다).
     @Test
     @Order(1)
     @DisplayName("방 개설하기")

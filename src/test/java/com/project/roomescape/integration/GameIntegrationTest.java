@@ -46,9 +46,9 @@ public class GameIntegrationTest {
 
     @Test
     @Order(1)
-    @DisplayName("게임 리소스 3번 저장하기(나중에 방 개설할때 유저 이미지 때문입니다.)")
+    @DisplayName("게임 리소스 여러번 저장하기(나중에 방 개설할때 유저 이미지 때문입니다.)")
     void saveGameResource(){
-        GameResourceRequestDto gameResourceRequestDto = new GameResourceRequestDto("userImg", "테스트url", "테스트타임");
+        GameResourceRequestDto gameResourceRequestDto = new GameResourceRequestDto("userImg", "테스트url");
 
         for(int i = 0; i < 4; i++) {
             webTestClient.post().uri("/games")
@@ -67,7 +67,7 @@ public class GameIntegrationTest {
     }
 
     //나중에 게임 종료시에 랭크를 저장합니다. 그때 room.getId()를 하는 부분이 있습니다. 근데 ID는 테스트에서 제가 임시로
-    //room을 만든다고 ID가 만들어지지 않습니다. 따라서 room을 직접 만드는 테스트가 포함되어야 합니다.
+    //room을 만든다고 ID가 만들어지지 않습니다. 따라서 room을 직접 만들고 DB에 저장하는 테스트가 포함되어야 합니다.
     @Test
     @Order(2)
     @DisplayName("방 개설하기")

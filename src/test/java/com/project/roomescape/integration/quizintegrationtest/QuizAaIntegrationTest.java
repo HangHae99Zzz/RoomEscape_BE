@@ -23,12 +23,17 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-
+//통합테스트를 실시합니다. 포트는 랜덤 포트로 실행합니다. properties도 기존의 application.properties가 아닌 application-test.properties로 합니다.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"spring.config.location=classpath:application-test.properties"})
+//테스트 인스턴스의 생명주기를 클래스 단위로 합니다.(테스트 실행범위라고 생각)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@order 순서에 따라서 테스트를 진행합니다.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class QuizAaIntegrationTest {
 
+    //Autowired를 통해서 의존성 주입을 실시합니다.
+    //제가 @RequiredArgsConstructor 방식으로 의존성 주입을 안한 이유입니다.
+    //(difference in autowire handling between Spring and Spring integration with JUnit)
     @Autowired
     private WebTestClient webTestClient;
 
@@ -38,6 +43,7 @@ public class QuizAaIntegrationTest {
     @Autowired
     private RoomRepository roomRepository;
 
+    //실제 GameResourceRepository에 있는 파일들을 불러올 수 없기 때문에 @MockBean으로 설정함.
     @MockBean
     private GameResourceRepository mockGameResourceRepository;
 
@@ -62,6 +68,7 @@ public class QuizAaIntegrationTest {
         mockGameResourceList.add(gameResource3);
         mockGameResourceList.add(gameResource4);
 
+        //MockBean 호출시 만들어 놓은 mockGameResourceList를 return해줍니다.
         when(mockGameResourceRepository.findAllByType(gameResource1.getType())).thenReturn(mockGameResourceList);
 
         // when
