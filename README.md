@@ -1,8 +1,43 @@
+# <img src="https://user-images.githubusercontent.com/97428216/160321165-bd337416-a703-4f53-a1f7-5d8844ab66a2.png" align=left width=150> 꿈깨
+> 온라인 3D 방탈출 게임 서비스 😴
+
+<br />
+
+## 💭 About
+
+> ‘zzz’ 는 꿈을 꾸는 상태를 표현한 단어이자, 게임 프로젝트의 이름입니다
+>
+> ‘꿈’ 이라는 매체를 이용하여 상상하고 문제를 풀면서 해결하여
+> 방탈출을 하는 것이 본 게임을 이어나갈 수 있는 방법입니다
+>
+> 당신은 꿈 속에서 얼마만큼의 역량을 발휘할 수 있는지 궁금하지 않으신가요?
+
+<br />
+
+## 📅 프로젝트 기간
+
+- 2022.2.25 ~ 2022.4.9
+- 1차 배포 : 2022.3.30
+
+<br />
+
 ## 📌 바로가기
 - Project : https://zzz-escape.netlify.app
 - GitHub 메인페이지 : https://github.com/HangHae99Zzz
 - 프론트엔드 GitHub Repository : https://github.com/HangHae99Zzz/dream_escape-fe
 - 백엔드 GitHub Respository(NodeJS) : https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS
+
+
+## ✨ 주요 기능
+
+- **`홈`**
+  방탈출 게임을 위한 방을 만들고, 랭킹조회 및 게임 설명을 확인할 수 있습니다.
+- **`대기`**
+  현재 대기중인 인원을 체크하고 게임을 시작할 수 있습니다. 링크로 친구를 초대하고, 보이스 채팅도 가능해요!
+- **`게임`**
+  팀원들과 보이스채팅을 나누며 방에 배치된 3D 물체를 클릭해 주어진 문제를 풀고 탈출할 수 있습니다. 제한시간 안에 방을 탈출해보세요.
+
+<br />
 
 ## 🍎 Team Member - `BackEnd`
 
@@ -19,32 +54,35 @@
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
   <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
   <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
+  <img src="https://img.shields.io/badge/mockito-CB3837?style=for-the-badge&logo=mockito&logoColor=white">
+  <img src="https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white">
   <br>
   <img src="https://img.shields.io/badge/webrtc-333333?style=for-the-badge&logo=webrtc&logoColor=white">
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
   <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
   <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
+  <img src="https://img.shields.io/badge/pm2-2B037A?style=for-the-badge&logo=pm2&logoColor=white">
   <img src="https://img.shields.io/badge/socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white">
   <br>
   <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
   <img src="https://img.shields.io/badge/spring data jpa-F28D1A?style=for-the-badge&logo=springdatajpa&logoColor=white">
-  <img src="https://img.shields.io/badge/aws ec2-07C160?style=for-the-badge&logo=amazoneaws&logoColor=white">
+  <img src="https://img.shields.io/badge/aws ec2-07C160?style=for-the-badge&logo=amazonaws&logoColor=white">
   <img src="https://img.shields.io/badge/amazon s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">
   <br>
-    <img src="https://img.shields.io/badge/aws codedeploy-9D1620?style=for-the-badge&logo=amazonaws&logoColor=white">
+  <img src="https://img.shields.io/badge/aws codedeploy-9D1620?style=for-the-badge&logo=amazonaws&logoColor=white">
   <img src="https://img.shields.io/badge/aws codepipeline-072240?style=for-the-badge&logo=amazonaws&logoColor=white">
   <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
-  <img src="https://img.shields.io/badge/github actions-181717?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/github actions-2088FF?style=for-the-badge&logo=github actions&logoColor=white">
 </div>
 
 <div align=center><h3>Tools</h1></div>
 <div align=center> 
   <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
   <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+  <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white">
 </div>
 
-<br>
-
+<br />
 
 
 ## 🕹 Convention
@@ -127,5 +165,87 @@ Ref: 참고할 이슈가 있을 때
 
 ## 📺 Detail
 
+<details markdown="1">
+<summary>아키텍처</summary>
+  <img src="https://user-images.githubusercontent.com/97428216/160459796-c7f708e3-712a-4f33-9578-5c0f46db0acb.png">
+</details>
+
+<details markdown="2">
+<summary>ERD</summary>
+  <img src="https://user-images.githubusercontent.com/97428216/160526555-121176c2-32a6-4968-868c-669ae7234f14.png">
+
+</details>
+
+<details markdown="3">
+<summary>API 명세서</summary>
+  
+> 🚨 API 설계규칙
+
+```
+Rest API URI 설계규칙을 따른다.
+  1. 후행 /는 URI에 포함하지 않는다.
+  2. 계층관계를 나타낼 때 슬래시 구분자를 사용한다. ex) /rooms/{roomId}/quizzes/{quizType}
+  3. 긴 path를 표현하는 경우에는 가독성을 높이기 위해 하이픈(-)을 사용한다.
+  4. 언더바(_)는 URI에 사용하지 않는다.
+  5. URI는 모두 소문자로 작성한다.
+  6. 파일확장자는 URI에 포함하지 않는다.
+  7. 모든 resource는 복수형을 사용한다.
+```
+  <img src="https://user-images.githubusercontent.com/97428216/160456913-5247d722-6812-4400-93bf-0e3e0b540764.png">
+  <img src="https://user-images.githubusercontent.com/97428216/160457294-af27cb69-7bd4-48d2-ba81-7c119516b9ea.png">
+  <img src="https://user-images.githubusercontent.com/97428216/160457359-8365661e-f2a7-47be-a796-60f8af88071d.png">
+  <img src="https://user-images.githubusercontent.com/97428216/160457415-5c72324d-3cb8-4ace-b715-b61f4c3f764c.png">
+  <img src="https://user-images.githubusercontent.com/97428216/160457473-2c782847-91f2-4ef7-a9ef-584fa7d53c0c.png">
+  <img src="https://user-images.githubusercontent.com/97428216/160457548-d2061496-984c-4ef3-bef4-ab313b324951.png">
+</details>
+
+<br />
+
 ## 🔨 Trouble Shooting
 
+<details markdown="1">
+<summary>WebRTC 서버 구축 문제</summary>
+
+### ✅ P2P(signalling server) vs MCU/SFU → 📍 signalling server를 구축하자!
+4명까지 보이스 채팅이 가능한 환경을 만들기 위해 어떤 서버를 사용해야 하는가?
+<br>
+
+```
+📑 오디오 통신만 사용하고, 4명까지만 연결하기 때문에 signalling server로도 client 부담이 크지 않을 것이라고 생각했고,
+MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단했다.
+```
+<br>
+
+### ✅ Springboot vs NodeJS → 📍 NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
+다대다 WebRTC를 위한 signalling server를 어떻게 구현할 것인가?
+<br>
+
+```
+📑 Springboot를 사용하면 하나의 서버만 관리하면 되고, 팀원들 모두가 익숙한 프레임워크를 사용할 수 있다는 장점이 있으나,
+참고자료가 적어서 구현이 매우 어려울 것으로 보였다.
+📑 NodeJS를 사용하면 Socket.io 라이브러리를 사용해서 비교적 쉽게 구현이 가능하나,
+서버를 2개 관리해야 하기 때문에 유지관리에 시간이 더 소모되고, 익숙하지 않은 언어와 프레임워크를 사용해야 한다.
+📑 그럼에도 Springboot보다 NodeJS의 Socket.io를 사용하는 것이 프로젝트의 목표를 달성하기에 더 적합하다고 판단했다.
+```
+📍 NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
+
+</details>
+
+<details markdown="2">
+<summary>유저 disconnect 처리 문제</summary>
+</details>
+
+<details markdown="3">
+<summary>게임 플레이 중 동시성 제어 문제</summary>
+</details>
+
+> 🍭 WebRTC 서버 구축 문제
+
+
+> 📍 유저 disconnect 처리 문제
+> 🔍 게임 플레이 중 동시성 제어 문제
+
+
+<br />
+
+## 🔧 Fight
