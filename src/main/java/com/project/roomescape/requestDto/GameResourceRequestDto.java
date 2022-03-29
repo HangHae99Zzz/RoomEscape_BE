@@ -10,6 +10,4 @@ import lombok.NoArgsConstructor;
 public class GameResourceRequestDto {
     private String type;
     private String url;
-    private String time;
-
 }

@@ -3,7 +3,6 @@ package com.project.roomescape.integration;
 import com.project.roomescape.model.Rank;
 import com.project.roomescape.repository.RankRepository;
 import com.project.roomescape.responseDto.RankResponseDto;
-import com.project.roomescape.responseDto.RoomResponseDto;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"spring.config.location=classpath:application-test.properties"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -68,7 +66,6 @@ public class RankIntegrationTest {
                 });
 
     }
-    //랭킹 5개 조회하는 부분 로직이 좀 이해가 안가서 물어보기.
 
     @Test
     @Order(2)
