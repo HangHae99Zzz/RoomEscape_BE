@@ -170,6 +170,8 @@ public class RoomService {
             // user 저장
             User user = User.addUser(room, nickName, img, userId);
             userRepository.save(user);
+
+            log.info(userId + "가 " + roomId + "에 참여하였습니다!");
         }
     }
 

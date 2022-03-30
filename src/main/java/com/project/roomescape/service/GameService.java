@@ -7,9 +7,11 @@ import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.requestDto.RankRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class GameService {
@@ -41,6 +43,7 @@ public class GameService {
         // teamName 찾기
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
         String teamName = room.getTeamName();
 
         // time 찾기
@@ -52,6 +55,8 @@ public class GameService {
         // 게임 종료 처리
         Pass pass = (rankRequestDto.isPass()) ? Pass.SUCCESS : Pass.FAIL;
         room.gameOver(pass, (long) userNum);
+
+        log.info(roomId + "는 탈출에 " + pass + "하였습니다!");
 
         // 게임 성공 시 rank 등록하기
         if (pass == Pass.SUCCESS) {
@@ -70,6 +75,7 @@ public class GameService {
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
         room.setStartAt(System.currentTimeMillis());
         roomRepository.save(room);
+        log.info(roomId + "의 게임이 시작되었습니다!");
     }
 
 }
