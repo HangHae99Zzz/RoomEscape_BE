@@ -43,7 +43,7 @@ public class RoomIntegrationTest {
     @Test
     @Order(1)
     @DisplayName("방 개설하기")
-    void createRoom(){
+    void createRoom_OneRoom_CreateOneRoom(){
 
         String teamName = "테스트팀";
         String userId = "테스트유저ID";
@@ -82,7 +82,7 @@ public class RoomIntegrationTest {
     @Order(2)
     @DisplayName("방 조회하기")
     @Transactional
-    void getRoom() {
+    void getRoom_OneRoom_GetOneRoom() {
         Optional<Room> temp = roomRepository.findById(1L);
         Room room = temp.get();
 
@@ -106,7 +106,7 @@ public class RoomIntegrationTest {
     @Order(3)
     @DisplayName("방 참여하기")
     @Transactional
-    void addMember() {
+    void joinRoom_OneRoom_JoinOneRoom() {
 
         String userId = "테스트참가유저ID";
         RoomAddRequestDto roomAddRequestDto = new RoomAddRequestDto(userId);
@@ -142,7 +142,7 @@ public class RoomIntegrationTest {
     @Test
     @Order(4)
     @DisplayName("방 리스트 조회하기")
-    void getAllRooms() {
+    void getRooms_AllRooms_GetAllRooms() {
 
         webTestClient.get().uri("/rooms/pages/{page}", 1)
                 .exchange()

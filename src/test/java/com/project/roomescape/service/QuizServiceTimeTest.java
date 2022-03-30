@@ -29,7 +29,7 @@ public class QuizServiceTimeTest {
 
     @Test
     @DisplayName("퀴즈 Aa생성 시간 테스트")
-    void getQuizAa1() {
+    void createQuiz_QuizTypeAa_CreateQuizAa() {
 
         //코드 실행 전에 시간 받아오기 (밀리세컨드)
         long beforeTime = System.currentTimeMillis();
@@ -49,7 +49,7 @@ public class QuizServiceTimeTest {
 
     @Test
     @DisplayName("퀴즈 Ab생성 시간 테스트")
-    void getQuizAb() {
+    void createQuiz_QuizTypeAb_CreateQuizAb() {
         //코드 실행 전에 시간 받아오기
         long beforeTime = System.currentTimeMillis();
 
@@ -67,7 +67,7 @@ public class QuizServiceTimeTest {
 
     @Test
     @DisplayName("퀴즈 Ba생성 시간 테스트 & 정답확인")
-    void getQuizBa() {
+    void createQuiz_QuizTypeBa_CreateQuizBa() {
         //코드 실행 전에 시간 받아오기
         long beforeTime = System.currentTimeMillis();
 
@@ -86,7 +86,7 @@ public class QuizServiceTimeTest {
 
     @Test
     @DisplayName("퀴즈 Bb생성 시간 테스트")
-    void getQuizBb() {
+    void createQuiz_QuizTypeBb_CreateQuizBb() {
         //코드 실행 전에 시간 받아오기
         long beforeTime = System.currentTimeMillis();
 
@@ -104,7 +104,7 @@ public class QuizServiceTimeTest {
 
     @Test
     @DisplayName("퀴즈 Ca생성 시간 테스트")
-    void getQuizCa() {
+    void createQuiz_QuizTypeCa_CreateQuizCa() {
         //코드 실행 전에 시간 받아오기
         long beforeTime = System.currentTimeMillis();
 

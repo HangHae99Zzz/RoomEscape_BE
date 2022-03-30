@@ -44,7 +44,7 @@ public class QuizCaIntegrationTest {
     @Test
     @Order(1)
     @DisplayName("방 개설하기")
-    void createRoom(){
+    void createRoom_OneRoom_CreateOneRoom(){
 
         String teamName = "테스트팀";
         String userId = "테스트유저ID";
@@ -82,7 +82,7 @@ public class QuizCaIntegrationTest {
     @Test
     @Order(2)
     @DisplayName("퀴즈 Ca 생성하기")
-    void getQuizBb(){
+    void createQuiz_QuizTypeCa_CreateQuizCa(){
         // when
         webTestClient.get().uri("/rooms/{roomId}/quizzes/{quizType}", 1, "Ca")
                 .exchange()
@@ -101,7 +101,7 @@ public class QuizCaIntegrationTest {
     @Test
     @Order(3)
     @DisplayName("퀴즈 Ca 불러오기")
-    void getSameQuizBb(){
+    void getQuiz_QuizTypeCa_GetQuizCa(){
         Optional<Room> room = roomRepository.findById(1L);
         Optional<Quiz> temporary = quizRepository.findByRoomAndType(room.get(), "Ca");
         QuizResponseDto quizResponseDto = new QuizResponseDto();
@@ -128,7 +128,7 @@ public class QuizCaIntegrationTest {
     @Test
     @Order(4)
     @DisplayName("퀴즈 완료시키기")
-    void finishedQuiz() {
+    void endQuiz_QuizTypeCa_EndQuizCa() {
 
         webTestClient.put().uri("/rooms/{roomId}/quizzes/{quizType}", 1, "Ca")
                 .exchange()

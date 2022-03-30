@@ -28,7 +28,7 @@ public class RankIntegrationTest {
     @Test
     @Order(1)
     @DisplayName("전체랭킹 조회하기")
-    void getRanks(){
+    void getRanks_SixRanks_GetSixRanks(){
         Rank rank1 = new Rank("임시1", "00:00:00", -1L, 0);
         Rank rank2 = new Rank("임시2", "00:00:00", -1L, 0);
         Rank rank3 = new Rank("임시3", "99:99:99", -1L, 0);
@@ -70,7 +70,7 @@ public class RankIntegrationTest {
     @Test
     @Order(2)
     @DisplayName("랭킹 5개 조회하기(00:00:00 두개 들어가는 경우)")
-    void getFiveRanks1(){
+    void getRanks_FiveRanksAndTwoMocks_GetFiveRanksAndTwoMocks(){
 
 
         webTestClient.get().uri("/ranks/{roomId}", 4)
@@ -103,7 +103,7 @@ public class RankIntegrationTest {
     @Test
     @Order(2)
     @DisplayName("랭킹 5개 조회하기(00:00:00 하나만 들어가는 경우)")
-    void getFiveRanks2(){
+    void getRanks_FiveRanksAndOneMock_GetFiveRanksAndOneMock(){
         Rank rank7 = new Rank("진짜팀3", "02:00:00", 5L, 2);
         rankRepository.save(rank7);
 
