@@ -32,6 +32,8 @@ public class QuizService {
     private final ClueRepository clueRepository;
 
 
+
+
     // Quiz 조회하기
     public QuizResponseDto getQuiz(Long roomId, String quizType) {
         QuizResponseDto quizResponseDto = new QuizResponseDto();
@@ -216,24 +218,24 @@ public class QuizService {
     @Transactional
     public QuizResponseDto createQuizBb(Room room, String quizType){
 
+        final String QUESTION = "이제 꿈에서 깨어날 시간입니다.";
 
-        String question = "이제 꿈에서 깨어날 시간입니다.";
+        final String CONTENT = "";
 
-        String content = "";
+        final String CHANCE = "3글자";
 
-        String chance = "3글자";
+        final String HINT = "그림에 적혀있는 물건 속에 비밀번호가 들어있습니다.";
 
-        String hint = "그림에 적혀있는 물건 속에 비밀번호가 들어있습니다.";
+        final String ANSWER = "7799";
 
-        String answer = "7799";
         Pass pass = Pass.FAIL;
         // 퀴즈 저장
-        Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
-                .hint(hint)
-                .chance(chance)
+        Quiz quiz = new Quiz.Builder(room, quizType, QUESTION, CONTENT, ANSWER, pass)
+                .hint(HINT)
+                .chance(CHANCE)
                 .build();
         quizRepository.save(quiz);
-        return new QuizResponseDto(question, content, hint, chance, answer, pass);
+        return new QuizResponseDto(QUESTION, CONTENT, HINT, CHANCE, ANSWER, pass);
     }
 
 
@@ -241,6 +243,7 @@ public class QuizService {
     @Transactional
     public QuizResponseDto createQuizCa(Room room, String quizType){
         Random random = new Random();
+
 
         ArrayList<String> questionList = new ArrayList<String>();
         questionList.add("ㄱ");
@@ -256,7 +259,14 @@ public class QuizService {
         String b = questionList.get(num2);
         String c = questionList.get(num3);
         String d = questionList.get(num4);
-        String question = a+b+c+d+"?";
+        String e = "?";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(a).append(b).append(c).append(d).append(e);
+
+        String question = sb.toString();
+
+
         String content = null;
         String hint = null;
         String chance = "낫 놓고...";
@@ -265,8 +275,12 @@ public class QuizService {
         questionList.set(1, "C");
         questionList.set(2, "F");
         questionList.set(3, "E");
-        // answer
-        String answer = questionList.get(num1)+questionList.get(num2)+questionList.get(num3)+questionList.get(num4);
+
+        StringBuilder sb2 = new StringBuilder();
+        sb2.append(questionList.get(num1)).append(questionList.get(num2)).append(questionList.get(num3)).append(questionList.get(num4));
+
+        String answer = sb2.toString();
+
         Pass pass = Pass.FAIL;
         // 퀴즈 저장
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
