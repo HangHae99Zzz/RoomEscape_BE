@@ -17,8 +17,8 @@ public class GameController {
 
     @ApiOperation(value = "GameResource 저장하기")
     @PostMapping("/games/resources")
-    public void saveGameResource(@RequestBody GameResourceRequestDto gameResourceRequestDto) {
-        gameService.saveGameResource(gameResourceRequestDto);
+    public void createGameResource(@RequestBody GameResourceRequestDto gameResourceRequestDto) {
+        gameService.createGameResource(gameResourceRequestDto);
     }
 
     @ApiOperation(value = "게임 시작하기")
@@ -30,8 +30,8 @@ public class GameController {
 
     @ApiOperation(value = "게임 종료하기")
     @PostMapping("/games/{roomId}")
-    public void gameOver(@PathVariable Long roomId, @RequestBody RankRequestDto rankRequestDto){
-        gameService.gameOver(roomId, rankRequestDto);
+    public void endGame(@PathVariable Long roomId, @RequestBody RankRequestDto rankRequestDto){
+        gameService.endGame(roomId, rankRequestDto);
     }
 
 }

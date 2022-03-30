@@ -51,12 +51,12 @@ public class RoomService {
         // 방 저장
         Room room = roomRepository.save(new Room(teamName, userId)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
         // nickName 부여
-        String nickName = getNickName();
+        String nickName = createNickName();
         String type = "userImg";
-        String img = getImg(type);
+        String img = createImg(type);
 
         // 방장 User 저장
-        User user = User.addUser(room, nickName, img, userId);
+        User user = User.createUser(room, nickName, img, userId);
         userRepository.save(user);
 
         log.info("roomId : " + room.getId() + "가 개설되었습니다!");
@@ -96,7 +96,7 @@ public class RoomService {
 
 
     // 방 리스트 조회하기
-    public List<RoomResponseDto> getAllRooms(int page) {
+    public List<RoomResponseDto> getRooms(int page) {
 
         List<RoomResponseDto> roomResponseDtoList = new ArrayList<>();
         //생성일자 내림차순으로 정렬할 것이다.
@@ -132,7 +132,7 @@ public class RoomService {
     }
 
     // 방 참여하기
-    public void addMember(Long roomId, RoomAddRequestDto roomAddRequestDto) {
+    public void joinRoom(Long roomId, RoomAddRequestDto roomAddRequestDto) {
         // 방 찾기
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
@@ -144,7 +144,7 @@ public class RoomService {
             // nickName 부여
             String userId = roomAddRequestDto.getUserId();
             List<User> userList = room.getUserList();
-            String nickName = getNickName();
+            String nickName = createNickName();
 
             // nickName 중복확인
             List<String> nickNameList = new ArrayList<>();
@@ -152,23 +152,23 @@ public class RoomService {
                 nickNameList.add(user.getNickName());
             }
             while (nickNameList.contains(nickName)) {
-                nickName = getNickName();
+                nickName = createNickName();
             }
 
             String type = "userImg";
-            String img = getImg(type);
+            String img = createImg(type);
             // img 중복확인
             List<String> imgList = new ArrayList<>();
             for (User user : userList) {
                 imgList.add(user.getImg());
             }
             while (imgList.contains(img)) {
-                img = getImg(type);
+                img = createImg(type);
             }
 
             // user 정보를 해당 room에 추가
             // user 저장
-            User user = User.addUser(room, nickName, img, userId);
+            User user = User.createUser(room, nickName, img, userId);
             userRepository.save(user);
 
             log.info(userId + "가 " + roomId + "에 참여하였습니다!");
@@ -176,7 +176,7 @@ public class RoomService {
     }
 
 
-    public String getNickName() {
+    public String createNickName() {
         // User에 nickNameList 만들기
         List<String> nickNameList = new ArrayList<>(Arrays.asList(
                 "잠자는", "졸고있는", "낮잠자는", "꿈꾸는", "가위눌린", "침 흘리는", "잠꼬대하는"));
@@ -190,7 +190,7 @@ public class RoomService {
         return nickNameList.get(num1) + " " + nickNameList2.get(num2);
     }
 
-    public String getImg(String type) {
+    public String createImg(String type) {
         List<GameResource> gameResourceList = gameResourceRepository.findAllByType(type);
 
         Random random = new Random();

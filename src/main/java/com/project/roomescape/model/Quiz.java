@@ -83,7 +83,7 @@ public class Quiz extends Timestamped {
         }
     }
 
-    public void finishedQuiz() {
+    public void endQuiz() {
         this.pass = Pass.SUCCESS;
     }
 
