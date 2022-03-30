@@ -42,7 +42,7 @@
 
 ## 🍎 Team Member - `BackEnd`
 
-| <img src="" width=200>    | <img src="" width=200> | <img src="" width=200> |
+<!-- | <img src="" width=200>    | <img src="" width=200> | <img src="" width=200> | -->
 | :----------------------------------------: | :-------------------------------------------: | :-------------------------------------------: |
 |                 **김가은**                 |                  **최규원**                   |                  **반원재**                   |
 | [@Kim gaeun](https://github.com/paran22) | [@Choi kyuwon](https://github.com/cooked-developer)  |[@Ban wonjae](https://github.com/wonjaeban)  |
@@ -140,6 +140,17 @@ Ref: 참고할 이슈가 있을 때
 </details>
 
 <br />
+
+## ⚠️ Error
+
+<details markdown="1">
+<summary>Error 관리</summary>
+
+- 모든 에러는 Error Code로 관리
+- Error Code마다 httpStatus / errorCode / errorMessage 작성
+- errorCode는 httpStatus마다 일련번호를 붙인다("httpStatus_number")  ex) "400_3", "404_4"
+
+</details>
 
 ## 🐾 Branch Strategy
 
