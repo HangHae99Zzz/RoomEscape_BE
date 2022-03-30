@@ -51,7 +51,7 @@ public class GameIntegrationTest {
         GameResourceRequestDto gameResourceRequestDto = new GameResourceRequestDto("userImg", "테스트url");
 
         for(int i = 0; i < 4; i++) {
-            webTestClient.post().uri("/games")
+            webTestClient.post().uri("/games/resources")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(gameResourceRequestDto)
                     .exchange()

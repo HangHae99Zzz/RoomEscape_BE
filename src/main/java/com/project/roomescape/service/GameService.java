@@ -24,7 +24,7 @@ public class GameService {
 
 
     // 게임 resource 저장하기
-    public void saveGameResource(GameResourceRequestDto gameResourceRequestDto) {
+    public void createGameResource(GameResourceRequestDto gameResourceRequestDto) {
         // requestDto로 받은 type을 찾아준다
         String type = gameResourceRequestDto.getType();
         // requestDto로 받은 url을 찾아준다
@@ -38,7 +38,7 @@ public class GameService {
     // 게임 종료하기
     // room, user, clue, quiz 다 끊어줘야해)
     @Transactional
-    public void gameOver(Long roomId, RankRequestDto rankRequestDto) {
+    public void endGame(Long roomId, RankRequestDto rankRequestDto) {
 
         // teamName 찾기
         Room room = roomRepository.findById(roomId)
@@ -54,7 +54,7 @@ public class GameService {
 
         // 게임 종료 처리
         Pass pass = (rankRequestDto.isPass()) ? Pass.SUCCESS : Pass.FAIL;
-        room.gameOver(pass, (long) userNum);
+        room.endGame(pass, (long) userNum);
 
         log.info(roomId + "는 탈출에 " + pass + "하였습니다!");
 

@@ -36,7 +36,7 @@ public class QuizServiceTimeTest {
 
         Room room = new Room("임시팀", "임시유저");
 
-        QuizResponseDto quizResponseDto = quizService.getQuizAa(room, "Aa");
+        QuizResponseDto quizResponseDto = quizService.createQuizAa(room, "Aa");
 
         // 코드 실행 후에 시간 받아오기
         long afterTime = System.currentTimeMillis();
@@ -55,7 +55,7 @@ public class QuizServiceTimeTest {
 
         Room room = new Room("임시팀", "임시유저");
 
-        QuizResponseDto quizResponseDto = quizService.getQuizAb(room, "Ab");
+        QuizResponseDto quizResponseDto = quizService.createQuizAb(room, "Ab");
 
         // 코드 실행 후에 시간 받아오기
         long afterTime = System.currentTimeMillis();
@@ -73,7 +73,7 @@ public class QuizServiceTimeTest {
 
         Room room = new Room("임시팀", "임시유저");
 
-        QuizResponseDto quizResponseDto = quizService.getQuizBa(room, "Ba");
+        QuizResponseDto quizResponseDto = quizService.createQuizBa(room, "Ba");
 
         // 코드 실행 후에 시간 받아오기
         long afterTime = System.currentTimeMillis();
@@ -92,7 +92,7 @@ public class QuizServiceTimeTest {
 
         Room room = new Room("임시팀", "임시유저");
 
-        QuizResponseDto quizResponseDto = quizService.getQuizBb(room, "Bb");
+        QuizResponseDto quizResponseDto = quizService.createQuizBb(room, "Bb");
 
         // 코드 실행 후에 시간 받아오기
         long afterTime = System.currentTimeMillis();
@@ -110,7 +110,7 @@ public class QuizServiceTimeTest {
 
         Room room = new Room("임시팀", "임시유저");
 
-        QuizResponseDto quizResponseDto = quizService.getQuizCa(room, "Ca");
+        QuizResponseDto quizResponseDto = quizService.createQuizCa(room, "Ca");
 
         // 코드 실행 후에 시간 받아오기
         long afterTime = System.currentTimeMillis();

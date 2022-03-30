@@ -1,15 +1,15 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
-import com.project.roomescape.model.*;
+import com.project.roomescape.model.Clue;
+import com.project.roomescape.model.Pass;
+import com.project.roomescape.model.Quiz;
+import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.repository.QuizRepository;
 import com.project.roomescape.repository.RoomRepository;
 import com.project.roomescape.responseDto.QuizResponseDto;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -45,17 +45,17 @@ public class QuizService {
                     quiz.getChance(), quiz.getAnswer(), quiz.getPass());
         }
         else {
-            if (quizType.equals("Aa")) quizResponseDto = getQuizAa(room, quizType);
-            if (quizType.equals("Ab")) quizResponseDto = getQuizAb(room, quizType);
-            if (quizType.equals("Ba")) quizResponseDto = getQuizBa(room, quizType);
-            if (quizType.equals("Bb")) quizResponseDto = getQuizBb(room, quizType);
-            if (quizType.equals("Ca")) quizResponseDto = getQuizCa(room, quizType);
+            if (quizType.equals("Aa")) quizResponseDto = createQuizAa(room, quizType);
+            if (quizType.equals("Ab")) quizResponseDto = createQuizAb(room, quizType);
+            if (quizType.equals("Ba")) quizResponseDto = createQuizBa(room, quizType);
+            if (quizType.equals("Bb")) quizResponseDto = createQuizBb(room, quizType);
+            if (quizType.equals("Ca")) quizResponseDto = createQuizCa(room, quizType);
         }
         return quizResponseDto;
     }
 
     @Transactional
-    public QuizResponseDto getQuizAa(Room room, String quizType) {
+    public QuizResponseDto createQuizAa(Room room, String quizType) {
         Random random = new Random();
         String question = "지금 몇시지?";
 
@@ -86,7 +86,7 @@ public class QuizService {
     }
 
     @Transactional
-    public QuizResponseDto getQuizAb(Room room, String quizType) {
+    public QuizResponseDto createQuizAb(Room room, String quizType) {
         Random random = new Random();
         String content;
         String answer;
@@ -189,7 +189,7 @@ public class QuizService {
     }
 
     @Transactional
-    public QuizResponseDto getQuizBa(Room room, String quizType) {
+    public QuizResponseDto createQuizBa(Room room, String quizType) {
         List<Clue> clueList = clueRepository.findAllByRoomId(room.getId());
 
         Long clueA = 0L;
@@ -227,7 +227,7 @@ public class QuizService {
     }
 
     @Transactional
-    public QuizResponseDto getQuizBb(Room room, String quizType){
+    public QuizResponseDto createQuizBb(Room room, String quizType){
 
 
         String question = "이제 꿈에서 깨어날 시간입니다.";
@@ -252,7 +252,7 @@ public class QuizService {
 
     //  ㄱㄴㄷㅁ 퀴즈
     @Transactional
-    public QuizResponseDto getQuizCa(Room room, String quizType){
+    public QuizResponseDto createQuizCa(Room room, String quizType){
         Random random = new Random();
 
         ArrayList<String> questionList = new ArrayList<String>();
@@ -291,7 +291,7 @@ public class QuizService {
 
 
     @Transactional
-    public void finishedQuiz(Long roomId, String quizType) {
+    public void endQuiz(Long roomId, String quizType) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
         Quiz quiz;
@@ -302,7 +302,7 @@ public class QuizService {
         } else {
             throw new CustomException(QUIZ_NOT_FOUND);
         }
-        quiz.finishedQuiz();
+        quiz.endQuiz();
         quizRepository.save(quiz);
     }
 
