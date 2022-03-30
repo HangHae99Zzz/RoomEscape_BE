@@ -20,8 +20,8 @@ public class QuizController {
 
     @ApiOperation(value = "Quiz 완료")
     @PutMapping("/rooms/{roomId}/quizzes/{quizType}")
-    public void finishedQuiz(@PathVariable Long roomId, @PathVariable String quizType) {
-        quizService.finishedQuiz(roomId, quizType);
+    public void endQuiz(@PathVariable Long roomId, @PathVariable String quizType) {
+        quizService.endQuiz(roomId, quizType);
     }
 
 }

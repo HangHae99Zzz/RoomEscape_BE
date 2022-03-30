@@ -4,6 +4,7 @@ import com.project.roomescape.model.Clue;
 import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.responseDto.ClueResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ClueService {
@@ -32,6 +34,8 @@ public class ClueService {
 
         // List 저장하기
         clueRepository.saveAll(clueList);
+
+        log.info(roomId + "의 Clue가 생성되었습니다!");
     }
 
 

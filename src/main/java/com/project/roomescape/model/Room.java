@@ -46,7 +46,7 @@ public class Room extends Timestamped {
         this.userNum = null;
     }
 
-    public void gameOver(Pass pass, Long userNum) {
+    public void endGame(Pass pass, Long userNum) {
         this.pass = pass;
         this.state = State.CLOSE;
         this.userNum = userNum;

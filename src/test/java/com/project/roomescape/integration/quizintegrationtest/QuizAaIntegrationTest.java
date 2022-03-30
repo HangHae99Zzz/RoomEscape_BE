@@ -23,6 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+
 //통합테스트를 실시합니다. 포트는 랜덤 포트로 실행합니다. properties도 기존의 application.properties가 아닌 application-test.properties로 합니다.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"spring.config.location=classpath:application-test.properties"})
 //테스트 인스턴스의 생명주기를 클래스 단위로 합니다.(테스트 실행범위라고 생각)
@@ -93,6 +94,7 @@ public class QuizAaIntegrationTest {
     @Order(2)
     @DisplayName("퀴즈 Aa 생성하기")
     void getQuizAa(){
+
         // when
         webTestClient.get().uri("/rooms/{roomId}/quizzes/{quizType}", 1, "Aa")
                 .exchange()

@@ -39,7 +39,7 @@ public class User {
     }
 
     // 생성 메소드
-    public static User addUser(Room room, String nickName, String img, String userId) {
+    public static User createUser(Room room, String nickName, String img, String userId) {
         User user = new User();
         user.setRoom(room);
         user.setUser(nickName, img, userId);
