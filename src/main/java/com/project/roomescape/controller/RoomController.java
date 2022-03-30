@@ -22,7 +22,6 @@ public class RoomController {
         return roomService.createRoom(roomRequestDto);
     }
 
-
     @ApiOperation(value = "Room 조회하기")
     @GetMapping("/rooms/{roomId}")
     public RoomResponseDto getRoom(@PathVariable Long roomId) {
@@ -31,14 +30,14 @@ public class RoomController {
 
     @ApiOperation(value = "Room 참여하기")
     @PostMapping("/rooms/{roomId}")
-    public void addMember(@PathVariable Long roomId, @RequestBody RoomAddRequestDto roomAddRequestDto) {
-        roomService.addMember(roomId, roomAddRequestDto);
+    public void joinRoom(@PathVariable Long roomId, @RequestBody RoomAddRequestDto roomAddRequestDto) {
+        roomService.joinRoom(roomId, roomAddRequestDto);
     }
 
     @ApiOperation(value = "Room 리스트 조회하기")
     @GetMapping("/rooms/pages/{page}")
-    public List<RoomResponseDto> getAllRooms(@PathVariable int page) {
-        return roomService.getAllRooms(page);
+    public List<RoomResponseDto> getRooms(@PathVariable int page) {
+        return roomService.getRooms(page);
     }
 
 }

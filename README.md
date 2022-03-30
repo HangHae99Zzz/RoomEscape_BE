@@ -42,9 +42,10 @@
 
 ## 🍎 Team Member - `BackEnd`
 
-| <img src="" width=200>    | <img src="" width=200> | <img src="" width=200> |
-| :----------------------------------------: | :-------------------------------------------: | :-------------------------------------------: |
+<!-- | <img src="" width=200>    | <img src="" width=200> | <img src="" width=200> | -->
+
 |                 **김가은**                 |                  **최규원**                   |                  **반원재**                   |
+| :----------------------------------------: | :-------------------------------------------: | :-------------------------------------------: |
 | [@Kim gaeun](https://github.com/paran22) | [@Choi kyuwon](https://github.com/cooked-developer)  |[@Ban wonjae](https://github.com/wonjaeban)  |
 
 <br />
@@ -96,7 +97,10 @@
 ### 📍 네이밍 Convention
 
   ✅ 폴더명은 소문자, Class명은 첫 글자 대문자
-
+  <br>
+  ✅ Method는 lowerCamelCase을 사용하고, 동사나 전치사로 시작한다. ex) get/set, init, is/has/can, create, find, to, A-By-B …
+  <br>
+  ✅ JUnit Test Method : Method명_테스트상태_기대행위  ex) isAdult_AgeLessThan18_False
 </details>
 
 <details markdown="2">
@@ -141,24 +145,46 @@ Ref: 참고할 이슈가 있을 때
 
 <br />
 
+## ⚠️ Error
+
+<details markdown="1">
+<summary>Error 관리</summary>
+<br>
+✅ 모든 에러는 Error Code로 관리
+<br>
+✅ Error Code마다 httpStatus / errorCode / errorMessage 작성
+<br>
+✅ errorCode는 httpStatus마다 일련번호를 붙인다("httpStatus_number")  ex) "400_3", "404_4"
+
+</details>
+
+<br />
+
 ## 🐾 Branch Strategy
 
 <details markdown="1">
 <summary>브렌치 관리</summary>
-
-- 개인별 브렌치(gaeun, kyuwon, wonjae)에서 작업 후 테스트 통과 확인한 후에 push → main으로 PR
-- 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
-- nodeJS는 별도의 Repository에서 관리하며, main에서 작업 진행
+<br>
+✅ 개인별 브렌치(gaeun, kyuwon, wonjae)에서 작업 후 테스트 통과 확인한 후에 push → main으로 PR
+<br>
+✅ 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
+<br>
+✅ nodeJS는 별도의 Repository에서 관리하며, main에서 작업 진행
 
 </details>
 
+<br />
+
 <details markdown="1">
 <summary>이슈 관리</summary>
-
-- issue template 사용 : bug, feature
-- issue 작성 내용 중 변경사항이 있는 경우에는 해당 글에 comment나 별도 이슈 생성
-- 완료된 이슈는 commit Resolves 사용해서 Close
-- 관련된 이슈가 많을 경우에는 Milestones를 사용해서 관리
+<br>
+✅ issue template 사용 : bug, feature
+<br>
+✅ issue 작성 내용 중 변경사항이 있는 경우에는 해당 글에 comment나 별도 이슈 생성
+<br>
+✅ 완료된 이슈는 commit Resolves 사용해서 Close
+<br>
+✅ 관련된 이슈가 많을 경우에는 Milestones를 사용해서 관리
 
 </details>
 

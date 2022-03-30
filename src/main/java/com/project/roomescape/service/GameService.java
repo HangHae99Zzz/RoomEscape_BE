@@ -7,9 +7,11 @@ import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.requestDto.RankRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class GameService {
@@ -22,7 +24,7 @@ public class GameService {
 
 
     // 게임 resource 저장하기
-    public void saveGameResource(GameResourceRequestDto gameResourceRequestDto) {
+    public void createGameResource(GameResourceRequestDto gameResourceRequestDto) {
         // requestDto로 받은 type을 찾아준다
         String type = gameResourceRequestDto.getType();
         // requestDto로 받은 url을 찾아준다
@@ -36,11 +38,12 @@ public class GameService {
     // 게임 종료하기
     // room, user, clue, quiz 다 끊어줘야해)
     @Transactional
-    public void gameOver(Long roomId, RankRequestDto rankRequestDto) {
+    public void endGame(Long roomId, RankRequestDto rankRequestDto) {
 
         // teamName 찾기
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
         String teamName = room.getTeamName();
 
         // time 찾기
@@ -51,7 +54,9 @@ public class GameService {
 
         // 게임 종료 처리
         Pass pass = (rankRequestDto.isPass()) ? Pass.SUCCESS : Pass.FAIL;
-        room.gameOver(pass, (long) userNum);
+        room.endGame(pass, (long) userNum);
+
+        log.info(roomId + "는 탈출에 " + pass + "하였습니다!");
 
         // 게임 성공 시 rank 등록하기
         if (pass == Pass.SUCCESS) {
@@ -70,6 +75,7 @@ public class GameService {
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
         room.setStartAt(System.currentTimeMillis());
         roomRepository.save(room);
+        log.info(roomId + "의 게임이 시작되었습니다!");
     }
 
 }

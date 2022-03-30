@@ -3,8 +3,6 @@ package com.project.roomescape.integration;
 import com.project.roomescape.model.Comment;
 import com.project.roomescape.repository.CommentRepository;
 import com.project.roomescape.requestDto.CommentRequestDto;
-import com.project.roomescape.responseDto.CommentResponseDto;
-import com.project.roomescape.responseDto.RoomResponseDto;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +13,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"spring.config.location=classpath:application-test.properties"})
@@ -48,18 +45,4 @@ public class CommentIntegrationTest {
         assertEquals(commentList.get(0).getComment(), "임시 코멘트");
     }
 
-    @Test
-    @Order(2)
-    @DisplayName("코멘트 조회하기")
-    @Transactional
-    void getComments() {
-
-        webTestClient.get().uri("/comments")
-                .exchange()
-                .expectStatus().isOk()
-                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-                .expectBodyList(CommentResponseDto.class).hasSize(1).consumeWith(list -> {
-                    assertEquals(list.getResponseBody().get(0).getComment(), "임시 코멘트");
-                });
-    }
 }
