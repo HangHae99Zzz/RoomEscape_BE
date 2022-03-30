@@ -1,6 +1,7 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.model.Clue;
+import com.project.roomescape.model.Quiz;
 import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.responseDto.ClueResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Slf4j
@@ -22,6 +24,7 @@ public class ClueService {
     // clue 생성하기
     @Transactional
     public void createClue(Long roomId) {
+
         Random random = new Random();
 
         // clue 생성해서 List에 담기
