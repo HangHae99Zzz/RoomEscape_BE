@@ -58,23 +58,28 @@ public class QuizService {
     public QuizResponseDto createQuizAa(Room room, String quizType) {
         Random random = new Random();
         String question = "지금 몇시지?";
+        final int CLOCKTIME = 12;
 
         // 1~12 중 랜덤
-        int a = random.nextInt(12) + 1;
+        int a = random.nextInt(CLOCKTIME) + 1;
         // 97(a) ~ 108(l) 중 랜덤
-        char b = (char) (random.nextInt(12) + 97);
+        char b = (char) (random.nextInt(CLOCKTIME) + 97);
         boolean q = random.nextBoolean();
         String direction = (q) ? "앞으로" : "거꾸로";
-        String content = "어제 " + a + "시에 잔거 같다. 시간이 " + direction + " 돌고 있어. "
-                + b + "라고 써있는 건 뭐지? 지금 몇시지?";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("어제 ").append(a).append("시에 잔거 같다. 시간이 ").append(direction)
+                .append(" 돌고 있어. ").append(b).append("라고 써있는 건 뭐지? 지금 몇시지?");
+
+        String content = sb.toString();
 
         String hint = null;
         String chance = "시계를 돌려볼까?";
 
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
         int ans = (q) ? a + (b - 96) : a - (b - 96);
-        if (ans < 0) ans += 12;
-        if (ans > 12) ans -= 12;
+        if (ans < 0) ans += CLOCKTIME;
+        if (ans > CLOCKTIME) ans -= CLOCKTIME;
         String answer = String.valueOf(ans);
         Pass pass = Pass.FAIL;
 //        퀴즈 저장.
