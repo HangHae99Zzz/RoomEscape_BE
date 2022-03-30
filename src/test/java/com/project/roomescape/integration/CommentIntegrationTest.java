@@ -30,7 +30,7 @@ public class CommentIntegrationTest {
     @Order(1)
     @DisplayName("코멘트 입력하기")
     @Transactional
-    void createComment() {
+    void createComment_OneComment_CreateOneComment() {
         CommentRequestDto commentRequestDto = new CommentRequestDto("임시 코멘트");
 
         webTestClient.post().uri("/comments")
