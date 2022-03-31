@@ -337,6 +337,48 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 ```
 </details>
 
+<details markdown="5">
+<summary>테스트 코드 적용</summary>
+
+### ✅ 테스트코드를 도입한 이유!
+
+```
+📑 배포 자동화를 도입했기 때문에 검증되지 않은 코드들이 자동으로 배포될 수 있어 차후에 문제 파악 어려움이 존재.  
+-> 테스트코드를 통해 사전 검증의 필요성 존재.
+📑 테스트 코드를 통해서 코드 작성시에 고려하지 못했던 case에 대한 확인과 개선이 가능.
+📑 리팩토링시에 빠르게 코드를 검증 가능.
+```
+
+### ✅ 문제상황
+
+```
+📑 단위 테스트(QuizServiceTimeTest)에서 ClueRepository와 QuizRepository를 @Mock으로 처리하지 못하는 문제 발생.
+📑 통합 테스트에서 DI 방법으로 @RequiredArgsConstructor를 통한 생성자 주입 방식이 적용 안되는 문제 발생.
+
+```
+
+### ✅ 문제 원인
+
+```
+📑 단위 테스트시에 실제 Quizservice에 존재하는 quizRepository.save(roomId)과 clueRepository.findAllByRoomId(room.getId())때문.  
+@Mock으로 만들려면 when().thenReturn()같은 메서드를 반드시 명시해줘야하는데 테스트시 정확한 RoomId를 알아내는 것이 불가능.  
+->when().thenReturn() 메서드 작동 안함.
+📑 통합 테스트에서 DI 방법으로 생성자 주입 방식(@RequiredArgsConstructor)안되는 이유는  
+difference in autowire handling between Spring and Spring integration with JUnit때문.
+
+```
+
+### ✅ 해결방안
+
+```
+📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
+->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
+📑 통합테스트에서 DI 방법으로 @Autowired 방식 선택.
+
+```
+
+</details>
+
 <br />
 
 ## 🔧 Fight
