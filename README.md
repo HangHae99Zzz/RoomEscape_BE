@@ -311,27 +311,42 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
   📑 처음에 node.js는 보이스 채팅만 다루고 나머지 역할은 spring에서 담당하기로 했었음  
   -> 스프링에서 한 방의 인원들이 전부 로딩이 다 되었는지 체크.
   
-  📑 클라이언트들이 각자 게임 로딩이 다 완료되면 spring에 request를 보냈고 spring에서는 request가 올때마다 count를 세서 count가 현재 한 방의 인원들의 숫자와 같아지면   게임을 시작.
+  📑 클라이언트들이 각자 게임 로딩이 다 완료되면 spring에 request를 보냄  
+  ->spring에서는 request가 올때마다 count를 세서 count가 현재 한 방의 인원들의 숫자와 같아지면 게임을 시작.
   
-  📑 여기서 로딩중에 누군가가 나가면 무한대기현상이 발생할 수 있다고 생각. 왜냐하면 나간 사람은 영원히 spring에 로딩이 다 되었다는 request를 보내지 않기 때문.
+  📑 여기서 로딩중에 누군가가 나가면 무한대기현상이 발생할 수 있다고 생각.  
+  왜냐하면 나간 사람은 영원히 spring에 로딩이 다 되었다는 request를 보내지 않기 때문.
   
-  📑 구체적으로 당시 노드 socket에서 유저 disconnect가 발생 -> 스프링에서 1. 방장이 나간 경우: 새로운 방장 userId response.	2. 일반인이 나간 경우: null response.
+  📑 구체적으로 당시 노드 socket에서 유저 disconnect가 발생  
+  -> 스프링에서 1. 방장이 나간 경우: 새로운 방장 userId response.	2. 일반인이 나간 경우: null response.
   
-  📑 spring에서 게임 로딩 체크 -> 1. false response 2. 마지막 인원한테는 true response.
+  📑 spring에서 게임 로딩 체크  
+  -> 1. false response 2. 마지막 인원한테는 true response.
   
-  📑 문제는 위 두개의 로직이 동시에 발생하는 경우 -> 게임 로딩중에 방장이 disconnect가 된다면 최악의 경우 새로운 방장 userId, 게임 무한 대기 현상을 방지하기 위해 마지막   인원까지 로딩이 완료되었다는 true값도 보내줘야함.
+  📑 문제는 위 두개의 로직이 동시에 발생하는 경우  
+  -> 게임 로딩중에 방장이 disconnect가 된다면 최악의 경우 새로운 방장 userId,   
+  게임 무한 대기 현상을 방지하기 위해 마지막 인원까지 로딩이 완료되었다는 true값도 보내줘야함.
   
-  📑 따라서 disconnect시 responsedto와 게임 로딩체크 responsedto는 같아야함. 즉, 누군가가 나간다면 userID만 넘겨주는 것이 아니라 userId와 true, false값을 같이 보내줌,   반대로 게임 로딩중에도 true, false뿐만 아니라 userId까지 보내줌.
+  📑 따라서 disconnect시 responsedto와 게임 로딩체크 responsedto는 같아야함.  
+  즉, 누군가가 나간다면 userID만 넘겨주는 것이 아니라 userId와 true, false값을 같이 보내줌,  
+  반대로 게임 로딩중에도 true, false뿐만 아니라 userId까지 보내줌.
   
-  📑 이런 방식으로 프론트쪽에서 true 또는 false값도 받는게 가능 -> 무한대기현상을 해결할 수 있다 생각함.
+  📑 이런 방식으로 프론트쪽에서 true 또는 false값도 받는게 가능  
+  -> 무한대기현상을 해결할 수 있다 생각함.
   
-  📑 즉, 상황에 따라 1. 게임로딩 X, 누군가가 나감 -> 1. 방장이 나간경우: {"userId" : "새로운 ID", "check": null}	2. 일반인이 나간경우: {"userId": null, "check":   null}
+  📑 즉, 상황에 따라 1. 게임로딩 X, 누군가가 나감 -> 1. 방장이 나간경우: {"userId" : "새로운 ID", "check": null}  
+  2. 일반인이 나간경우: {"userId": null, "check":   null}
   
-  📑 2. 게임로딩 O, 누군가가 나감 -> 1. 방장이 나갔고 나머지 인원 전부 로딩 완료:{"userId": "새로운ID", "check": "true"}, 2. 방장이 나갔지만 나머지 인원이 전부 로딩 X:  {"userId": "새로운ID", "check":null}, 3. 일반인이 나갔는데 나머지 전부 로딩: {"userId" : null, "check": "true"}, 4. 일반인이 나갔는데 나머지 전부 로딩X: {"userId" :   null, "check": "null"}
+  📑 2. 게임로딩 O, 누군가가 나감 -> 1. 방장이 나갔고 나머지 인원 전부 로딩 완료:{"userId": "새로운ID", "check": "true"},  
+  2. 방장이 나갔지만 나머지 인원이 전부 로딩 X:  {"userId": "새로운ID", "check":null},  
+  3. 일반인이 나갔는데 나머지 전부 로딩: {"userId" : null, "check": "true"},  
+  4. 일반인이 나갔는데 나머지 전부 로딩X: {"userId" :   null, "check": "null"}
   
-  📑 3. 일반적인 게임 로딩 --> 1. {"userId": null, "check": null} ... 2. 제일 마지막 인원 로딩: {"userId": null, "check":"true"}로 응답하는 것으로 해결하고자 함. 
+  📑 3. 일반적인 게임 로딩  
+  --> 1. {"userId": null, "check": null} ... 2. 제일 마지막 인원 로딩: {"userId": null, "check":"true"}로 응답하는 것으로 해결하고자 함. 
   
-  📑 하지만 disconnect가 발생 -> 방 전체 인원들이 Spring으로 request를 보냄 -> disconnect 유저를 삭제하고 새로운 방장을 만드는 로직이 여러번 발생하는 문제 존재.
+  📑 하지만 disconnect가 발생 -> 방 전체 인원들이 Spring으로 request를 보냄  
+  -> disconnect 유저를 삭제하고 새로운 방장을 만드는 로직이 여러번 발생하는 문제 존재.
   
   📑 결론적으로 node에서 socket disconnect시에 한번만 처리하는 것으로 방향 바꿈. 
   ```
