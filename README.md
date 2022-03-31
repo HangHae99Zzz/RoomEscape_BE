@@ -170,10 +170,9 @@ Ref: 참고할 이슈가 있을 때
 ✅ 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
 <br>
 ✅ nodeJS는 별도의 Repository에서 관리하며, main에서 작업 진행
-
+<br />
 </details>
 
-<br />
 
 <details markdown="1">
 <summary>이슈 관리</summary>
@@ -294,10 +293,99 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 ```
 📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
 📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
+📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 더 이상 문제가 풀리지 않도록 socket 이벤트로 해결한 퀴즈타입 전달
 ```
-  
+</details>
+
+<details markdown="4">
+<summary>CI/CD 적용</summary>
+
+### ✅ 배포 자동화를 도입한 이유!
+
+```
+📑 배포 자동화를 통해 효율적인 협업 및 작업 환경을 구축하기 위함
+```
+
+### ✅ 문제상황
+
+```
+📑 Front-end와 협업 시 코드 배포를 해야하는 상황이 빈번히 발생
+📑 FileZila를 통한 수동 배포와 배포 이후 에러를 발견시 재배포 하는 일이 잦아짐에 따라 배포에 많은 시간이 소요됨
+```
+
+### ✅ 해결방안
+
+```
+📑 1안) Travis 
+📑 2안) Githup Actions
+```
+
+### ✅ 의견 조율
+
+```
+📑 1. Travis를 사용하기 위해선 서버 설치가 필요
+📑 2. Githup Actions는 별다른 설치 및 복잡한 절차 없이 Githup을 통해 사용 가능
+📑 3. Githup Actions는 Github Marketplace를 통해 다른 개발자가 작성한 액션을 재사용 할 수 있으므로 시간이 절약
+📑 4. 기간이 한정이 되어 있어서 개발 인프라에 많은 시간을 할애할 수 없다
+```
+
+### ✅ 의견 결정
+
+```
+📑 처음에는 Travis를 사용하는 블로그 자료들이 더 많아서 우선순위로 두었지만 현재 하는 프로젝트의 규모가 크지 않고 시간적 제약(서버 설치)으로 인해 Githup Actions를 사용하기로 결정
+📑 또 다른 이유로는 Github의 다양한 기능들을 써보고 싶었는데 지금 이 기회에 써보고 싶다는 생각이 들었다
+```
 </details>
 
 <br />
 
 ## 🔧 Fight
+<details>
+  <summary>ban wonjae</summary>
+  
+  ### 1️⃣ Trouble Shooting에서 유저 disconnect 해결방안 1과 관련된 삽질
+  ```
+  📑 처음에 node.js는 보이스 채팅만 다루고 나머지 역할은 spring에서 담당하기로 했었음  
+  -> 스프링에서 한 방의 인원들이 전부 로딩이 다 되었는지 체크.
+  
+  📑 클라이언트들이 각자 게임 로딩이 다 완료되면 spring에 request를 보냄  
+  ->spring에서는 request가 올때마다 count를 세서 count가 현재 한 방의 인원들의 숫자와 같아지면 게임을 시작.
+  
+  📑 여기서 로딩중에 누군가가 나가면 무한대기현상이 발생할 수 있다고 생각.  
+  왜냐하면 나간 사람은 영원히 spring에 로딩이 다 되었다는 request를 보내지 않기 때문.
+  
+  📑 구체적으로 당시 노드 socket에서 유저 disconnect가 발생  
+  -> 스프링에서 1. 방장이 나간 경우: 새로운 방장 userId response.	2. 일반인이 나간 경우: null response.
+  
+  📑 spring에서 게임 로딩 체크  
+  -> 1. false response 2. 마지막 인원한테는 true response.
+  
+  📑 문제는 위 두개의 로직이 동시에 발생하는 경우  
+  -> 게임 로딩중에 방장이 disconnect가 된다면 최악의 경우 새로운 방장 userId,   
+  게임 무한 대기 현상을 방지하기 위해 마지막 인원까지 로딩이 완료되었다는 true값도 보내줘야함.
+  
+  📑 따라서 disconnect시 responsedto와 게임 로딩체크 responsedto는 같아야함.  
+  즉, 누군가가 나간다면 userID만 넘겨주는 것이 아니라 userId와 true, false값을 같이 보내줌,  
+  반대로 게임 로딩중에도 true, false뿐만 아니라 userId까지 보내줌.
+  
+  📑 이런 방식으로 프론트쪽에서 true 또는 false값도 받는게 가능  
+  -> 무한대기현상을 해결할 수 있다 생각함.
+  
+  📑 즉, 상황에 따라 1. 게임로딩 X, 누군가가 나감 -> 1. 방장이 나간경우: {"userId" : "새로운 ID", "check": null}  
+  2. 일반인이 나간경우: {"userId": null, "check":   null}
+  
+  📑 2. 게임로딩 O, 누군가가 나감 -> 1. 방장이 나갔고 나머지 인원 전부 로딩 완료:{"userId": "새로운ID", "check": "true"},  
+  2. 방장이 나갔지만 나머지 인원이 전부 로딩 X:  {"userId": "새로운ID", "check":null},  
+  3. 일반인이 나갔는데 나머지 전부 로딩: {"userId" : null, "check": "true"},  
+  4. 일반인이 나갔는데 나머지 전부 로딩X: {"userId" :   null, "check": "null"}
+  
+  📑 3. 일반적인 게임 로딩  
+  --> 1. {"userId": null, "check": null} ... 2. 제일 마지막 인원 로딩: {"userId": null, "check":"true"}로 응답하는 것으로 해결하고자 함. 
+  
+  📑 하지만 disconnect가 발생 -> 방 전체 인원들이 Spring으로 request를 보냄  
+  -> disconnect 유저를 삭제하고 새로운 방장을 만드는 로직이 여러번 발생하는 문제 존재.
+  
+  📑 결론적으로 node에서 socket disconnect시에 한번만 처리하는 것으로 방향 바꿈. 
+  ```
+  
+  </details>
