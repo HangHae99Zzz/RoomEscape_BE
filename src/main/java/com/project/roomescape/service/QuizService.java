@@ -197,7 +197,7 @@ public class QuizService {
         String content = "HackerRoom";
 
         String hint = "포스터들을 눈여겨 보세요";
-        String chance = "r = 5";
+        String chance = "H = 0, r = 5";
 
         String answer = "";
         // [5, 0, 1, 6]
