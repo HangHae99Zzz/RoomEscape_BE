@@ -72,7 +72,7 @@ public class QuizService {
 
         StringBuilder sb = new StringBuilder();
         sb.append("어제 ").append(a).append("시에 잔거 같다. 시간이 ").append(direction)
-                .append(" 돌고 있어. ").append(b).append("라고 써있는 건 뭐지? 지금 몇시지?");
+                .append(" 돌고 있어. ").append(b).append("라고 써있는 거 같은데, 지금 몇시지?");
 
         String content = sb.toString();
 
