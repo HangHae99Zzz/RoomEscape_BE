@@ -305,6 +305,7 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 ## 🔧 Fight
 <details>
   <summary>ban wonjae</summary>
+  
   ### 1️⃣ Trouble Shooting에서 해결방안 1과 관련된 삽질
   ```
   📑 처음에 node.js는 보이스 채팅만 다루고 나머지 역할은 spring에서 담당하기로 했었기 때문에 한 방의 인원들이 전부 로딩이 다 되었는지 체크하는 부분을 스프링에서 해결하려 했습니다.
