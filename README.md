@@ -170,10 +170,9 @@ Ref: 참고할 이슈가 있을 때
 ✅ 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
 <br>
 ✅ nodeJS는 별도의 Repository에서 관리하며, main에서 작업 진행
-
+<br />
 </details>
 
-<br />
 
 <details markdown="1">
 <summary>이슈 관리</summary>
