@@ -352,7 +352,8 @@ Github Actions를 이용하여 배포 자동화를 구축하기로 결정
 @Mock으로 만들려면 when().thenReturn()같은 메서드를 반드시 명시해줘야하는데 테스트시 정확한 RoomId를 알아내는 것이 불가능.  
 ->when().thenReturn() 메서드 작동 안함.
 📑 통합 테스트에서 DI 방법으로 생성자 주입 방식(@RequiredArgsConstructor)안되는 이유는  
-difference in autowire handling between Spring and Spring integration with JUnit때문.
+difference in autowire handling between Spring and Spring integration with JUnit때문.  
+즉, JUNIT5가 DI를 스스로 지원하기 때문에 생성자나 lombok 방식으로 DI가 되질 않음.
 
 ```
 
@@ -361,7 +362,7 @@ difference in autowire handling between Spring and Spring integration with JUnit
 ```
 📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
 ->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
-📑 통합테스트에서 DI 방법으로 @Autowired 방식 선택.
+📑 통합테스트에서 DI 방법으로 생성자 주입 방식말고 @Autowired 방식 선택.
 
 ```
 
