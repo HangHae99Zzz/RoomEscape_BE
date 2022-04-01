@@ -375,7 +375,7 @@ difference in autowire handling between Spring and Spring integration with JUnit
 ```
 📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
 ->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
-📑 통합테스트에서 DI 방법으로 생성자 방식을 포기하고 @Autowired 방식 선택.
+📑 통합테스트에서 DI 방법으로 생성자 주입 방식말고 @Autowired 방식 선택.
 
 ```
 
