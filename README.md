@@ -381,6 +381,38 @@ difference in autowire handling between Spring and Spring integration with JUnit
 
 </details>
 
+<details markdown="6">
+<summary>Quiz 랜덤 문제</summary>
+  
+### ✅ 요구사항
+
+```
+📑 게임성을 위해 동일한 Quiz라도 Quiz의 답이 랜덤으로 정해지게 하자!
+📑 해당 방 안에서는 같은 문제가 보여야 함
+```  
+  
+### ✅ 문제상황 
+
+```
+📑 방마다 다른 값으로 Quiz가 구성되도록 퀴즈 생성 알고리즘에 Random을 포함하면서,
+   Quiz 조회 API가 요청될 때마다 Quiz를 새로 생성 → Quiz 클릭 시 매번 Quiz가 달라지는 문제 발생
+
+📍 방마다 같은 문제가 보이려면 DB에 저장 필요!!
+```
+  
+### ✅ 해결방안 
+  
+```
+📑 방 안에서만 동일한 문제를 보여주기 위해 방 마다 생성된 Quiz를 DB에 저장
+📑 Quiz를 생성하는 API가 호출되는 시점은 방 개설이 아닌 게임 시작 이후가 적절하다고 판단
+   : 방 개설 때 Quiz 생성하면 방만 만들고 게임을 시작하지 않았을 경우 추가 처리 필요
+📑 방의 유저 중 한 명이 Quiz 오브젝트를 클릭했을 때 DB에 해당 Quiz가 없으면 생성, 있으면 조회하도록 구현 
+   : 이미 게임 시작 때 API가 여러 개 호출되고 있어서 요청을 분산시키기 위함
+```
+  
+</details>
+  
+
 <br />
 
 ## 🔧 Fight
