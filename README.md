@@ -289,13 +289,19 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 <details markdown="3">
 <summary>게임 플레이 중 동시성 제어 문제</summary>
   
-### ✅ 문제상황 → 📍 Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려줌!
+### ✅ 문제상황
 
 ```
 📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
-📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
-📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 더 이상 문제가 풀리지 않도록 socket 이벤트로 해결한 퀴즈타입 전달
 ```
+  
+### 📍 Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려주자!
+
+```
+📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
+📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 이벤트를 활용해 이미 푼 문제로 변경
+```
+  
 </details>
 
 <details markdown="4">
@@ -375,7 +381,7 @@ difference in autowire handling between Spring and Spring integration with JUnit
 
 ```
 📑 게임성을 위해 동일한 Quiz라도 Quiz의 답이 랜덤으로 정해지게 하자!
-📑 해당 방 안에서는 같은 문제가 보여야 함
+📑 그렇지만 해당 방 안에서는 같은 문제가 보여야 함
 ```  
   
 ### ✅ 문제상황 
