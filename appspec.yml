@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/zzz-project  # 프로젝트 이름
+    # S3에서 받아온 프로젝트의 위치를 지정
+    destination: /home/ubuntu/zzz-project
     overwrite: yes
-
 
 permissions:
   - object: /
@@ -13,9 +13,9 @@ permissions:
     group: ubuntu
 
 
-
-### 새로 추가한 부분 ###
+# CodeDeploy의 배포에는 간 단계 별 수명 주기가 존재하고 수명 주기에 따라 원하는 스크립트를 수행할 수 있다
 hooks:
+  # ApplicationStart라는 수명 주기에 세 가지 스크립트를 차례로 실행
   ApplicationStart:
     - location: scripts/run_new_was.sh
       timeout: 180

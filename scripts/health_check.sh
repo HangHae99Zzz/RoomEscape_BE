@@ -11,9 +11,9 @@ else
   echo "> No WAS is connected to nginx"
   exit 1
 fi
-
+# 새로 띄운 WAS가 완전히 실행되기까지 health check 하는 스크립트
 echo "> Start health check of WAS at 'http://127.0.0.1:${TARGET_PORT}' ..."
-
+# check를 최대 10회 까지 시도한다. 보통 3회까지 시도하고 작동이되는 편이다.
 for RETRY_COUNT in 1 2 3 4 5 6 7 8 9 10
 do
   echo "> #${RETRY_COUNT} trying..."
@@ -24,7 +24,6 @@ do
     exit 0
   elif [ ${RETRY_COUNT} -eq 10 ]; then
     echo "> Health check failed."
-#    echo "> aaaa" + ${RESPONSE_CODE};
     exit 1
   fi
   sleep 10
