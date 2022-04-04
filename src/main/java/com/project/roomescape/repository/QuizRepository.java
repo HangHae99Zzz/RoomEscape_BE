@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
     Optional<Quiz> findByRoomAndType(Room room, String quiztype);
-    void deleteQuizByRoomId(Long roomId);
 }

@@ -26,13 +26,31 @@ public class Room extends Timestamped implements Serializable {
     @OneToMany(mappedBy = "room")
     private List<User> userList = new ArrayList<>();
 
-    @Column
+    @Column(nullable = true)
     private Long startAt;
+
+    @Column(nullable = true)
+    private Pass pass;
+
+    @Column(nullable = false)
+    private State state;
+
+    @Column(nullable = true)
+    private Long userNum;
 
     public Room(String teamName, String createdUser) {
         this.teamName = teamName;
         this.createdUser = createdUser;
         this.startAt = null;
+        this.pass = null;
+        this.state = State.ACTIVE;
+        this.userNum = null;
+    }
+
+    public void endGame(Pass pass, Long userNum) {
+        this.pass = pass;
+        this.state = State.CLOSE;
+        this.userNum = userNum;
     }
 
     public void setStartAt(Long startAt) {

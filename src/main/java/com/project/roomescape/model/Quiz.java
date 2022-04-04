@@ -22,7 +22,7 @@ public class Quiz extends Timestamped {
     @Column(nullable = true)
     private String question;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String content;
 
     @Column(nullable = true)
@@ -31,11 +31,11 @@ public class Quiz extends Timestamped {
     @Column(nullable = true)
     private String chance;
 
-    @Column(nullable = true)
-    private String imgUrl;
-
     @Column(nullable = false)
     private String answer;
+
+    @Column(nullable = false)
+    private Pass pass;
 
     Quiz(Builder builder) {
         this.room = builder.room;
@@ -45,6 +45,7 @@ public class Quiz extends Timestamped {
         this.hint = builder.hint;
         this.chance = builder.chance;
         this.answer = builder.answer;
+        this.pass = builder.pass;
     }
 
 //    static을 통해 상위 클래스를 생성하지 않고도 외부에서 바로 Quiz.Builder로 접근이 가능하다.
@@ -55,16 +56,18 @@ public class Quiz extends Timestamped {
         private String content;
         private String hint;
         private String chance;
-        private String imgUrl;
         private String answer;
+        private Pass pass;
 
         // 필수적인 필드 : room, type, question, content, answer
-        public Builder(Room room, String type, String question, String content, String answer) {
+        public Builder(Room room, String type, String question, String content, String answer,
+                       Pass pass) {
             this.room = room;
             this.type = type;
             this.question = question;
             this.content = content;
             this.answer = answer;
+            this.pass = pass;
         }
         public Builder hint(String clue) {
             this.hint = clue;
@@ -74,18 +77,14 @@ public class Quiz extends Timestamped {
             this.chance = hint;
             return this;
         }
-        public Builder imgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
-            return this;
-        }
 
         public Quiz build() {
             return new Quiz(this);
         }
     }
 
-    public void finishedQuiz() {
-        this.question = null;
+    public void endQuiz() {
+        this.pass = Pass.SUCCESS;
     }
 
 

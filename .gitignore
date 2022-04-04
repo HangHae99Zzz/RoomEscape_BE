@@ -42,3 +42,12 @@ application-mysql.properties
 
 ### keystore.p12###
 keystore.p12
+
+###Issue_Template###
+#.github/
+
+
+/logs
+로고.png
+flow chart.png
+

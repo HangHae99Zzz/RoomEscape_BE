@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface RankRepository extends JpaRepository<Rank, Long> {
     List<Rank> findAllByOrderByTimeAsc();
+    List<Rank> findTop12ByOrderByTimeAsc();
 }

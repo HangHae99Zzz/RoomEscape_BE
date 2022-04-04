@@ -3,6 +3,7 @@ package com.project.roomescape.service;
 import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.model.GameResource;
 import com.project.roomescape.model.Room;
+import com.project.roomescape.model.State;
 import com.project.roomescape.model.User;
 import com.project.roomescape.repository.GameResourceRepository;
 import com.project.roomescape.repository.RoomRepository;
@@ -12,8 +13,14 @@ import com.project.roomescape.requestDto.RoomRequestDto;
 import com.project.roomescape.responseDto.RoomResponseDto;
 import com.project.roomescape.responseDto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +29,7 @@ import java.util.Random;
 import static com.project.roomescape.exception.ErrorCode.ROOM_MEMBER_FULL;
 import static com.project.roomescape.exception.ErrorCode.ROOM_NOT_FOUND;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RoomService {
@@ -29,9 +37,11 @@ public class RoomService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final GameResourceRepository gameResourceRepository;
+    // 상수 선언
     private final int ROOM_CAPACITY = 4;
 
     // 방 개설하기 //
+    @Transactional
     public RoomResponseDto createRoom(RoomRequestDto roomRequestDto) {
 
         // roomRepository.save(teamName, createdUser:방장이야 user의 nickName을 저장)
@@ -40,20 +50,21 @@ public class RoomService {
 
         // 방 저장
         Room room = roomRepository.save(new Room(teamName, userId)); // createdUser, 생성자 사용하는 방법 , 순서대로 간다. 이름달라도 된다.
-
         // nickName 부여
-        String nickName = getNickName();
+        String nickName = createNickName();
         String type = "userImg";
-        String img = getImg(type);
+        String img = createImg(type);
 
         // 방장 User 저장
-        User user = User.addUser(room, nickName, img, userId);
+        User user = User.createUser(room, nickName, img, userId);
         userRepository.save(user);
+
+        log.info("roomId : " + room.getId() + "가 개설되었습니다!");
 
         String url = "/room/" + room.getId();
 
         List<UserResponseDto> userList = new ArrayList<>();
-        userList.add(new UserResponseDto(nickName, img));
+        userList.add(new UserResponseDto(nickName, img, userId));
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
@@ -72,11 +83,7 @@ public class RoomService {
         String url = "/room/" + roomId;
 
         // user for문 돌려서 다 찾아서 보내야해
-        List<UserResponseDto> userList = new ArrayList<>();
-        List<User> users = userRepository.findAllByRoomId(roomId);
-        for(User eachUser : users) {
-            userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
-        }
+        List<UserResponseDto> userList = findUserList(roomId);
 
         //roomResponseDto에 해당하는 것들을 다 담아준다
         RoomResponseDto roomResponseDto = new RoomResponseDto(
@@ -89,20 +96,22 @@ public class RoomService {
 
 
     // 방 리스트 조회하기
-    public List<RoomResponseDto> getAllRooms() {
+    public List<RoomResponseDto> getRooms(int page) {
 
         List<RoomResponseDto> roomResponseDtoList = new ArrayList<>();
+        //생성일자 내림차순으로 정렬할 것이다.
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        //페이지의 4배씩 roomlist를 보내준다.
+        int size = page * 4;
+        //항상 0페이지를 내려주는데 사이즈만 4개씩 늘리는 방식으로 내려준다.
+        Pageable pageable = PageRequest.of(0, size, sort);
 
-        List<Room> roomList = roomRepository.findAll();
+        Page<Room> roomList = roomRepository.findAllByState(pageable, State.ACTIVE);
         for(Room eachRoom : roomList){
             String url = "/room/" + eachRoom.getId();
 
             // user for문 돌려서 다 찾아서 보내야해
-            List<UserResponseDto> userList = new ArrayList<>();
-            List<User> users = userRepository.findAllByRoomId(eachRoom.getId());
-            for(User eachUser : users) {
-                userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg()));
-            }
+            List<UserResponseDto> userList = findUserList(eachRoom.getId());
 
             RoomResponseDto roomResponseDto = new RoomResponseDto(
                     eachRoom.getId(), eachRoom.getTeamName(), eachRoom.getCreatedUser(),
@@ -113,9 +122,17 @@ public class RoomService {
         return roomResponseDtoList;
     }
 
+    public List<UserResponseDto> findUserList(Long roomId) {
+        List<UserResponseDto> userList = new ArrayList<>();
+        List<User> users = userRepository.findAllByRoomId(roomId);
+        for(User eachUser : users) {
+            userList.add(new UserResponseDto(eachUser.getNickName(), eachUser.getImg(), eachUser.getUserId()));
+        }
+        return userList;
+    }
 
     // 방 참여하기
-    public void addMember(Long roomId, RoomAddRequestDto roomAddRequestDto) {
+    public void joinRoom(Long roomId, RoomAddRequestDto roomAddRequestDto) {
         // 방 찾기
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
@@ -127,7 +144,7 @@ public class RoomService {
             // nickName 부여
             String userId = roomAddRequestDto.getUserId();
             List<User> userList = room.getUserList();
-            String nickName = getNickName();
+            String nickName = createNickName();
 
             // nickName 중복확인
             List<String> nickNameList = new ArrayList<>();
@@ -135,29 +152,31 @@ public class RoomService {
                 nickNameList.add(user.getNickName());
             }
             while (nickNameList.contains(nickName)) {
-                nickName = getNickName();
+                nickName = createNickName();
             }
 
             String type = "userImg";
-            String img = getImg(type);
+            String img = createImg(type);
             // img 중복확인
             List<String> imgList = new ArrayList<>();
             for (User user : userList) {
                 imgList.add(user.getImg());
             }
             while (imgList.contains(img)) {
-                img = getImg(type);
+                img = createImg(type);
             }
 
             // user 정보를 해당 room에 추가
             // user 저장
-            User user = User.addUser(room, nickName, img, userId);
+            User user = User.createUser(room, nickName, img, userId);
             userRepository.save(user);
+
+            log.info(userId + "가 " + roomId + "에 참여하였습니다!");
         }
     }
 
 
-    public String getNickName() {
+    public String createNickName() {
         // User에 nickNameList 만들기
         List<String> nickNameList = new ArrayList<>(Arrays.asList(
                 "잠자는", "졸고있는", "낮잠자는", "꿈꾸는", "가위눌린", "침 흘리는", "잠꼬대하는"));
@@ -171,7 +190,7 @@ public class RoomService {
         return nickNameList.get(num1) + " " + nickNameList2.get(num2);
     }
 
-    public String getImg(String type) {
+    public String createImg(String type) {
         List<GameResource> gameResourceList = gameResourceRepository.findAllByType(type);
 
         Random random = new Random();
