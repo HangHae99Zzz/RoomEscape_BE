@@ -81,7 +81,7 @@ public class QuizService {
 
         // 시침이 앞으로 돌면 a + b, 뒤로 돌면 a - b
         int ans = (q) ? a + (b - 96) : a - (b - 96);
-        if (ans < 0) ans += CLOCKTIME;
+        if (ans <= 0) ans += CLOCKTIME;
         if (ans > CLOCKTIME) ans -= CLOCKTIME;
         String answer = String.valueOf(ans);
         Pass pass = Pass.FAIL;
