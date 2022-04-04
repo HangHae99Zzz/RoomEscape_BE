@@ -289,13 +289,19 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 <details markdown="3">
 <summary>게임 플레이 중 동시성 제어 문제</summary>
   
-### ✅ 문제상황 → 📍 Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려줌!
+### ✅ 문제상황
 
 ```
 📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
-📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
-📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 더 이상 문제가 풀리지 않도록 socket 이벤트로 해결한 퀴즈타입 전달
 ```
+  
+### 📍 Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려주자!
+
+```
+📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
+📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 이벤트를 활용해 이미 푼 문제로 변경
+```
+  
 </details>
 
 <details markdown="4">
@@ -352,7 +358,8 @@ Github Actions를 이용하여 배포 자동화를 구축하기로 결정
 @Mock으로 만들려면 when().thenReturn()같은 메서드를 반드시 명시해줘야하는데 테스트시 정확한 RoomId를 알아내는 것이 불가능.  
 ->when().thenReturn() 메서드 작동 안함.
 📑 통합 테스트에서 DI 방법으로 생성자 주입 방식(@RequiredArgsConstructor)안되는 이유는  
-difference in autowire handling between Spring and Spring integration with JUnit때문.
+difference in autowire handling between Spring and Spring integration with JUnit때문.  
+즉, JUNIT5가 DI를 스스로 지원하기 때문에 생성자나 lombok 방식으로 DI가 되질 않음.
 
 ```
 
@@ -361,11 +368,43 @@ difference in autowire handling between Spring and Spring integration with JUnit
 ```
 📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
 ->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
-📑 통합테스트에서 DI 방법으로 @Autowired 방식 선택.
+📑 통합테스트에서 DI 방법으로 생성자 주입 방식말고 @Autowired 방식 선택.
 
 ```
 
 </details>
+
+<details markdown="6">
+<summary>Quiz 랜덤 문제</summary>
+  
+### ✅ 요구사항
+
+```
+📑 게임성을 위해 동일한 Quiz라도 Quiz의 답이 랜덤으로 정해지게 하자!
+📑 그렇지만 해당 방 안에서는 같은 문제가 보여야 함
+```  
+  
+### ✅ 문제상황 
+
+```
+📑 방마다 다른 값으로 Quiz가 구성되도록 퀴즈 생성 알고리즘에 Random을 포함하면서,
+   Quiz 조회 API가 요청될 때마다 Quiz를 새로 생성 → Quiz 클릭 시 매번 Quiz가 달라지는 문제 발생
+
+📍 방마다 같은 문제가 보이려면 DB에 저장 필요!!
+```
+  
+### ✅ 해결방안 
+  
+```
+📑 방 안에서만 동일한 문제를 보여주기 위해 방 마다 생성된 Quiz를 DB에 저장
+📑 Quiz를 생성하는 API가 호출되는 시점은 방 개설이 아닌 게임 시작 이후가 적절하다고 판단
+   : 방 개설 때 Quiz 생성하면 방만 만들고 게임을 시작하지 않았을 경우 추가 처리 필요
+📑 방의 유저 중 한 명이 Quiz 오브젝트를 클릭했을 때 DB에 해당 Quiz가 없으면 생성, 있으면 조회하도록 구현 
+   : 이미 게임 시작 때 API가 여러 개 호출되고 있어서 요청을 분산시키기 위함
+```
+  
+</details>
+  
 
 <br />
 
