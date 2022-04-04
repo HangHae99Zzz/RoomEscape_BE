@@ -156,6 +156,7 @@ Ref: 참고할 이슈가 있을 때
 <br>
 ✅ errorCode는 httpStatus마다 일련번호를 붙인다("httpStatus_number")  ex) "400_3", "404_4"
 
+[Error Code 보기](https://github.com/HangHae99Zzz/RoomEscape_BE/blob/main/src/main/java/com/project/roomescape/exception/ErrorCode.java)
 </details>
 
 <br />
