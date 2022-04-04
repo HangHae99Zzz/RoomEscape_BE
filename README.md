@@ -96,11 +96,9 @@
 
 ### 📍 네이밍 Convention
 
-  ✅ 폴더명은 소문자, Class명은 첫 글자 대문자
-  <br>
-  ✅ Method는 lowerCamelCase을 사용하고, 동사나 전치사로 시작한다. ex) get/set, init, is/has/can, create, find, to, A-By-B …
-  <br>
-  ✅ JUnit Test Method : Method명_테스트상태_기대행위  ex) isAdult_AgeLessThan18_False
+  - 폴더명은 소문자, Class명은 첫 글자 대문자
+  - Method는 lowerCamelCase을 사용하고, 동사나 전치사로 시작한다. ex) get/set, init, is/has/can, create, find, to, A-By-B …
+  - JUnit Test Method : Method명_테스트상태_기대행위  ex) isAdult_AgeLessThan18_False
 </details>
 
 <details markdown="2">
@@ -150,13 +148,14 @@ Ref: 참고할 이슈가 있을 때
 <details markdown="1">
 <summary>Error 관리</summary>
 <br>
-✅ 모든 에러는 Error Code로 관리
-<br>
-✅ Error Code마다 httpStatus / errorCode / errorMessage 작성
-<br>
-✅ errorCode는 httpStatus마다 일련번호를 붙인다("httpStatus_number")  ex) "400_3", "404_4"
 
-[Error Code 보기](https://github.com/HangHae99Zzz/RoomEscape_BE/blob/main/src/main/java/com/project/roomescape/exception/ErrorCode.java)
+✅ 모든 에러는 Error Code로 관리
+- Error Code마다 httpStatus / errorCode / errorMessage 작성
+- ErrorCode는 httpStatus마다 일련번호를 붙인다("httpStatus_number")  ex) "400_3", "404_4"
+
+<br>
+
+✅ [Error Code 보기](https://github.com/HangHae99Zzz/RoomEscape_BE/blob/main/src/main/java/com/project/roomescape/exception/ErrorCode.java)
 </details>
 
 <br />
@@ -166,11 +165,17 @@ Ref: 참고할 이슈가 있을 때
 <details markdown="1">
 <summary>브렌치 관리</summary>
 <br>
-✅ 개인별 브렌치(gaeun, kyuwon, wonjae)에서 작업 후 테스트 통과 확인한 후에 push → main으로 PR
+
+✅ 개인별 브렌치(gaeun, kyuwon, wonjae)에서 작업
+- push 전에 테스트코드를 통과하는지 확인하기
+- 팀원에게 변경된 사항 공유 후 main에 PR
+- 개인별 브렌치는 main을 pull하여 변경된 최신사항 업데이트
+
 <br>
+✅ NodeJS는 별도의 Repository에서 관리하며, main에 바로 push/pull
+<br><br>
 ✅ 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
-<br>
-✅ nodeJS는 별도의 Repository에서 관리하며, main에서 작업 진행
+
 <br />
 </details>
 
@@ -178,12 +183,15 @@ Ref: 참고할 이슈가 있을 때
 <details markdown="1">
 <summary>이슈 관리</summary>
 <br>
-✅ issue template 사용 : bug, feature
-<br>
-✅ issue 작성 내용 중 변경사항이 있는 경우에는 해당 글에 comment나 별도 이슈 생성
+
+✅ 새로운 Issue가 생기면 먼저 GitHub Issues에 생성
+- bug, feature 중 해당되는 Issue template 사용
+- issue 작성 내용 중 변경사항이 있는 경우에는 해당 글에 comment나 별도 이슈로 생성하여 업데이트
+
+
 <br>
 ✅ 완료된 이슈는 commit Resolves 사용해서 Close
-<br>
+<br><br>
 ✅ 관련된 이슈가 많을 경우에는 Milestones를 사용해서 관리
 
 </details>
