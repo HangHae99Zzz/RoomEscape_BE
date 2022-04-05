@@ -1,6 +1,5 @@
 'use strict';
 // create and run Web Socket connection
-//웹소켓은 프로토콜이기 때문에 ws://를 사용한다. 웹소켓 연결을 시작한다. 나중에 여유되면 wss(보안)프로토콜을 한번 도전해봅시다.
 const socket = new WebSocket("wss://" + window.location.host + "/signal");
 
 // UI elements
@@ -40,28 +39,23 @@ $(function(){
 
 function start() {
     // add an event listener for a message being received
-    //서버로부터 받는 메시지.
     socket.onmessage = function(msg) {
-        //받은 메시지를 String에서 Json으로 변환.
         let message = JSON.parse(msg.data);
         switch (message.type) {
             case "text":
                 log('Text message from ' + message.from + ' received: ' + message.data);
                 break;
 
-            //SDP offer를 서버로부터 받은 경우
             case "offer":
                 log('Signal OFFER received');
                 handleOfferMessage(message);
                 break;
 
-            //    SDP answer를 받은 경우
             case "answer":
                 log('Signal ANSWER received');
                 handleAnswerMessage(message);
                 break;
 
-            //    ice후보들을 받은 경우
             case "ice":
                 log('Signal ICE Candidate received');
                 handleNewICECandidateMessage(message);
@@ -77,11 +71,9 @@ function start() {
         }
     };
 
-    //소켓에 최초 접근시 실행.
     // add an event listener to get to know when a connection is open
     socket.onopen = function() {
         log('WebSocket connection opened to Room: #' + localRoom);
-        //조인 메시지 보냄.
         // send a message to the server to join selected room with Web Socket
         sendToServer({
             from: localUserName,
@@ -205,13 +197,11 @@ function getMedia(constraints) {
 function handlePeerConnection(message) {
     createPeerConnection();
     getMedia(mediaConstraints);
-    //만들어진 방에 실제로 참가자가 join한다면 SDP Offer를 보내는 작업 실시.
     if (message.data === "true") {
         myPeerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
     }
 }
 
-//피어 연결 과정(ICE후보들을 서버한테 보내고 등등을 한다)
 function createPeerConnection() {
     myPeerConnection = new RTCPeerConnection(peerConnectionConfig);
 
@@ -251,7 +241,6 @@ function handleGetUserMediaError(error) {
     stop();
 }
 
-//서버한테 ICE후보들을 보냄.
 // send ICE candidate to the peer through the server
 function handleICECandidateEvent(event) {
     if (event.candidate) {
@@ -273,8 +262,6 @@ function handleTrackEvent(event) {
 // 1. create a WebRTC offer
 // 2. set local media description
 // 3. send the description as an offer on media format, resolution, etc
-
-//SDP Offer를 보냅니다.
 function handleNegotiationNeededEvent() {
     myPeerConnection.createOffer().then(function(offer) {
         return myPeerConnection.setLocalDescription(offer);
@@ -293,18 +280,15 @@ function handleNegotiationNeededEvent() {
         });
 }
 
-//정확히는 잘 모르겠지만 SDP offer를 받은 후 그에 맞게 클라이언트 미디어에서 설정 같은거 설정할거 설정하고 answer만들어서 서버에 보냄.
 function handleOfferMessage(message) {
     log('Accepting Offer Message');
     log(message);
     let desc = new RTCSessionDescription(message.sdp);
     //TODO test this
-    //SDP offer 메시지가 존재하면 실행
     if (desc != null && message.sdp != null) {
         log('RTC Signalling state: ' + myPeerConnection.signalingState);
         myPeerConnection.setRemoteDescription(desc).then(function () {
             log("Set up local media stream");
-            // 현재 연결된 미디어 하드웨어(카메라, 마이크)의 설정을 다루겠다.(아마도?)
             return navigator.mediaDevices.getUserMedia(mediaConstraints);
         })
             .then(function (stream) {
@@ -357,7 +341,6 @@ function handleAnswerMessage(message) {
     myPeerConnection.setRemoteDescription(message.sdp).catch(handleErrorMessage);
 }
 
-//ICe 후보들 추가.
 function handleNewICECandidateMessage(message) {
     let candidate = new RTCIceCandidate(message.candidate);
     log("Adding received ICE candidate: " + JSON.stringify(candidate));

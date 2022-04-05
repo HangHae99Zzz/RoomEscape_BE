@@ -14,7 +14,6 @@ createOfferButton.addEventListener('click', createOffer);
 
 async function createOffer() {
     outputTextarea.value = '';
-    //https://developer.mozilla.org/ko/docs/Web/API/RTCPeerConnection/RTCPeerConnection 참고하기.
     const peerConnection = new RTCPeerConnection(null);
     const acx = new AudioContext();
     const dst = acx.createMediaStreamDestination();

@@ -1,9 +1,10 @@
-package com.project.roomescape.handler;
+package com.project.roomescape.socket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.project.roomescape.domain.Room;
+import com.project.roomescape.domain.RoomService;
 import com.project.roomescape.domain.WebSocketMessage;
-import com.project.roomescape.model.Room;
-import com.project.roomescape.service.RoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,8 @@ import java.util.Optional;
 
 @Component
 public class SignalHandler extends TextWebSocketHandler {
-    @Autowired
-    private RoomService roomService;
-    // 로그 기록
+    @Autowired private RoomService roomService;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ObjectMapper objectMapper = new ObjectMapper();
 
