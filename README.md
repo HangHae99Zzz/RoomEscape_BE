@@ -179,7 +179,7 @@ Ref: 참고할 이슈가 있을 때
 <details markdown="1">
 <summary>1대1 P2P연결 시연 모습</summary>  
 
-![image](https://user-images.githubusercontent.com/70055619/161780584-a3577fe0-d144-4651-9f23-7b7495d81b84.png)
+![image](https://user-images.githubusercontent.com/70055619/161802137-4faa21e9-63d9-49ea-9619-0bc7f27eb499.png)
 </details>
 <br />
 <br>
