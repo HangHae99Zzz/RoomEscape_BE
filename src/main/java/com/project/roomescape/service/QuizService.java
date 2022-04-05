@@ -40,13 +40,16 @@ public class QuizService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
 
+        //해당 room와 quiztype에 맞는 quiz를 찾아옵니다.
         Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+        //이미 생성된 퀴즈가 존재한다면 그 퀴즈를 ResponseDto에 담아줍니다.
         if(temporary.isPresent()) {
             Quiz quiz = temporary.get();
             quizResponseDto = new QuizResponseDto(
                     quiz.getQuestion(), quiz.getContent(), quiz.getHint(),
                     quiz.getChance(), quiz.getAnswer(), quiz.getPass());
         }
+        //생성된 퀴즈가 없다면 각각 퀴즈타입에 맞는 생성 메서드를 수행합니다.
         else {
             if (quizType.equals("Aa")) quizResponseDto = createQuizAa(room, quizType);
             if (quizType.equals("Ab")) quizResponseDto = createQuizAb(room, quizType);
@@ -297,12 +300,14 @@ public class QuizService {
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
         Quiz quiz;
 
+        //room과 quiztype에 해당되는 퀴즈를 찾아옵니다.
         Optional<Quiz> tempQuiz = quizRepository.findByRoomAndType(room, quizType);
         if(tempQuiz.isPresent()) {
             quiz = tempQuiz.get();
         } else {
             throw new CustomException(QUIZ_NOT_FOUND);
         }
+        //찾아온 퀴즈에서 pass값을 SUCCESS로 바꾸고 다시 저장합니다.
         quiz.endQuiz();
         quizRepository.save(quiz);
     }
