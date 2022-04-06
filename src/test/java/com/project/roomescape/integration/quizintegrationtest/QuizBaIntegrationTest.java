@@ -93,7 +93,7 @@ public class QuizBaIntegrationTest {
                 .jsonPath("$.question").isEqualTo("비밀번호")
                 .jsonPath("$.content").isEqualTo("HackerRoom")
                 .jsonPath("$.hint").isEqualTo("포스터들을 눈여겨 보세요")
-                .jsonPath("$.chance").isEqualTo("r = 5")
+                .jsonPath("$.chance").isEqualTo("H = 0, r = 5")
                 .jsonPath("$.answer").isNotEmpty()
                 .jsonPath("$.pass").isEqualTo("FAIL");
 
