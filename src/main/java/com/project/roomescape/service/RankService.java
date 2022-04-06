@@ -47,13 +47,13 @@ public class RankService {
             // 랭크 전체조회 컨트롤러가 실행
             for(int i = 0; i < rankList.size(); i++) {
                 tempList.add(rankList.get(i));
-                // index top 10개까지만 추가
+                // index top 10개까지만 추가(0부터 11까지 총12개)
                 if(i == 11) break;
             }
         }
         // 질문!!!!! 왜 옮겨줘야하나요? 그냥 밑에꺼부터는 tempList를 for문 돌려서 하면 안되나요?
         // 질문!!!!! tempList에서 rankList로 옮기면 tempList에 5개나 혹은 10개만 들어있는데
-        // 질문!!!!! rankList는 위에서 전체 모든 랭킹을 다 갖고있었는데 전체에서 5개나 혹은 10개로 수량이 바뀌는건가요?
+        // 질문!!!!! rankList는 위에서 전체 모든 랭킹을 다 갖고있었는데 전체에서 5개나 혹은 10개로 수량이 바뀌는건가요?  ok
         //tempList를 rankList로 옮겨준다.
         rankList = tempList;
 
