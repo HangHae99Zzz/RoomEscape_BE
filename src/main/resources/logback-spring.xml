@@ -72,11 +72,13 @@
     </appender>
 
     <!-- root레벨 설정 -->
-    <root level="${LOG_LEVEL}">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="Error"/>
-    </root>
-
+    <springProfile name="prod">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+        <root level="${LOG_LEVEL}">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="Error"/>
+        </root>
+    </springProfile>
 </configuration>
 
