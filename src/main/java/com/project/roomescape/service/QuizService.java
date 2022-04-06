@@ -37,13 +37,16 @@ public class QuizService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
 
+        // 해당 방 + quizType의 Quiz가 존재하지 않을 수도 있기 때문에 Optional로 Quiz를 찾는다.
         Optional<Quiz> temporary = quizRepository.findByRoomAndType(room, quizType);
+        // Quiz가 있다면 DB에 저장된 값을 찾아서 Dto에 담아 return한다.
         if(temporary.isPresent()) {
             Quiz quiz = temporary.get();
             quizResponseDto = new QuizResponseDto(
                     quiz.getQuestion(), quiz.getContent(), quiz.getHint(),
                     quiz.getChance(), quiz.getAnswer(), quiz.getPass());
         }
+        // Quiz가 없다면 해당 quizType에 따라 새로 Quiz를 만든다.
         else {
             if (quizType.equals("Aa")) quizResponseDto = createQuizAa(room, quizType);
             if (quizType.equals("Ab")) quizResponseDto = createQuizAb(room, quizType);
@@ -54,6 +57,7 @@ public class QuizService {
         return quizResponseDto;
     }
 
+    // quizType Aa 생성하기
     @Transactional
     public QuizResponseDto createQuizAa(Room room, String quizType) {
         Random random = new Random();
@@ -65,12 +69,14 @@ public class QuizService {
         // 97(a) ~ 108(l) 중 랜덤
         char b = (char) (random.nextInt(CLOCKTIME) + 97);
         boolean q = random.nextBoolean();
+
+        // 랜덤으로 나온 q에 따라 direction 결정
         String direction = (q) ? "앞으로" : "거꾸로";
 
+        // content
         StringBuilder sb = new StringBuilder();
         sb.append("어제 ").append(a).append("시에 잔거 같다. 시간이 ").append(direction)
                 .append(" 돌고 있어. ").append(b).append("라고 써있는 거 같은데, 지금 몇시지?");
-
         String content = sb.toString();
 
         String hint = null;
@@ -81,8 +87,11 @@ public class QuizService {
         if (ans < 0) ans += CLOCKTIME;
         if (ans > CLOCKTIME) ans -= CLOCKTIME;
         String answer = String.valueOf(ans);
+
+        // 문제 생성했을 때는 FAIL을 기본값으로 지정
         Pass pass = Pass.FAIL;
-//        퀴즈 저장.
+
+        // 퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .build();
@@ -90,6 +99,7 @@ public class QuizService {
         return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
+    // quizType Ab 생성하기
     @Transactional
     public QuizResponseDto createQuizAb(Room room, String quizType) {
         Random random = new Random();
@@ -97,13 +107,13 @@ public class QuizService {
         String answer;
         List<String> arr = new ArrayList<>();
         int temp;
-//        짝수들
+        // 짝수들
         List<Integer> even = new ArrayList<Integer>() {{
             add(0);
             add(2);
             add(4);
         }};
-//      홀수들
+        // 홀수들
         List<Integer> odd = new ArrayList<Integer>() {{
             add(1);
             add(3);
@@ -113,17 +123,17 @@ public class QuizService {
         int[] count = {0, 0, 0, 0, 0, 0};
 
         String question = "바이러스에 걸린 컴퓨터를 구할 숫자는?";
-//첫번째 시작이 짝수이냐 홀수이냐를 결정하기 위한 랜덤값.
+        // 첫번째 시작이 짝수이냐 홀수이냐를 결정하기 위한 랜덤값.
         int standard1 = random.nextInt(2);
         int standard2;
 
-//        첫번쨰 숫자가 짝수인 경우
+        // 첫번쨰 숫자가 짝수인 경우
         if(standard1 % 2 == 0) {
             for (int i = 0; i < 15; i++) {
                 temp = random.nextInt(even.size());
-//                슷자에 해당되는 카운트를 하나 올려준다.
+                // 슷자에 해당되는 카운트를 하나 올려준다.
                 count[even.get(temp)]++;
-//                문제를 만든다.
+                // 문제를 만든다.
                 arr.add(String.valueOf(even.get(temp)));
                 if(count[even.get(temp)] == 5) {
                     even.remove(temp);
@@ -155,7 +165,7 @@ public class QuizService {
             }
         }
 
-//        ?가 들어갈 위치 선정.
+        // ?가 들어갈 위치 선정.
         standard1 = random.nextInt(30);
         if(standard1 % 2 == 0) {
             standard2 = random.nextInt(15) * 2 + 1;
@@ -163,27 +173,27 @@ public class QuizService {
             standard2 = random.nextInt(15) * 2;
         }
 
-//      standard1이 항상 standard2보다 작게끔 만든다.
+        // standard1이 항상 standard2보다 작게끔 만든다.
         if(standard1 > standard2) {
             temp = standard1;
             standard1 = standard2;
             standard2 = temp;
         }
 
-//        정답.
+        // 정답.
         answer = arr.get(standard1) + ", " + arr.get(standard2);
 
-//        정답이 들어가는 부분 숫자에서 ?로 바꾼다.
+        // 정답이 들어가는 부분 숫자에서 ?로 바꾼다.
         arr.set(standard1, "?1");
         arr.set(standard2, "?2");
-//      list형식을 하나의 String으로 바꿔준다.
+        // list형식을 하나의 String으로 바꿔준다.
         content = arr.toString();
 
         String hint = null;
         String chance = "홀짝";
         Pass pass = Pass.FAIL;
 
-        //        퀴즈 저장.
+        // 퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .build();
@@ -193,6 +203,7 @@ public class QuizService {
 
     }
 
+    // quizType Ba 생성하기
     @Transactional
     public QuizResponseDto createQuizBa(Room room, String quizType) {
         List<Clue> clueList = clueRepository.findAllByRoomId(room.getId());
@@ -201,12 +212,14 @@ public class QuizService {
         Long clueB = 0L;
         String clueC = "";
 
+        // 해당 방의 clue를 찾아와서 변수로 지정
         for (Clue clue : clueList) {
             if (clue.getType().equals("Ba1")) clueA = Long.valueOf(clue.getContent());
             if (clue.getType().equals("Ba2")) clueB = Long.valueOf(clue.getContent());
             if (clue.getType().equals("Ba3")) clueC = clue.getContent();
         }
-        // 5016
+
+        // 정답을 계산하기 전에 우선 Clue들을 계산
         Long clueABC = (clueC.equals("+")) ? clueA + clueB : Math.abs(clueA - clueB);
 
         String question = "비밀번호";
@@ -216,13 +229,19 @@ public class QuizService {
         String chance = "H = 0, r = 5";
 
         String answer = "";
-        // [5, 0, 1, 6]
+
+        // clueABC를 자리별로 끊어서 int[]로 만듦
         int[] arr = Stream.of(String.valueOf(clueABC).split("")).mapToInt(Integer::parseInt).toArray();
+
+        // content의 해당 자리수를 찾아서 answer로 저장
         for (int i = 0; i < arr.length; i++) {
             answer += content.charAt(arr[i]);
         }
+
+        // Quiz 생성시 pass는 FAIL을 기본값으로 지정
         Pass pass = Pass.FAIL;
-        //        퀴즈 저장.
+
+        // 퀴즈 저장.
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .hint(hint)
@@ -231,16 +250,13 @@ public class QuizService {
         return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
+    // quizType Bb 생성하기
     @Transactional
     public QuizResponseDto createQuizBb(Room room, String quizType){
 
-
         String question = "이제 꿈에서 깨어날 시간입니다.";
-
         String content = "";
-
         String chance = "3글자";
-
         String hint = "그림에 적혀있는 물건 속에 비밀번호가 들어있습니다.";
 
         String answer = "7799";
@@ -255,7 +271,7 @@ public class QuizService {
     }
 
 
-    //  ㄱㄴㄷㅁ 퀴즈
+    // quizType Ca 생성하기
     @Transactional
     public QuizResponseDto createQuizCa(Room room, String quizType){
         Random random = new Random();
@@ -294,19 +310,22 @@ public class QuizService {
         return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
-
+    // Quiz 완료하기
     @Transactional
     public void endQuiz(Long roomId, String quizType) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CustomException(ROOM_NOT_FOUND));
         Quiz quiz;
 
+        // 해당 방의 Quiz를 찾아옴
         Optional<Quiz> tempQuiz = quizRepository.findByRoomAndType(room, quizType);
         if(tempQuiz.isPresent()) {
             quiz = tempQuiz.get();
         } else {
             throw new CustomException(QUIZ_NOT_FOUND);
         }
+
+        // 해당 Quiz 완료 처리
         quiz.endQuiz();
         quizRepository.save(quiz);
     }

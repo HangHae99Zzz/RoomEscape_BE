@@ -43,7 +43,6 @@ public class GameService {
         // teamName 찾기
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
-
         String teamName = room.getTeamName();
 
         // time 찾기
@@ -53,7 +52,10 @@ public class GameService {
         int userNum = room.getUserList().size();
 
         // 게임 종료 처리
+        // dto에 값을 기준으로 SUCCESS 혹은 FAIL을 pass 변수로 지정
         Pass pass = (rankRequestDto.isPass()) ? Pass.SUCCESS : Pass.FAIL;
+
+        // 해당 방에 pass와 userNum 변수를 저장한다.
         room.endGame(pass, (long) userNum);
 
         log.info(roomId + "는 탈출에 " + pass + "하였습니다!");
@@ -70,10 +72,14 @@ public class GameService {
 
     }
 
+    // 게임 시작하기
     public void startGame(Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+        // 현재시간을 밀리세컨즈로 해당 방 startAt 변수에 지정한다.
         room.setStartAt(System.currentTimeMillis());
+
         roomRepository.save(room);
         log.info(roomId + "의 게임이 시작되었습니다!");
     }
