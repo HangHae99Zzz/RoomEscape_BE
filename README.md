@@ -176,23 +176,16 @@ Ref: 참고할 이슈가 있을 때
 <br><br>
 ✅ 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
 
-<br />
-<br>
-✅ springRTC 브랜치는 spring을 기반으로 webRTC를 구현함.   
-다만 1대1 P2P연결은 성공하였으나 N:N 연결이 되지 않는다는 한계가 존재함.   
-이후에 Spring이 아닌 Node.js의 socket.io를 활용하게 되는 계기가 됨.
+#### [springRTC](https://github.com/HangHae99Zzz/RoomEscape_BE/tree/springRTC) 
+- springRTC 브랜치는 spring을 기반으로 webRTC를 구현함.   
+- 다만 1대1 P2P연결은 성공하였으나 N:N 연결이 되지 않는다는 한계가 존재함.   
+- 이후에 Spring이 아닌 Node.js의 socket.io를 활용하게 되는 계기가 됨.
 
-<details markdown="1">
-<summary>1대1 P2P연결 시연 모습</summary>  
+#### [redis](https://github.com/HangHae99Zzz/RoomEscape_BE/tree/redis)
+- redis 브랜치는 redis를 부분적으로 적용해보는 브랜치임.   
+- 팀 프로젝트 기간 제한 때문에 제대로 적용하지 못하였으나 spring으로 redis에 Clue객체를 저장하고 불러오는 것은 성공함.   
+<br />
 
-![image](https://user-images.githubusercontent.com/70055619/161802137-4faa21e9-63d9-49ea-9619-0bc7f27eb499.png)
-</details>
-<br />
-<br>
-✅ redis 브랜치는 redis를 필요한 부분에 적용해보는 브랜치임.   
-팀 프로젝트 기간 제한 때문에 제대로 적용하지 못하였으나 spring으로 redis에 Clue객체를 저장하고 불러오는 것은 성공함.   
-추후에 계속 업데이트 예정.
-<br />
 </details>
 
 
