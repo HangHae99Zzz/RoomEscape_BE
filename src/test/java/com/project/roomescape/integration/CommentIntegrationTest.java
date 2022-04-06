@@ -30,7 +30,7 @@ public class CommentIntegrationTest {
     @Order(1)
     @DisplayName("코멘트 입력하기")
     @Transactional
-    void createComment() {
+    void createComment_OneComment_CreateOneComment() {
         CommentRequestDto commentRequestDto = new CommentRequestDto("임시 코멘트");
 
         webTestClient.post().uri("/comments")
@@ -39,8 +39,10 @@ public class CommentIntegrationTest {
                 .exchange()
                 .expectStatus().isOk();
 
+        //실제로 db에서 코멘트를 찾아옵니다.
         List<Comment> commentList = commentRepository.findAll();
 
+        //실제 찾아온 코멘트의 내용이 내가 post로 보낸 body와 일치하는지 확인합니다.
         assertEquals(commentList.size(), 1);
         assertEquals(commentList.get(0).getComment(), "임시 코멘트");
     }

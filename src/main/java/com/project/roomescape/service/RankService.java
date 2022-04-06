@@ -15,9 +15,9 @@ public class RankService {
 
     private final RankRepository rankRepository;
 
-    // 전체 랭킹 조회하기 & 게임종료 후 랭킹 5개 조회하기 : 2가지 컨트롤러를 이 한번으로 처리함
+    // time을 기준으로 전체 랭킹 조회하기(상위 Top10) & 게임종료 후 5개 조회하기(현재 방의 랭킹을 기준으로 위아래 2개씩해서 총 5개) : 2가지 컨트롤러를 이 한번으로 처리함
     public List<RankResponseDto> getRanks(Long roomId) {
-        // 반환할 responseDtoList
+        // 반환할 responseDtoList 선언
         List<RankResponseDto> rankResponseDtoList = new ArrayList<>();
         // 모든 ranklist를 찾고 (게임 플레이시간이 작은순으로 정렬)
         List<Rank> rankList = rankRepository.findAllByOrderByTimeAsc();
@@ -34,37 +34,41 @@ public class RankService {
                     break;
                 }
             }
-            // i를 중심으로 +-2해서 총 5개의 배열을 하나씩 list에 담아준다
-            // 현재에서 -2 순위
+            // i를 중심으로 +-2해서 총 5개의 배열을 찾아서 templist에 추가해준다
             tempList.add(rankList.get(i - 2));
-            // 현재에서 -1 순위
             tempList.add(rankList.get(i - 1));
-            // 현재  roomId에 해당하는 rank의 index
             tempList.add(rankList.get(i));
-            // 현재에서 +1 순위
             tempList.add(rankList.get(i + 1));
-            // 현재에서 +2 순위
             tempList.add(rankList.get(i + 2));
+            // 질문!!!!! 밑에 tempRankList에 5개를 지정했고 밑에서 사용하는데, 그럼 위에 5줄은 사용하지 않는 건가요?
             // 순위만 저장하기 (실제 랭크는 무조건 index에서 1 차감한 값이다)
             tempRankList = new int[] {i - 3, i - 2, i - 1, i, i + 1};
         } else {
+            // 랭크 전체조회 컨트롤러가 실행
             for(int i = 0; i < rankList.size(); i++) {
                 tempList.add(rankList.get(i));
+                // index top 10개까지만 추가
                 if(i == 11) break;
             }
         }
+        // 질문!!!!! 왜 옮겨줘야하나요? 그냥 밑에꺼부터는 tempList를 for문 돌려서 하면 안되나요?
+        // 질문!!!!! tempList에서 rankList로 옮기면 tempList에 5개나 혹은 10개만 들어있는데
+        // 질문!!!!! rankList는 위에서 전체 모든 랭킹을 다 갖고있었는데 전체에서 5개나 혹은 10개로 수량이 바뀌는건가요?
         //tempList를 rankList로 옮겨준다.
         rankList = tempList;
 
+        // 질문!!!! 위에서 10개까지만 찾아서 rankList에 넣어줘서 가짜 들 4개 빼면 10개가 안되는거 아닌가요?
         // 임의값 제거 (가짜 1 2 등 가짜 꼴지 1 2 등) : db에만 보여주고 실제로는 안보이게 할 거여서
-        for (int i = 0; i < rankList.size() ; i++) {   //
-
+        for (int i = 0; i < rankList.size() ; i++) {
+            // 랭크 전체조회 컨트롤러 실행
             if (roomId == -1) {
+                // 가짜 1 2 등 이나 가짜 꼴찌 1 2 등과 같으면 무시하고 for문을 돌아라
                 if (rankList.get(i).getTime().equals("00:00:00")
                         || rankList.get(i).getTime().equals("99:99:99")) {
                     continue;
                 }
             }
+            // 질문!!!! 왜 실제 랭크는 무조건 index에서 1 차감한 값인가요....?
             //실제 랭크는 무조건 index에서 1 차감한 값이다.
             Long rank = (roomId > 0) ? tempRankList[i] : i - 1L;
             // 해당 인덱스에서 보낼 것들을 찾는다

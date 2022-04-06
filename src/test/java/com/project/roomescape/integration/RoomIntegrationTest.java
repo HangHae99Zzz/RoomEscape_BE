@@ -43,7 +43,7 @@ public class RoomIntegrationTest {
     @Test
     @Order(1)
     @DisplayName("방 개설하기")
-    void createRoom(){
+    void createRoom_OneRoom_CreateOneRoom(){
 
         String teamName = "테스트팀";
         String userId = "테스트유저ID";
@@ -82,11 +82,13 @@ public class RoomIntegrationTest {
     @Order(2)
     @DisplayName("방 조회하기")
     @Transactional
-    void getRoom() {
+    void getRoom_OneRoom_GetOneRoom() {
+        //실제로 room을 DB에서 가져옵니다.
         Optional<Room> temp = roomRepository.findById(1L);
         Room room = temp.get();
 
 
+        //실제 get요청시 response 값과 db에서 찾아온 room정보가 일치하는지 확인합니다.
         webTestClient.get().uri("/rooms/{roomId}", 1)
                 .exchange()
                 .expectStatus().isOk()
@@ -106,10 +108,11 @@ public class RoomIntegrationTest {
     @Order(3)
     @DisplayName("방 참여하기")
     @Transactional
-    void addMember() {
+    void joinRoom_OneRoom_JoinOneRoom() {
 
         String userId = "테스트참가유저ID";
         RoomAddRequestDto roomAddRequestDto = new RoomAddRequestDto(userId);
+
         GameResource gameResource1 = new GameResource("userImg", "임시url1");
         GameResource gameResource2 = new GameResource("userImg", "임시url2");
         GameResource gameResource3 = new GameResource("userImg", "임시url3");
@@ -131,7 +134,8 @@ public class RoomIntegrationTest {
         Optional<Room> temp = roomRepository.findById(1L);
         Room room = temp.get();
 
-        //collection은 기본적으로 lazy-loaded이기 때문에 @Transactional을 붙여준다.
+        //collection(userList)은 기본적으로 lazy-loaded이기 때문에 @Transactional을 붙여준다.
+        //실제로 방 참여로 room의 size가 2가 되었는지 체크합니다. 그리고 참가한 유저가 userlist에 제대로 들어갔는지 확인합니다.
         assertEquals(room.getUserList().size(), 2);
         assertEquals(room.getUserList().get(1).getUserId(), "테스트참가유저ID");
 
@@ -142,8 +146,9 @@ public class RoomIntegrationTest {
     @Test
     @Order(4)
     @DisplayName("방 리스트 조회하기")
-    void getAllRooms() {
+    void getRooms_AllRooms_GetAllRooms() {
 
+        //get요청시 실제로 roomlist가 제대로 나오는지 체크합니다.
         webTestClient.get().uri("/rooms/pages/{page}", 1)
                 .exchange()
                 .expectStatus().isOk()

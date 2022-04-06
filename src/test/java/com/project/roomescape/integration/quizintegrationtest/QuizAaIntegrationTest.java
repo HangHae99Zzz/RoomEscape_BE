@@ -53,7 +53,7 @@ public class QuizAaIntegrationTest {
     @Test
     @Order(1)
     @DisplayName("방 개설하기")
-    void createRoom(){
+    void createRoom_OneRoom_CreateOneRoom(){
 
         String teamName = "테스트팀";
         String userId = "테스트유저ID";
@@ -93,7 +93,8 @@ public class QuizAaIntegrationTest {
     @Test
     @Order(2)
     @DisplayName("퀴즈 Aa 생성하기")
-    void getQuizAa(){
+    void createQuiz_QuizTypeAa_CreateQuizAa(){
+
         // when
         webTestClient.get().uri("/rooms/{roomId}/quizzes/{quizType}", 1, "Aa")
                 .exchange()
@@ -112,7 +113,8 @@ public class QuizAaIntegrationTest {
     @Test
     @Order(3)
     @DisplayName("퀴즈 Aa 불러오기")
-    void getSameQuizAa(){
+    void getQuiz_QuizTypeAa_GetQuizAa(){
+        //실제로 테스트시 저장해둔 Aa 퀴즈를 찾아옵니다.
         Optional<Room> room = roomRepository.findById(1L);
         Optional<Quiz> temporary = quizRepository.findByRoomAndType(room.get(), "Aa");
         QuizResponseDto quizResponseDto = new QuizResponseDto();
@@ -123,6 +125,7 @@ public class QuizAaIntegrationTest {
                     quiz.getChance(), quiz.getAnswer(), quiz.getPass());
         }
 
+        //직접 찾아온 Aa퀴즈 정보와 get요청을 통해 얻게된 퀴즈 정보가 같은지 비교합니다.
         webTestClient.get().uri("/rooms/{roomId}/quizzes/{quizType}", 1, "Aa")
                 .exchange()
                 .expectStatus().isOk()
@@ -139,18 +142,17 @@ public class QuizAaIntegrationTest {
     @Test
     @Order(4)
     @DisplayName("퀴즈 완료시키기")
-    void finishedQuiz() {
+    void endQuiz_QuizTypeAa_EndQuizAa() {
 
         webTestClient.put().uri("/rooms/{roomId}/quizzes/{quizType}", 1, "Aa")
                 .exchange()
                 .expectStatus().isOk();
 
+        //put 요청 이후에 실제로 퀴즈의 pass값이 success로 바뀌었는지 체크합니다.
         Optional<Room> room = roomRepository.findById(1L);
         Optional<Quiz> quiz = quizRepository.findByRoomAndType(room.get(),"Aa");
 
         assertEquals(quiz.get().getPass(), Pass.SUCCESS);
 
     }
-
-
 }

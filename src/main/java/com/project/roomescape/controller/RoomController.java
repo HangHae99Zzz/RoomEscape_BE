@@ -16,11 +16,15 @@ public class RoomController {
 
     private final RoomService roomService;
 
+
+
     @ApiOperation(value = "Room 개설하기")
     @PostMapping("/rooms")
     public RoomResponseDto createRoom(@RequestBody RoomRequestDto roomRequestDto) {
         return roomService.createRoom(roomRequestDto);
     }
+
+
 
     @ApiOperation(value = "Room 조회하기")
     @GetMapping("/rooms/{roomId}")
@@ -28,11 +32,15 @@ public class RoomController {
         return roomService.getRoom(roomId);
     }
 
+
+
     @ApiOperation(value = "Room 참여하기")
     @PostMapping("/rooms/{roomId}")
     public void joinRoom(@PathVariable Long roomId, @RequestBody RoomAddRequestDto roomAddRequestDto) {
         roomService.joinRoom(roomId, roomAddRequestDto);
     }
+
+
 
     @ApiOperation(value = "Room 리스트 조회하기")
     @GetMapping("/rooms/pages/{page}")

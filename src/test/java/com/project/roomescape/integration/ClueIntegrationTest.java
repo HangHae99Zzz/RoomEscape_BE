@@ -33,7 +33,7 @@ public class ClueIntegrationTest {
     @Test
     @Order(1)
     @DisplayName("게임시작하기")
-    void startGame(){
+    void startGame_OneRoom_StartGameAndCreateClue(){
         Room room = new Room("테스트팀", "테스트유저ID");
 
         when(mockRoomRepository.findById(1L)).thenReturn(Optional.of(room));
@@ -47,9 +47,11 @@ public class ClueIntegrationTest {
     @Test
     @Order(2)
     @DisplayName("Ba1 clue 조회하기")
-    void getBa1Clue(){
+    void getClue_ClueTypeBa1_GetClueBa1(){
+        //만든 clue를 찾아옵니다.
         Clue clue = clueRepository.findByRoomIdAndType(1L, "Ba1");
 
+        //get요청으로 받은 response와 실제 찾아온 clue가 같은지 비교합니다.
         webTestClient.get().uri("/rooms/{roomId}/clues/{clueType}", 1, "Ba1")
                 .exchange()
                 .expectStatus().isOk()
@@ -61,7 +63,7 @@ public class ClueIntegrationTest {
     @Test
     @Order(3)
     @DisplayName("Ba2 clue 조회하기")
-    void getBa2Clue(){
+    void getClue_ClueTypeBa2_GetClueBa2(){
         Clue clue = clueRepository.findByRoomIdAndType(1L, "Ba2");
 
         webTestClient.get().uri("/rooms/{roomId}/clues/{clueType}", 1, "Ba2")
@@ -75,7 +77,7 @@ public class ClueIntegrationTest {
     @Test
     @Order(4)
     @DisplayName("Ba3 clue 조회하기")
-    void getBa3Clue(){
+    void getClue_ClueTypeBa3_GetClueBa3(){
         Clue clue = clueRepository.findByRoomIdAndType(1L, "Ba3");
 
         webTestClient.get().uri("/rooms/{roomId}/clues/{clueType}", 1, "Ba3")
@@ -89,8 +91,9 @@ public class ClueIntegrationTest {
     @Test
     @Order(5)
     @DisplayName("DB에 존재하지 않는 clue 조회하기")
-    void getClue(){
+    void getClue_ClueTypeAA_GetClueAA(){
 
+        //DB에 존재하지 않는 타입인 AA 유형을 요청함으로써 제대로 응답이 오는지 확인.
         webTestClient.get().uri("/rooms/{roomId}/clues/{clueType}", 1, "AA")
                 .exchange()
                 .expectStatus().isOk()
