@@ -6,7 +6,7 @@
     <springProperty scope="context" name="LOG_LEVEL" source="logging.level.root"/>
 
     <!-- log file path -->
-    <property name="LOG_PATH" value="logs"/>
+    <property name="LOG_PATH" value="/home/ubuntu/zzz-project/logs"/>
     <!-- log file name -->
     <property name="LOG_FILE_NAME" value="log"/>
     <!-- err log file name -->

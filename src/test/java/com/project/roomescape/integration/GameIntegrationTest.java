@@ -5,6 +5,8 @@ import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.requestDto.RankRequestDto;
 import com.project.roomescape.requestDto.RoomRequestDto;
+import com.project.roomescape.responseDto.repository.*;
+import com.project.roomescape.service.repository.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

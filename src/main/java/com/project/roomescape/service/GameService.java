@@ -6,6 +6,8 @@ import com.project.roomescape.model.*;
 import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.requestDto.RankRequestDto;
+import com.project.roomescape.responseDto.repository.*;
+import com.project.roomescape.service.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
