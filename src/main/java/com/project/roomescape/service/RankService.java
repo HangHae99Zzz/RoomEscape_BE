@@ -19,45 +19,40 @@ public class RankService {
     public List<RankResponseDto> getRanks(Long roomId) {
         // 반환할 responseDtoList 선언
         List<RankResponseDto> rankResponseDtoList = new ArrayList<>();
-        // 모든 ranklist를 찾고 (게임 플레이시간이 작은순으로 정렬)
-        List<Rank> rankList = rankRepository.findAllByOrderByTimeAsc();
+        // 모든 templist를 찾고 (게임 플레이시간이 작은순으로 정렬)
+        List<Rank> tempList = rankRepository.findAllByOrderByTimeAsc();
         //5개의 배열을 담을 새로운 ArrayList 또는 10개의 배열을 담을 새로운 ArrayList
-        List<Rank> tempList = new ArrayList();
+        List<Rank> rankList = new ArrayList();
         int[] tempRankList = new int[5];
         // *** roomId가 있으면 : 0보다 크면 roomId가 있는거고 게임종료 후 랭킹 5개 조회하기 컨트롤러가 실행됨
         if (roomId > 0) {
             // i를 밑에 for문 말고 여기서 선언해줘야 빼서 쓸수가 있다.
             int i;
             // 특정한 roomId랑 같은 rank의 인덱스를 찾는다
-            for (i = 0; i < rankList.size(); i++) {
-                if (rankList.get(i).getRoomId().equals(roomId)) {
+            for (i = 0; i < tempList.size(); i++) {
+                if (tempList.get(i).getRoomId().equals(roomId)) {
                     break;
                 }
             }
-            // i를 중심으로 +-2해서 총 5개의 배열을 찾아서 templist에 추가해준다
-            tempList.add(rankList.get(i - 2));
-            tempList.add(rankList.get(i - 1));
-            tempList.add(rankList.get(i));
-            tempList.add(rankList.get(i + 1));
-            tempList.add(rankList.get(i + 2));
-            // 질문!!!!! 밑에 tempRankList에 5개를 지정했고 밑에서 사용하는데, 그럼 위에 5줄은 사용하지 않는 건가요?
+            // i를 중심으로 +-2해서 총 5개의 배열을 찾아서 ranklist에 추가해준다
+            rankList.add(tempList.get(i - 2));
+            rankList.add(tempList.get(i - 1));
+            rankList.add(tempList.get(i));
+            rankList.add(tempList.get(i + 1));
+            rankList.add(tempList.get(i + 2));
+
             // 순위만 저장하기 (실제 랭크는 무조건 index에서 1 차감한 값이다)
             tempRankList = new int[] {i - 3, i - 2, i - 1, i, i + 1};
         } else {
             // 랭크 전체조회 컨트롤러가 실행
-            for(int i = 0; i < rankList.size(); i++) {
-                tempList.add(rankList.get(i));
-                // index top 10개까지만 추가
+            // 상위 12개만 rankList에 담기
+            for(int i = 0; i < tempList.size(); i++) {
+                rankList.add(tempList.get(i));
                 if(i == 11) break;
             }
         }
-        // 질문!!!!! 왜 옮겨줘야하나요? 그냥 밑에꺼부터는 tempList를 for문 돌려서 하면 안되나요?
-        // 질문!!!!! tempList에서 rankList로 옮기면 tempList에 5개나 혹은 10개만 들어있는데
-        // 질문!!!!! rankList는 위에서 전체 모든 랭킹을 다 갖고있었는데 전체에서 5개나 혹은 10개로 수량이 바뀌는건가요?
-        //tempList를 rankList로 옮겨준다.
-        rankList = tempList;
 
-        // 질문!!!! 위에서 10개까지만 찾아서 rankList에 넣어줘서 가짜 들 4개 빼면 10개가 안되는거 아닌가요?
+        // dto에 담기
         // 임의값 제거 (가짜 1 2 등 가짜 꼴지 1 2 등) : db에만 보여주고 실제로는 안보이게 할 거여서
         for (int i = 0; i < rankList.size() ; i++) {
             // 랭크 전체조회 컨트롤러 실행
@@ -68,7 +63,7 @@ public class RankService {
                     continue;
                 }
             }
-            // 질문!!!! 왜 실제 랭크는 무조건 index에서 1 차감한 값인가요....?
+
             //실제 랭크는 무조건 index에서 1 차감한 값이다.
             Long rank = (roomId > 0) ? tempRankList[i] : i - 1L;
             // 해당 인덱스에서 보낼 것들을 찾는다
