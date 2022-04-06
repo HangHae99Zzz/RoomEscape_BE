@@ -2,15 +2,17 @@ package com.project.roomescape.service;
 
 import com.project.roomescape.exception.CustomException;
 import com.project.roomescape.exception.ErrorCode;
-import com.project.roomescape.model.*;
+import com.project.roomescape.model.GameResource;
+import com.project.roomescape.model.Pass;
+import com.project.roomescape.model.Rank;
+import com.project.roomescape.model.Room;
 import com.project.roomescape.repository.*;
 import com.project.roomescape.requestDto.GameResourceRequestDto;
 import com.project.roomescape.requestDto.RankRequestDto;
-import com.project.roomescape.responseDto.repository.*;
-import com.project.roomescape.service.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 @Slf4j
