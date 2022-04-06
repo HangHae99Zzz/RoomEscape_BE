@@ -44,8 +44,10 @@ public class RankIntegrationTest {
         ranks.add(rank5);
         ranks.add(rank6);
 
+        //랭킹들을 먼저 저장합니다.
         rankRepository.saveAll(ranks);
 
+        //실제 랭킹들이 제대로 잘 저장되었는지 get요청을 통해 확인합니다.
         webTestClient.get().uri("/ranks")
                 .exchange()
                 .expectStatus().isOk()
@@ -73,6 +75,7 @@ public class RankIntegrationTest {
     void getRanks_FiveRanksAndTwoMocks_GetFiveRanksAndTwoMocks(){
 
 
+        //get요청시 실제 랭킹 순서대로 잘 나오는지 확입합니다.
         webTestClient.get().uri("/ranks/{roomId}", 4)
                 .exchange()
                 .expectStatus().isOk()
@@ -104,9 +107,11 @@ public class RankIntegrationTest {
     @Order(2)
     @DisplayName("랭킹 5개 조회하기(00:00:00 하나만 들어가는 경우)")
     void getRanks_FiveRanksAndOneMock_GetFiveRanksAndOneMock(){
+        //새로운 랭크값을 DB에 넣어줌으로써 5개를 조회했을 때 00:00:00이 하나만 조회되게끔 합니다.
         Rank rank7 = new Rank("진짜팀3", "02:00:00", 5L, 2);
         rankRepository.save(rank7);
 
+        //새로운 랭크를 중심으로 위아래 2개씩 조회합니다.
         webTestClient.get().uri("/ranks/{roomId}", 5)
                 .exchange()
                 .expectStatus().isOk()

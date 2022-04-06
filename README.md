@@ -96,11 +96,9 @@
 
 ### 📍 네이밍 Convention
 
-  ✅ 폴더명은 소문자, Class명은 첫 글자 대문자
-  <br>
-  ✅ Method는 lowerCamelCase을 사용하고, 동사나 전치사로 시작한다. ex) get/set, init, is/has/can, create, find, to, A-By-B …
-  <br>
-  ✅ JUnit Test Method : Method명_테스트상태_기대행위  ex) isAdult_AgeLessThan18_False
+  - 폴더명은 소문자, Class명은 첫 글자 대문자
+  - Method는 lowerCamelCase을 사용하고, 동사나 전치사로 시작한다. ex) get/set, init, is/has/can, create, find, to, A-By-B …
+  - JUnit Test Method : Method명_테스트상태_기대행위  ex) isAdult_AgeLessThan18_False
 </details>
 
 <details markdown="2">
@@ -150,12 +148,14 @@ Ref: 참고할 이슈가 있을 때
 <details markdown="1">
 <summary>Error 관리</summary>
 <br>
-✅ 모든 에러는 Error Code로 관리
-<br>
-✅ Error Code마다 httpStatus / errorCode / errorMessage 작성
-<br>
-✅ errorCode는 httpStatus마다 일련번호를 붙인다("httpStatus_number")  ex) "400_3", "404_4"
 
+✅ 모든 에러는 Error Code로 관리
+- Error Code마다 httpStatus / errorCode / errorMessage 작성
+- ErrorCode는 httpStatus마다 일련번호를 붙인다("httpStatus_number")  ex) "400_3", "404_4"
+
+<br>
+
+✅ [Error Code 보기](https://github.com/HangHae99Zzz/RoomEscape_BE/blob/main/src/main/java/com/project/roomescape/exception/ErrorCode.java)
 </details>
 
 <br />
@@ -165,11 +165,33 @@ Ref: 참고할 이슈가 있을 때
 <details markdown="1">
 <summary>브렌치 관리</summary>
 <br>
-✅ 개인별 브렌치(gaeun, kyuwon, wonjae)에서 작업 후 테스트 통과 확인한 후에 push → main으로 PR
+
+✅ 개인별 브렌치(gaeun, kyuwon, wonjae)에서 작업
+- push 전에 테스트코드를 통과하는지 확인하기
+- 팀원에게 변경된 사항 공유 후 main에 PR
+- 개인별 브렌치는 main을 pull하여 변경된 최신사항 업데이트
+
 <br>
+✅ NodeJS는 별도의 Repository에서 관리하며, main에 바로 push/pull
+<br><br>
 ✅ 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
+
+<br />
 <br>
-✅ nodeJS는 별도의 Repository에서 관리하며, main에서 작업 진행
+✅ springRTC 브랜치는 spring을 기반으로 webRTC를 구현함.   
+다만 1대1 P2P연결은 성공하였으나 N:N 연결이 되지 않는다는 한계가 존재함.   
+이후에 Spring이 아닌 Node.js의 socket.io를 활용하게 되는 계기가 됨.
+
+<details markdown="1">
+<summary>1대1 P2P연결 시연 모습</summary>  
+
+![image](https://user-images.githubusercontent.com/70055619/161802137-4faa21e9-63d9-49ea-9619-0bc7f27eb499.png)
+</details>
+<br />
+<br>
+✅ redis 브랜치는 redis를 필요한 부분에 적용해보는 브랜치임.   
+팀 프로젝트 기간 제한 때문에 제대로 적용하지 못하였으나 spring으로 redis에 Clue객체를 저장하고 불러오는 것은 성공함.   
+추후에 계속 업데이트 예정.
 <br />
 </details>
 
@@ -177,12 +199,15 @@ Ref: 참고할 이슈가 있을 때
 <details markdown="1">
 <summary>이슈 관리</summary>
 <br>
-✅ issue template 사용 : bug, feature
-<br>
-✅ issue 작성 내용 중 변경사항이 있는 경우에는 해당 글에 comment나 별도 이슈 생성
+
+✅ 새로운 Issue가 생기면 먼저 GitHub Issues에 생성
+- bug, feature 중 해당되는 Issue template 사용
+- issue 작성 내용 중 변경사항이 있는 경우에는 해당 글에 comment나 별도 이슈로 생성하여 업데이트
+
+
 <br>
 ✅ 완료된 이슈는 commit Resolves 사용해서 Close
-<br>
+<br><br>
 ✅ 관련된 이슈가 많을 경우에는 Milestones를 사용해서 관리
 
 </details>
@@ -193,7 +218,9 @@ Ref: 참고할 이슈가 있을 때
 
 <details markdown="1">
 <summary>아키텍처</summary>
-  <img src="https://user-images.githubusercontent.com/97428216/160459796-c7f708e3-712a-4f33-9578-5c0f46db0acb.png">
+  <img src="https://user-images.githubusercontent.com/97428216/161915642-9e937b04-a72b-44b1-980b-f0ff1ec45f88.png"> 
+  
+  [해당 아키텍처를 도입하게 된 배경](https://living-ladybug-fd9.notion.site/0cf5b3927f274a2b9e417104328da9bd)
 </details>
 
 <details markdown="2">
