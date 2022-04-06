@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -14,12 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClueController {
 
     private final ClueService clueService;
-
-    @ApiOperation(value = "Clue 생성하기")
-    @PostMapping("/rooms/{roomId}/clues")
-    public void createClue(@PathVariable Long roomId) {
-        clueService.createClue(roomId);
-    }
 
     @ApiOperation(value = "Clue 조회하기")
     @GetMapping("/rooms/{roomId}/clues/{clueType}")

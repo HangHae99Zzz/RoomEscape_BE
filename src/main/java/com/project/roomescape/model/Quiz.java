@@ -87,8 +87,4 @@ public class Quiz extends Timestamped {
         this.pass = Pass.SUCCESS;
     }
 
-
-
-
-
 }

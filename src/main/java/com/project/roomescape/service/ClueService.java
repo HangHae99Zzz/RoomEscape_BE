@@ -1,7 +1,6 @@
 package com.project.roomescape.service;
 
 import com.project.roomescape.model.Clue;
-import com.project.roomescape.model.Quiz;
 import com.project.roomescape.repository.ClueRepository;
 import com.project.roomescape.responseDto.ClueResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Slf4j
@@ -29,13 +27,17 @@ public class ClueService {
 
         // clue 생성해서 List에 담기
         List<Clue> clueList = new ArrayList<>();
+
+        // Ba3에 랜덤으로 들어갈 값 : + 혹은 -
         String[] arr = new String[]{"+", "-"};
 
+        // Ba1, Ba2, Ba3 clue를 생성하여 clueList에 담기
+        // Random을 사용하여 값이 랜덤으로 들어가도록 구현
         clueList.add(new Clue(roomId, "Ba1", String.valueOf(random.nextInt(3999) + 1000)));
         clueList.add(new Clue(roomId, "Ba2", String.valueOf(random.nextInt(3999) + 1000)));
         clueList.add(new Clue(roomId, "Ba3", arr[random.nextInt(1)]));
 
-        // List 저장하기
+        // clueList 저장하기
         clueRepository.saveAll(clueList);
 
         log.info(roomId + "의 Clue가 생성되었습니다!");

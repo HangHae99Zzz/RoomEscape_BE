@@ -7,5 +7,4 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     void deleteUserByRoomId(Long roomId);
     List<User> findAllByRoomId(Long roomId);
-
 }
