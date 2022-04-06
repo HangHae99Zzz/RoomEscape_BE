@@ -218,7 +218,9 @@ Ref: 참고할 이슈가 있을 때
 
 <details markdown="1">
 <summary>아키텍처</summary>
-  <img src="https://user-images.githubusercontent.com/97428216/160459796-c7f708e3-712a-4f33-9578-5c0f46db0acb.png">
+  <img src="https://user-images.githubusercontent.com/97428216/161915642-9e937b04-a72b-44b1-980b-f0ff1ec45f88.png"> 
+  
+  [해당 아키텍처를 도입하게 된 배경](https://living-ladybug-fd9.notion.site/0cf5b3927f274a2b9e417104328da9bd)
 </details>
 
 <details markdown="2">
