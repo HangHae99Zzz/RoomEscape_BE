@@ -104,7 +104,7 @@ public class RankIntegrationTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     @DisplayName("랭킹 5개 조회하기(00:00:00 하나만 들어가는 경우)")
     void getRanks_FiveRanksAndOneMock_GetFiveRanksAndOneMock(){
         //새로운 랭크값을 DB에 넣어줌으로써 5개를 조회했을 때 00:00:00이 하나만 조회되게끔 합니다.
