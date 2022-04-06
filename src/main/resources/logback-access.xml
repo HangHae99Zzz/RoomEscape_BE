@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
+<!--    debug -->
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 
     <appender name="CONSOLE-ACCESS" class="ch.qos.logback.core.ConsoleAppender">
