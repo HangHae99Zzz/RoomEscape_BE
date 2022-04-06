@@ -43,12 +43,14 @@ public class GameService {
         // roomId와 같은 room을 찾는다(예외처리)
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
         // teamName 찾기
         String teamName = room.getTeamName();
         // time 찾기
         String time = rankRequestDto.getTime();
         // userNum찾기
         int userNum = room.getUserList().size();
+
 
         // 게임 성공시 pass가 true, 게임 실패시 pass가 false
         // requestDto로 받은 pass가 true면 SUCCESS, pass가 false면 FAIL
@@ -74,11 +76,13 @@ public class GameService {
     }
 
 
-    // 게임 시작하기  // 게임시작시간을 새로 변경 후 저장하는거라 PutMapping 사용
+    // 게임 시작하기
+    // 게임시작시간을 새로 변경 후 저장하는거라 PutMapping 사용
     public void startGame(Long roomId) {
         // roomId로 room을 찾는다(예외처리)
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(()-> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
         // startAt을 현재시각(밀리세컨드 단위로)으로 변경한다
         room.setStartAt(System.currentTimeMillis());
         // repository에 저장한다
