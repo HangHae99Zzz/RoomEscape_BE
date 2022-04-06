@@ -19,7 +19,7 @@ if [ ! -z ${TARGET_PID} ]; then
   sudo kill ${TARGET_PID}
 fi
 # 터미널 엑세스가 끊겨도 실행한 프로세스가 계속 동작하도록 nohup으로 실행시킨다
-sudo nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.config.location=/home/ubuntu/zzz-project/build/libs/application-aws.properties -Dspring.profiles.active=prod -Dlogging.level.root=info /home/ubuntu/zzz-project/build/libs/RoomEscape-0.0.1-SNAPSHOT.jar > /home/ubuntu/zzz-project/build/libs/nohup$(date +%Y)-$(date +%m)-$(date +%d)-$(date +%H):$(date +%M).out 2>&1 &
+sudo nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.config.location=/home/ubuntu/zzz-project/build/libs/application-aws.properties -Dlogging.level.root=info /home/ubuntu/zzz-project/build/libs/RoomEscape-0.0.1-SNAPSHOT.jar > /home/ubuntu/zzz-project/build/libs/nohup$(date +%Y)-$(date +%m)-$(date +%d)-$(date +%H):$(date +%M).out 2>&1 &
 # 새로운 WAS를 띄운다
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0
