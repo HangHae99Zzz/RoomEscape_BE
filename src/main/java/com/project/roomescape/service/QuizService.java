@@ -242,20 +242,25 @@ public class QuizService {
     // quizType Bb 생성하기
     @Transactional
     public QuizResponseDto createQuizBb(Room room, String quizType){
-
+        // 마지막 최종 문제로서 5문제중 4문제를 맞춰야 이 문제를 풀 수 있다.
         final String QUESTION = "이제 꿈에서 깨어날 시간입니다.";
+        // 비밀번호가 있는 장소가 글씨를 섞어놓은 그림으로 주어지기 때문에 content는 따로 없다.
         final String CONTENT = "";
+        // 비밀번호가 있는 장소가 적힌 글씨는 총 3글자이다.
         final String CHANCE = "3글자";
         final String HINT = "그림에 적혀있는 물건 속에 비밀번호가 들어있습니다.";
+        // 최종 그림에 적힌 장소에 가면 7799라는 비밀번호를 알 수 있다.
         final String ANSWER = "7799";
-
+        // 게임종료해야 Pass.SUCCESS가 된다.
         Pass pass = Pass.FAIL;
-        // 퀴즈 저장
+        // 퀴즈 인스턴스에 다 담아서
         Quiz quiz = new Quiz.Builder(room, quizType, QUESTION, CONTENT, ANSWER, pass)
                 .hint(HINT)
                 .chance(CHANCE)
                 .build();
+        // Repository에 저장해준다
         quizRepository.save(quiz);
+        // 반환할 ResponseDto에 해당하는 것들을 담아 반환해준다
         return new QuizResponseDto(QUESTION, CONTENT, HINT, CHANCE, ANSWER, pass);
     }
 
@@ -263,50 +268,55 @@ public class QuizService {
     // quizType Ca 생성하기
     @Transactional
     public QuizResponseDto createQuizCa(Room room, String quizType){
+        // 랜덤으로 문제와 답을 생성할거라 Random 함수를 선언
         Random random = new Random();
-
+        // 문제를 담을 arrayList를 선언
         ArrayList<String> questionList = new ArrayList<String>();
+        // ㄱ,ㄴ,ㄷ,ㅁ를 순서대로 담아준다
         questionList.add("ㄱ");
         questionList.add("ㄴ");
         questionList.add("ㄷ");
         questionList.add("ㅁ");
-        // questionList에서 랜덤으로 문제 가져오기
+        // questionList에서 랜덤으로 4문제 가져오기
         int num1 = random.nextInt(questionList.size());
         int num2 = random.nextInt(questionList.size());
         int num3 = random.nextInt(questionList.size());
         int num4 = random.nextInt(questionList.size());
+        // 랜덤으로 생성된 번호에 해당하는 문제를 a,b,c,d에 차례로 넣어준다
         String a = questionList.get(num1);
         String b = questionList.get(num2);
         String c = questionList.get(num3);
         String d = questionList.get(num4);
         String e = "?";
-
+        // +연산자 대신하여 StringBuilder 함수를 사용하여 문제를 구성해준다
         StringBuilder sb = new StringBuilder();
         sb.append(a).append(b).append(c).append(d).append(e);
-
         String question = sb.toString();
 
-
+        // img 파일로 content를 대신한다
         String content = null;
+        // 너무 어렵지 않은 문제라 따로 hint는 없다
         String hint = null;
+        // 문제를 푸는 방향을 알려준다
         String chance = "낫 놓고...";
-
+        // arrayList가 순서대로 담긴다는 특성을 살려서 문제에 해당하는 정답으로 순서에 맞게 변경해준다("ㄱ"->"G", "ㄴ"->"C", ...)
         questionList.set(0, "G");
         questionList.set(1, "C");
         questionList.set(2, "F");
         questionList.set(3, "E");
-
+        // +연산자를 대신하여 StringBuilder 함수를 사용하여 정답을 구성해준다
         StringBuilder sb2 = new StringBuilder();
         sb2.append(questionList.get(num1)).append(questionList.get(num2)).append(questionList.get(num3)).append(questionList.get(num4));
-
         String answer = sb2.toString();
-
+        // 게임종료를 해야 pass가 SUCCESS로 바뀌기 때문에 FAIL의 값을 준다
         Pass pass = Pass.FAIL;
-        // 퀴즈 저장
+        // 퀴즈 인스턴스에 다 담아서
         Quiz quiz = new Quiz.Builder(room, quizType, question, content, answer, pass)
                 .chance(chance)
                 .build();
+        // Repository에 저장해준다
         quizRepository.save(quiz);
+        // 반환할 ResponseDto에 해당하는 것들을 담아 반환해준다
         return new QuizResponseDto(question, content, hint, chance, answer, pass);
     }
 
