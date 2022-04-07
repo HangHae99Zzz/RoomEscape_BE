@@ -27,6 +27,8 @@
 - 프론트엔드 GitHub Repository : https://github.com/HangHae99Zzz/dream_escape-fe
 - 백엔드 GitHub Respository(NodeJS) : https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS
 
+<br>
+📂 백엔드의 고민과 공부 기록은 → https://github.com/HangHae99Zzz/RoomEscape_BE.wiki.git
 <br />
 
 ## ✨ 주요 기능
@@ -519,3 +521,6 @@ difference in autowire handling between Spring and Spring integration with JUnit
   ```
   
   </details>
+
+<br>
+
