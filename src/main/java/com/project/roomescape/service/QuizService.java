@@ -297,7 +297,7 @@ public class QuizService {
         String content = null;
         // 너무 어렵지 않은 문제라 따로 hint는 없다
         String hint = null;
-        // 문제를 푸는 방향을 알려준다
+        // 문제를 푸는 방향을 알려준다. 낫 놓고 기역자도 모른다는 속담을 가져옴
         String chance = "낫 놓고...";
         // arrayList가 순서대로 담긴다는 특성을 살려서 문제에 해당하는 정답으로 순서에 맞게 변경해준다("ㄱ"->"G", "ㄴ"->"C", ...)
         questionList.set(0, "G");
