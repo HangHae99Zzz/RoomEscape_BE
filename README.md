@@ -299,7 +299,7 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 
 <br>
   
-### 해결방안 1️⃣ nodeJS → Client →← Spring → ⚠️ 에러 발생
+### 해결방안 1️⃣ nodeJS → Client →← Spring
   
 > 📑 nodeJS에서 disconnect시 event를 통해 disconnect된 유저의 socket.id를 Client로 보냄
 >
@@ -307,6 +307,7 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 > 
 > 📑 유저가 1명 남았는데 disconnect가 되면 Client가 없으므로 nodeJS에서 DB로 쿼리를 보냄
   
+ 
 #### ⚠️ Client에서 동시에 여러 번 업데이트/삭제 요청이 발생하여 에러 발생!! 
 #### ---→ ❕ DB에 한 번만 요청하자!
 
