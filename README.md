@@ -254,28 +254,36 @@ Rest API URI 설계규칙을 따른다.
 <details markdown="1">
 <summary>WebRTC 서버 구축 문제</summary>
 
-### ✅ P2P(signalling server) vs MCU/SFU → 📍 signalling server를 구축하자!
-4명까지 보이스 채팅이 가능한 환경을 만들기 위해 어떤 서버를 사용해야 하는가?
+### ✅ P2P(signalling server) vs MCU/SFU
+
+#### ❓ 4명까지 보이스 채팅이 가능한 환경을 만들기 위해 어떤 서버를 사용해야 하는가?
+#### ---> ❕ signalling server를 구축하자!
 <br>
 
-
-📑 오디오만 사용하고, 4명까지만 연결하기 때문에 signalling server로도 client 부담이 크지 않을 거라고 생각했고,
+> 📑 오디오만 사용하고, 4명까지만 연결하기 때문에 signalling server로도 client 부담이 크지 않을 거라고 생각했고,
 MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단했다.
 
 <br>
 
-### ✅ Springboot vs NodeJS → 📍 NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
-다대다 WebRTC를 위한 signalling server를 어떻게 구현할 것인가?
+### ✅ Springboot vs NodeJS
+
+#### ❓ 다대다 WebRTC를 위한 signalling server를 어떻게 구현할 것인가?
+#### ---> ❕ NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
 <br>
 
-```
-📑 Springboot를 사용하면 하나의 서버만 관리하면 되고, 팀원들 모두가 익숙한 프레임워크를 사용할 수 있다.
-그러나 참고자료가 많지 않다.
-📑 NodeJS를 사용하면 Socket.io 라이브러리를 사용해서 비교적 쉽게 구현이 가능하나,
-서버를 2개 관리해야 되기 때문에 유지관리에 비용이 더 소모되고, 익숙하지 않은 언어와 프레임워크를 사용해야 한다.
-📑 Springboot로 signalling server를 구축하면 시간이 더 오래 걸릴 것으로 예상했고,
-제한된 시간 안에 서비스의 완성도를 높이기 위해서는 NodeJS의 Socket.io를 사용하는 것이 더 적합하다고 판단! 
-```
+> 📑 Springboot를 사용하면 하나의 서버만 관리하면 되고, 팀원들 모두가 익숙한 프레임워크를 사용할 수 있다. 
+> 
+> 그러나 참고자료가 많지 않다.
+> 
+> 📑 NodeJS를 사용하면 Socket.io 라이브러리를 사용해서 비교적 쉽게 구현이 가능하나,
+> 
+> 서버를 2개 관리해야 되기 때문에 유지관리에 비용이 더 소모되고, 익숙하지 않은 언어와 프레임워크를 사용해야 한다.
+> 
+> 📑 Springboot로 signalling server를 구축하면 시간이 더 오래 걸릴 것으로 예상했고,
+> 
+> 제한된 시간 안에 서비스의 완성도를 높이기 위해서는 NodeJS의 Socket.io를 사용하는 것이 더 적합하다고 판단! 
+
+<br>
 </details>
 
 <details markdown="2">
@@ -283,29 +291,33 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
   
 ### ✅ 문제상황
 
-```
-📑 유저가 브라우저를 종료하면 socket.io의 disconnect 이벤트가 발생
-📑 Client는 방장이 나가면 새로운 방장을 알아야한다(방장만 게임 시작 가능!)
-📑 DB에서는 disconnect된 유저 정보를 삭제하고, 방장이 변경된 경우 업데이트 필요
-```
+> 📑 유저가 브라우저를 종료하면 socket.io의 disconnect 이벤트가 발생
+>
+> 📑 Client는 방장이 나가면 새로운 방장을 알아야한다(방장만 게임 시작 가능!)
+>
+> 📑 DB에서는 disconnect된 유저 정보를 삭제하고, 방장이 변경된 경우 업데이트 필요
+
+<br>
   
 ### 해결방안 1️⃣ nodeJS → Client →← Spring → ⚠️ 에러 발생
   
-```
-📑 nodeJS에서 disconnect시 event를 통해 disconnect된 유저의 socket.id를 Client로 보냄
-📑 Client는 Spring으로 HTTP 통신을 통해 socket.id를 넘겨주고, 방장이 바뀐 경우 return 값을 받음
-📑 유저가 1명 남았는데 disconnect가 되면 Client가 없으므로 nodeJS에서 DB로 쿼리를 보냄
+> 📑 nodeJS에서 disconnect시 event를 통해 disconnect된 유저의 socket.id를 Client로 보냄
+>
+> 📑 Client는 Spring으로 HTTP 통신을 통해 socket.id를 넘겨주고, 방장이 바뀐 경우 return 값을 받음
+> 
+> 📑 유저가 1명 남았는데 disconnect가 되면 Client가 없으므로 nodeJS에서 DB로 쿼리를 보냄
   
-  
-⚠️ Client에서 동시에 여러 번 업데이트/삭제 요청이 발생하여 에러 발생!! → 📍 DB에 한 번만 요청하자!
+#### ⚠️ Client에서 동시에 여러 번 업데이트/삭제 요청이 발생하여 에러 발생!! 
+#### ---→ ❕ DB에 한 번만 요청하자!
 
-```
+<br>
 
 ### 해결방안 2️⃣ disconnect와 관련된 모든 DB처리는 nodeJS에서 처리
   
-```
-📑 disconnect시 DB에 필요한 업데이트/삭제 쿼리를 보내고, 방장이 변경되면 event로 해당 방 Client에게 알려줌
-```
+> 📑 disconnect시 DB에 필요한 업데이트/삭제 쿼리를 보내고, 방장이 변경되면 event로 해당 방 Client에게 알려줌
+
+  <br>
+
 </details>
 
 <details markdown="3">
@@ -313,17 +325,17 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
   
 ### ✅ 문제상황
 
-```
-📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
-```
-  
-### 📍 Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려주자!
+> 📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
 
-```
-📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
-📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 이벤트를 활용해 이미 푼 문제로 변경
-```
+  <br>
   
+#### ❕ Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려주자!
+
+> 📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
+>
+> 📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 이벤트를 활용해 이미 푼 문제로 변경
+
+<br> 
 </details>
 
 <details markdown="4">
@@ -331,26 +343,29 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 
 ### ✅ 문제상황
 
-```
-📑 프론트와 백엔드를 합친 이후 예기치 못했던 많은 에러가 발생함
-📑 잦은 에러수정으로 인한 수동 배포에 드는 시간 소모가 점점 많아져 시간 절약을 위하여 배포 자동화 필요
-```
+> 📑 프론트와 백엔드를 합친 이후 예기치 못했던 많은 에러가 발생함
+>
+> 📑 잦은 에러수정으로 인한 수동 배포에 드는 시간 소모가 점점 많아져 시간 절약을 위하여 배포 자동화 필요
 
+<br>
+  
 ### ✅ Travis vs Github Actions
 
-```
-📑 Travis를 더 많이 쓰고 블로그 자료도 많았지만 따로 서버 설치를 해야함
-📑 Github Actions는 별도의 서버 설치없이 Github을 통해 바로 사용이 가능함
-📑 기간이 한정되어 있어서 배포 자동화 구축에 많은 시간을 쏟을 수가 없다
-```
+> 📑 Travis를 더 많이 쓰고 블로그 자료도 많았지만 따로 서버 설치를 해야함
+>
+> 📑 Github Actions는 별도의 서버 설치없이 Github을 통해 바로 사용이 가능함
+>
+> 📑 기간이 한정되어 있어서 배포 자동화 구축에 많은 시간을 쏟을 수가 없다
+
+  <br>
 
 ### ✅ Github Actions로 결정한 이유
 
-```
-📑 Travis를 사용할 만큼 프로젝트의 규모가 크지 않고 서버 설치에 대한 시간제약,
-그리고 Github의 다양한 기능들을 사용해보고 싶었던 마음이 있어서
-Github Actions를 이용하여 배포 자동화를 구축하기로 결정
-```
+
+> 📑 Travis를 사용할 만큼 프로젝트의 규모가 크지 않고 서버 설치에 대한 시간제약, 그리고 Github의 다양한 기능들을 사용해보고 싶었던 마음이 있어서 Github Actions를 이용하여 배포 자동화를 구축하기로 결정
+
+  <br> 
+  
 </details>
 
 <details markdown="5">
@@ -358,41 +373,47 @@ Github Actions를 이용하여 배포 자동화를 구축하기로 결정
 
 ### ✅ 테스트코드를 도입한 이유!
 
-```
-📑 배포 자동화를 도입했기 때문에 검증되지 않은 코드들이 자동으로 배포될 수 있어 차후에 문제 파악 어려움이 존재.  
--> 테스트코드를 통해 사전 검증의 필요성 존재.
-📑 테스트 코드를 통해서 코드 작성시에 고려하지 못했던 case에 대한 확인과 개선이 가능.
-📑 리팩토링시에 빠르게 코드를 검증 가능.
-```
+> 📑 배포 자동화를 도입했기 때문에 검증되지 않은 코드들이 자동으로 배포될 수 있어 차후에 문제 파악 어려움이 존재.  
+>
+> ---> 테스트코드를 통해 사전 검증의 필요성 존재.
+>
+> 테스트 코드를 통해서 코드 작성시에 고려하지 못했던 case에 대한 확인과 개선이 가능.
+>
+> 리팩토링시에 빠르게 코드를 검증 가능.
+
+  <br>
 
 ### ✅ 문제상황
 
-```
-📑 단위 테스트(QuizServiceTimeTest)에서 ClueRepository와 QuizRepository를 @Mock으로 처리하지 못하는 문제 발생.
-📑 통합 테스트에서 DI 방법으로 @RequiredArgsConstructor를 통한 생성자 주입 방식이 적용 안되는 문제 발생.
+> 📑 단위 테스트(QuizServiceTimeTest)에서 ClueRepository와 QuizRepository를 @Mock으로 처리하지 못하는 문제 발생.
+>
+> 📑 통합 테스트에서 DI 방법으로 @RequiredArgsConstructor를 통한 생성자 주입 방식이 적용 안되는 문제 발생.
 
-```
+<br>
 
 ### ✅ 문제 원인
 
-```
-📑 단위 테스트시에 실제 Quizservice에 존재하는 quizRepository.save(roomId)과 clueRepository.findAllByRoomId(room.getId())때문.  
-@Mock으로 만들려면 when().thenReturn()같은 메서드를 반드시 명시해줘야하는데 테스트시 정확한 RoomId를 알아내는 것이 불가능.  
-->when().thenReturn() 메서드 작동 안함.
-📑 통합 테스트에서 DI 방법으로 생성자 주입 방식(@RequiredArgsConstructor)안되는 이유는  
-difference in autowire handling between Spring and Spring integration with JUnit때문.  
-즉, JUNIT5가 DI를 스스로 지원하기 때문에 생성자나 lombok 방식으로 DI가 되질 않음.
+> 📑 단위 테스트시에 실제 Quizservice에 존재하는 quizRepository.save(roomId)과 clueRepository.findAllByRoomId(room.getId())때문.  
+> 
+> @Mock으로 만들려면 when().thenReturn()같은 메서드를 반드시 명시해줘야하는데 테스트시 정확한 RoomId를 알아내는 것이 불가능.  
+> 
+> ---> when().thenReturn() 메서드 작동 안함.
+>
+> 📑 통합 테스트에서 DI 방법으로 생성자 주입 방식(@RequiredArgsConstructor)안되는 이유는 difference in autowire handling between Spring and Spring integration with JUnit때문.
+>
+> 즉, JUNIT5가 DI를 스스로 지원하기 때문에 생성자나 lombok 방식으로 DI가 되질 않음.
 
-```
+<br>
 
 ### ✅ 해결방안
 
-```
-📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
-->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
-📑 통합테스트에서 DI 방법으로 생성자 주입 방식말고 @Autowired 방식 선택.
+> 📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
+>
+> --->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
+>
+> 📑 통합테스트에서 DI 방법으로 생성자 주입 방식말고 @Autowired 방식 선택.
 
-```
+  <br>
 
 </details>
 
@@ -401,29 +422,33 @@ difference in autowire handling between Spring and Spring integration with JUnit
   
 ### ✅ 요구사항
 
-```
-📑 게임성을 위해 동일한 Quiz라도 Quiz의 답이 랜덤으로 정해지게 하자!
-📑 그렇지만 해당 방 안에서는 같은 문제가 보여야 함
-```  
+> 📑 게임성을 위해 동일한 Quiz라도 Quiz의 답이 랜덤으로 정해지게 하자!
+>
+> 📑 그렇지만 해당 방 안에서는 같은 문제가 보여야 함  
+  
+  <br>
   
 ### ✅ 문제상황 
 
-```
-📑 방마다 다른 값으로 Quiz가 구성되도록 퀴즈 생성 알고리즘에 Random을 포함하면서,
-   Quiz 조회 API가 요청될 때마다 Quiz를 새로 생성 → Quiz 클릭 시 매번 Quiz가 달라지는 문제 발생
+> 📑 방마다 다른 값으로 Quiz가 구성되도록 퀴즈 생성 알고리즘에 Random을 포함하면서, Quiz 조회 API가 요청될 때마다 Quiz를 새로 생성 → Quiz 클릭 시 매번 Quiz가 달라지는 문제 발생
 
-📍 방마다 같은 문제가 보이려면 DB에 저장 필요!!
-```
+#### ❕ 방마다 같은 문제가 보이려면 DB에 저장 필요!!
+
+  <br>
   
 ### ✅ 해결방안 
   
-```
-📑 방 안에서만 동일한 문제를 보여주기 위해 방 마다 생성된 Quiz를 DB에 저장
-📑 Quiz를 생성하는 API가 호출되는 시점은 방 개설이 아닌 게임 시작 이후가 적절하다고 판단
-   : 방 개설 때 Quiz 생성하면 방만 만들고 게임을 시작하지 않았을 경우 추가 처리 필요
-📑 방의 유저 중 한 명이 Quiz 오브젝트를 클릭했을 때 DB에 해당 Quiz가 없으면 생성, 있으면 조회하도록 구현 
-   : 이미 게임 시작 때 API가 여러 개 호출되고 있어서 요청을 분산시키기 위함
-```
+> 📑 방 안에서만 동일한 문제를 보여주기 위해 방 마다 생성된 Quiz를 DB에 저장
+>
+> 📑 Quiz를 생성하는 API가 호출되는 시점은 방 개설이 아닌 게임 시작 이후가 적절하다고 판단
+>
+>    : 방 개설 때 Quiz 생성하면 방만 만들고 게임을 시작하지 않았을 경우 추가 처리 필요
+>
+> 📑 방의 유저 중 한 명이 Quiz 오브젝트를 클릭했을 때 DB에 해당 Quiz가 없으면 생성, 있으면 조회하도록 구현 
+>
+>  : 이미 게임 시작 때 API가 여러 개 호출되고 있어서 요청을 분산시키기 위함
+
+  <br>
   
 </details>
   
