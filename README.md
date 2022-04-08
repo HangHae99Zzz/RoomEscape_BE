@@ -258,10 +258,10 @@ Rest API URI 설계규칙을 따른다.
 4명까지 보이스 채팅이 가능한 환경을 만들기 위해 어떤 서버를 사용해야 하는가?
 <br>
 
-```
+
 📑 오디오만 사용하고, 4명까지만 연결하기 때문에 signalling server로도 client 부담이 크지 않을 거라고 생각했고,
 MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단했다.
-```
+
 <br>
 
 ### ✅ Springboot vs NodeJS → 📍 NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
