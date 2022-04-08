@@ -28,7 +28,7 @@
 - 백엔드 GitHub Respository(NodeJS) : https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS
 
 <br>
-📂 백엔드의 고민과 공부 기록은 → https://github.com/HangHae99Zzz/RoomEscape_BE.wiki.git
+📂 백엔드의 고민과 공부 기록은 → https://github.com/HangHae99Zzz/RoomEscape_BE/wiki
 <br />
 
 ## ✨ 주요 기능
