@@ -19,13 +19,16 @@
 - 2022.2.25 ~ 2022.4.9
 - 1차 배포 : 2022.3.30
 
+🎉 5일 동안 550여명의 유저들이 550여개의 방을 만들고, 375팀이 게임을 시작하였으며, 9팀이 탈출에 성공하였습니다!!
+
 <br />
 
 ## 📌 바로가기
-- Project : https://zzz-escape.netlify.app
-- GitHub 메인페이지 : https://github.com/HangHae99Zzz
-- 프론트엔드 GitHub Repository : https://github.com/HangHae99Zzz/dream_escape-fe
-- 백엔드 GitHub Respository(NodeJS) : https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS
+- [Service](https://zzz-escape.netlify.app)
+- [GitHub 메인페이지](https://github.com/HangHae99Zzz)
+- [프론트엔드 GitHub](https://github.com/HangHae99Zzz/dream_escape-fe)
+- [백엔드 GitHub(NodeJS)](https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS)
+- [시연영상](https://youtu.be/4LltjiHHG38)
 
 <br>
 📂 백엔드의 고민과 공부 기록은 → https://github.com/HangHae99Zzz/RoomEscape_BE/wiki
@@ -95,8 +98,16 @@
   <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white">
 </div>
 
-<br />
+<br>
 
+- Java 1.8.0
+- Springboot 2.6.4
+- Gradle 7.4
+- MySQL 8.0.23
+- Express 4.17.1
+- Socket.io 2.3.0
+
+<br />
 
 ## 🕹 Convention
 
@@ -550,6 +561,35 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 
 <br />
 
+## 📢 User Test
+
+<details markdown="1">
+<summary>오류제보 사례</summary>
+
+#### ⚠️ 게임 플레이 중 맞춘 문제 수나 남은 찬스 수가 정상적으로 변경되지 않는 문제 제보
+> 
+> NodeJS의 undefined 에러로 인해 서버가 재시작되면서 각 브라우저의 roomID 초기화
+> 
+> socket.io의 방 구분 기능이 정상적으로 작동하지 않음
+> 
+> 📍 NodeJS의 에러를 해결하여 서버가 재시작되지 않도록 조치
+
+</details>
+
+<details markdown="2">
+<summary>개선사항 사례</summary>
+
+#### ✏️ "마이크를 차단했을 때 쉽게 해결할 수 있는 방법이 적혀 있으면 좋겠습니다."
+> 
+> 브라우저의 마이크 사용 권한을 제한하면 게임 플레이 불가
+> 
+> 브라우저에 따라 권한 허용 방법을 설명하는 창을 띄워 다시 서비스 이용할 수 있도록 안내
+
+
+</details>
+
+<br>
+
 ## 🔧 Fight
 <details>
   <summary>ban wonjae</summary>
@@ -604,32 +644,7 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 <br>
 
 
-## 📢 User Test
 
-<details markdown="1">
-<summary>오류제보 사례</summary>
-
-#### ⚠️ 게임 플레이 중 맞춘 문제 수나 남은 찬스 수가 정상적으로 변경되지 않는 문제 제보
-> 
-> NodeJS의 undefined 에러로 인해 서버가 재시작되면서 각 브라우저의 roomID 초기화
-> 
-> socket.io의 방 구분 기능이 정상적으로 작동하지 않음
-> 
-> 📍 NodeJS의 에러를 해결하여 서버가 재시작되지 않도록 조치
-
-</details>
-
-<details markdown="2">
-<summary>개선사항 사례</summary>
-
-#### ✏️ "마이크를 차단했을 때 쉽게 해결할 수 있는 방법이 적혀 있으면 좋겠습니다."
-> 
-> 브라우저의 마이크 사용 권한을 제한하면 게임 플레이 불가
-> 
-> 브라우저에 따라 권한 허용 방법을 설명하는 창을 띄워 다시 서비스 이용할 수 있도록 안내
-
-
-</details>
 
 
 
