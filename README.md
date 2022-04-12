@@ -19,14 +19,19 @@
 - 2022.2.25 ~ 2022.4.9
 - 1차 배포 : 2022.3.30
 
+🎉 5일 동안 550여명의 유저들이 550여개의 방을 만들고, 375팀이 게임을 시작하였으며, 9팀이 탈출에 성공하였습니다!!
+
 <br />
 
 ## 📌 바로가기
-- Project : https://zzz-escape.netlify.app
-- GitHub 메인페이지 : https://github.com/HangHae99Zzz
-- 프론트엔드 GitHub Repository : https://github.com/HangHae99Zzz/dream_escape-fe
-- 백엔드 GitHub Respository(NodeJS) : https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS
+- [Service](https://zzz-escape.netlify.app)
+- [GitHub 메인페이지](https://github.com/HangHae99Zzz)
+- [프론트엔드 GitHub](https://github.com/HangHae99Zzz/dream_escape-fe)
+- [백엔드 GitHub(NodeJS)](https://github.com/HangHae99Zzz/RoomEscape_BE-nodeJS)
+- [시연영상](https://youtu.be/4LltjiHHG38)
 
+<br>
+📂 백엔드의 고민과 공부 기록은 → https://github.com/HangHae99Zzz/RoomEscape_BE/wiki
 <br />
 
 ## ✨ 주요 기능
@@ -37,6 +42,15 @@
   현재 대기중인 인원을 체크하고 게임을 시작할 수 있습니다. 링크로 친구를 초대하고, 보이스 채팅도 가능해요!
 - **`게임`**
   팀원들과 보이스채팅을 나누며 방에 배치된 3D 물체를 클릭해 주어진 문제를 풀고 탈출할 수 있습니다. 제한시간 안에 방을 탈출해보세요.
+
+<details markdown="1">
+<summary>페이지 뷰 자세히 보기</summary>
+
+<img src="https://user-images.githubusercontent.com/97428216/162159291-3cb321a6-779a-4f54-85a4-6de81f646c3e.png">
+<img src="https://user-images.githubusercontent.com/97428216/161257554-418ab409-26e7-425b-99bc-5c0378e1f446.png">
+<img src="https://user-images.githubusercontent.com/97428216/161258629-04d6bc89-1e13-4050-87ae-d5968f520cad.png">
+
+</details>
 
 <br />
 
@@ -84,8 +98,16 @@
   <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white">
 </div>
 
-<br />
+<br>
 
+- Java 1.8.0
+- Springboot 2.6.4
+- Gradle 7.4
+- MySQL 8.0.23
+- Express 4.17.1
+- Socket.io 2.3.0
+
+<br />
 
 ## 🕹 Convention
 
@@ -176,23 +198,16 @@ Ref: 참고할 이슈가 있을 때
 <br><br>
 ✅ 기능 개발을 위해 별도로 테스트하는 경우에도 새로운 브렌치에서 작업 : 이후 반영 시 main으로 PR 후 Close
 
-<br />
-<br>
-✅ springRTC 브랜치는 spring을 기반으로 webRTC를 구현함.   
-다만 1대1 P2P연결은 성공하였으나 N:N 연결이 되지 않는다는 한계가 존재함.   
-이후에 Spring이 아닌 Node.js의 socket.io를 활용하게 되는 계기가 됨.
+#### [springRTC](https://github.com/HangHae99Zzz/RoomEscape_BE/tree/springRTC) 
+- springRTC 브랜치는 spring을 기반으로 webRTC를 구현함.   
+- 다만 1대1 P2P연결은 성공하였으나 N:N 연결이 되지 않는다는 한계가 존재함.   
+- 이후에 Spring이 아닌 Node.js의 socket.io를 활용하게 되는 계기가 됨.
 
-<details markdown="1">
-<summary>1대1 P2P연결 시연 모습</summary>  
+#### [redis](https://github.com/HangHae99Zzz/RoomEscape_BE/tree/redis)
+- redis 브랜치는 redis를 부분적으로 적용해보는 브랜치임.   
+- 팀 프로젝트 기간 제한 때문에 제대로 적용하지 못하였으나 spring으로 redis에 Clue객체를 저장하고 불러오는 것은 성공함.   
+<br />
 
-![image](https://user-images.githubusercontent.com/70055619/161802137-4faa21e9-63d9-49ea-9619-0bc7f27eb499.png)
-</details>
-<br />
-<br>
-✅ redis 브랜치는 redis를 필요한 부분에 적용해보는 브랜치임.   
-팀 프로젝트 기간 제한 때문에 제대로 적용하지 못하였으나 spring으로 redis에 Clue객체를 저장하고 불러오는 것은 성공함.   
-추후에 계속 업데이트 예정.
-<br />
 </details>
 
 
@@ -256,31 +271,83 @@ Rest API URI 설계규칙을 따른다.
 
 ## 🔨 Trouble Shooting
 
+### 공통
+<details markdown="1">
+<summary>메인페이지 서버 부하 문제</summary>
+  
+### ✅ 문제상황
+
+> 메인페이지에서 변경된 방 정보를 업데이트하기 위해 1초 간격으로 Room 리스트 조회하기 api를 요청(Polling)
+>
+> 메인페이지에 접속자가 집중되면 서버 부하 증가 → 배포 이후 메인페이지 40명 정도 접속하면서 CPU 90%로 급증
+>
+> 📍 서버를 t3.micro으로 변경(CPU 1 → 2)하여 우선 조치(메모리는 Swap으로 늘려놓은 3G로 충분하다고 판단)
+
+<br>
+  
+### 🔍 테스트
+  
+
+> 메인페이지 접속자 수에 따른 서버 부하를 확인하기 위해 테스트 진행
+>
+> Client의 메인페이지 접속자 수를 10 단위로 증가시키면서 CPU 사용량을 실시간 관찰
+>
+> ① CPU 사용량이 급증 ② 전체 200 중 180%까지 올라가는 지점을 한계로 봄
+  
+#### 📑 테스트 결과 : api 요청 간격을 2초로 늘리면 현재보다 30명 더 접속 가능
+    - api 요청 간격 1초(현재 상태) : 70명
+    - api 요청 간격 1.5초 : 80명
+    - api 요청 간격 2초 : 100명
+
+<br>
+  
+### 📍 api 요청 간격을 1초로 유지하자!
+  
+> 현재 서비스 수준에서 70명 이상이 메인페이지에 접속할 가능성은 낮고,
+>
+> 업데이트 간격을 2초로 늘리면 오히려 유저 경험이 안좋아 질거라고 판단
+>
+> 서비스가 성장한다면, Polling이 아니라 다른 방법으로 문제 해결을 시도하는 것이 더 나을 것!  
+
+</details>
+
+<br>
+
+### 백엔드
+
 <details markdown="1">
 <summary>WebRTC 서버 구축 문제</summary>
 
-### ✅ P2P(signalling server) vs MCU/SFU → 📍 signalling server를 구축하자!
-4명까지 보이스 채팅이 가능한 환경을 만들기 위해 어떤 서버를 사용해야 하는가?
+### ✅ P2P(signalling server) vs MCU/SFU
+
+#### ❓ 4명까지 보이스 채팅이 가능한 환경을 만들기 위해 어떤 서버를 사용해야 하는가?
+#### ---> ❕ signalling server를 구축하자!
 <br>
 
-```
-📑 오디오만 사용하고, 4명까지만 연결하기 때문에 signalling server로도 client 부담이 크지 않을 거라고 생각했고,
+> 📑 오디오만 사용하고, 4명까지만 연결하기 때문에 signalling server로도 client 부담이 크지 않을 거라고 생각했고,
 MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단했다.
-```
+
 <br>
 
-### ✅ Springboot vs NodeJS → 📍 NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
-다대다 WebRTC를 위한 signalling server를 어떻게 구현할 것인가?
+### ✅ Springboot vs NodeJS
+
+#### ❓ 다대다 WebRTC를 위한 signalling server를 어떻게 구현할 것인가?
+#### ---> ❕ NodeJS의 Socket.io를 사용하여 signalling server를 구현하자!
 <br>
 
-```
-📑 Springboot를 사용하면 하나의 서버만 관리하면 되고, 팀원들 모두가 익숙한 프레임워크를 사용할 수 있다.
-그러나 참고자료가 많지 않다.
-📑 NodeJS를 사용하면 Socket.io 라이브러리를 사용해서 비교적 쉽게 구현이 가능하나,
-서버를 2개 관리해야 되기 때문에 유지관리에 비용이 더 소모되고, 익숙하지 않은 언어와 프레임워크를 사용해야 한다.
-📑 Springboot로 signalling server를 구축하면 시간이 더 오래 걸릴 것으로 예상했고,
-제한된 시간 안에 서비스의 완성도를 높이기 위해서는 NodeJS의 Socket.io를 사용하는 것이 더 적합하다고 판단! 
-```
+> 📑 Springboot를 사용하면 하나의 서버만 관리하면 되고, 팀원들 모두가 익숙한 프레임워크를 사용할 수 있다. 
+> 
+> 그러나 참고자료가 많지 않다.
+> 
+> 📑 NodeJS를 사용하면 Socket.io 라이브러리를 사용해서 비교적 쉽게 구현이 가능하나,
+> 
+> 서버를 2개 관리해야 되기 때문에 유지관리에 비용이 더 소모되고, 익숙하지 않은 언어와 프레임워크를 사용해야 한다.
+> 
+> 📑 Springboot로 signalling server를 구축하면 시간이 더 오래 걸릴 것으로 예상했고,
+> 
+> 제한된 시간 안에 서비스의 완성도를 높이기 위해서는 NodeJS의 Socket.io를 사용하는 것이 더 적합하다고 판단! 
+
+<br>
 </details>
 
 <details markdown="2">
@@ -288,29 +355,34 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
   
 ### ✅ 문제상황
 
-```
-📑 유저가 브라우저를 종료하면 socket.io의 disconnect 이벤트가 발생
-📑 Client는 방장이 나가면 새로운 방장을 알아야한다(방장만 게임 시작 가능!)
-📑 DB에서는 disconnect된 유저 정보를 삭제하고, 방장이 변경된 경우 업데이트 필요
-```
-  
-### 해결방안 1️⃣ nodeJS → Client →← Spring → ⚠️ 에러 발생
-  
-```
-📑 nodeJS에서 disconnect시 event를 통해 disconnect된 유저의 socket.id를 Client로 보냄
-📑 Client는 Spring으로 HTTP 통신을 통해 socket.id를 넘겨주고, 방장이 바뀐 경우 return 값을 받음
-📑 유저가 1명 남았는데 disconnect가 되면 Client가 없으므로 nodeJS에서 DB로 쿼리를 보냄
-  
-  
-⚠️ Client에서 동시에 여러 번 업데이트/삭제 요청이 발생하여 에러 발생!! → 📍 DB에 한 번만 요청하자!
+> 📑 유저가 브라우저를 종료하면 socket.io의 disconnect 이벤트가 발생
+>
+> 📑 Client는 방장이 나가면 새로운 방장을 알아야한다(방장만 게임 시작 가능!)
+>
+> 📑 DB에서는 disconnect된 유저 정보를 삭제하고, 방장이 변경된 경우 업데이트 필요
 
-```
+<br>
+  
+### 해결방안 1️⃣ nodeJS → Client →← Spring
+  
+> 📑 nodeJS에서 disconnect시 event를 통해 disconnect된 유저의 socket.id를 Client로 보냄
+>
+> 📑 Client는 Spring으로 HTTP 통신을 통해 socket.id를 넘겨주고, 방장이 바뀐 경우 return 값을 받음
+> 
+> 📑 유저가 1명 남았는데 disconnect가 되면 Client가 없으므로 nodeJS에서 DB로 쿼리를 보냄
+  
+ 
+#### ⚠️ Client에서 동시에 여러 번 업데이트/삭제 요청이 발생하여 에러 발생!! 
+#### ---→ ❕ DB에 한 번만 요청하자!
+
+<br>
 
 ### 해결방안 2️⃣ disconnect와 관련된 모든 DB처리는 nodeJS에서 처리
   
-```
-📑 disconnect시 DB에 필요한 업데이트/삭제 쿼리를 보내고, 방장이 변경되면 event로 해당 방 Client에게 알려줌
-```
+> 📑 disconnect시 DB에 필요한 업데이트/삭제 쿼리를 보내고, 방장이 변경되면 event로 해당 방 Client에게 알려줌
+
+  <br>
+
 </details>
 
 <details markdown="3">
@@ -318,17 +390,17 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
   
 ### ✅ 문제상황
 
-```
-📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
-```
-  
-### 📍 Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려주자!
+> 📑 게임 중 맞춘 문제 수(스코어), 찬스가 변경될 경우 해당 방 Client 모두에게 해당 정보를 업데이트해주어야 함
 
-```
-📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
-📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 이벤트를 활용해 이미 푼 문제로 변경
-```
+  <br>
   
+#### ❕ Socket.io의 이벤트를 활용해서 스코어나 찬스 변경 이벤트 발생 시 해당 방에 데이터 변경 사실 알려주자!
+
+> 📑 HTTP 통신에서는 Client 요청 없이 Server가 Response 할 수 없으므로 socket 통신을 이용하면 해결할 수 있음!
+>
+> 📑 퀴즈를 동시에 보고 있을 때도 한 명이 문제를 풀면 이벤트를 활용해 이미 푼 문제로 변경
+
+<br> 
 </details>
 
 <details markdown="4">
@@ -336,26 +408,29 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
 
 ### ✅ 문제상황
 
-```
-📑 프론트와 백엔드를 합친 이후 예기치 못했던 많은 에러가 발생함
-📑 잦은 에러수정으로 인한 수동 배포에 드는 시간 소모가 점점 많아져 시간 절약을 위하여 배포 자동화 필요
-```
+> 📑 프론트와 백엔드를 합친 이후 예기치 못했던 많은 에러가 발생함
+>
+> 📑 잦은 에러수정으로 인한 수동 배포에 드는 시간 소모가 점점 많아져 시간 절약을 위하여 배포 자동화 필요
 
+<br>
+  
 ### ✅ Travis vs Github Actions
 
-```
-📑 Travis를 더 많이 쓰고 블로그 자료도 많았지만 따로 서버 설치를 해야함
-📑 Github Actions는 별도의 서버 설치없이 Github을 통해 바로 사용이 가능함
-📑 기간이 한정되어 있어서 배포 자동화 구축에 많은 시간을 쏟을 수가 없다
-```
+> 📑 Travis를 더 많이 쓰고 블로그 자료도 많았지만 따로 서버 설치를 해야함
+>
+> 📑 Github Actions는 별도의 서버 설치없이 Github을 통해 바로 사용이 가능함
+>
+> 📑 기간이 한정되어 있어서 배포 자동화 구축에 많은 시간을 쏟을 수가 없다
+
+  <br>
 
 ### ✅ Github Actions로 결정한 이유
 
-```
-📑 Travis를 사용할 만큼 프로젝트의 규모가 크지 않고 서버 설치에 대한 시간제약,
-그리고 Github의 다양한 기능들을 사용해보고 싶었던 마음이 있어서
-Github Actions를 이용하여 배포 자동화를 구축하기로 결정
-```
+
+> 📑 Travis를 사용할 만큼 프로젝트의 규모가 크지 않고 서버 설치에 대한 시간제약, 그리고 Github의 다양한 기능들을 사용해보고 싶었던 마음이 있어서 Github Actions를 이용하여 배포 자동화를 구축하기로 결정
+
+  <br> 
+  
 </details>
 
 <details markdown="5">
@@ -363,41 +438,47 @@ Github Actions를 이용하여 배포 자동화를 구축하기로 결정
 
 ### ✅ 테스트코드를 도입한 이유!
 
-```
-📑 배포 자동화를 도입했기 때문에 검증되지 않은 코드들이 자동으로 배포될 수 있어 차후에 문제 파악 어려움이 존재.  
--> 테스트코드를 통해 사전 검증의 필요성 존재.
-📑 테스트 코드를 통해서 코드 작성시에 고려하지 못했던 case에 대한 확인과 개선이 가능.
-📑 리팩토링시에 빠르게 코드를 검증 가능.
-```
+> 📑 배포 자동화를 도입했기 때문에 검증되지 않은 코드들이 자동으로 배포될 수 있어 차후에 문제 파악 어려움이 존재.  
+>
+> ---> 테스트코드를 통해 사전 검증의 필요성 존재.
+>
+> 테스트 코드를 통해서 코드 작성시에 고려하지 못했던 case에 대한 확인과 개선이 가능.
+>
+> 리팩토링시에 빠르게 코드를 검증 가능.
+
+  <br>
 
 ### ✅ 문제상황
 
-```
-📑 단위 테스트(QuizServiceTimeTest)에서 ClueRepository와 QuizRepository를 @Mock으로 처리하지 못하는 문제 발생.
-📑 통합 테스트에서 DI 방법으로 @RequiredArgsConstructor를 통한 생성자 주입 방식이 적용 안되는 문제 발생.
+> 📑 단위 테스트(QuizServiceTimeTest)에서 ClueRepository와 QuizRepository를 @Mock으로 처리하지 못하는 문제 발생.
+>
+> 📑 통합 테스트에서 DI 방법으로 @RequiredArgsConstructor를 통한 생성자 주입 방식이 적용 안되는 문제 발생.
 
-```
+<br>
 
 ### ✅ 문제 원인
 
-```
-📑 단위 테스트시에 실제 Quizservice에 존재하는 quizRepository.save(roomId)과 clueRepository.findAllByRoomId(room.getId())때문.  
-@Mock으로 만들려면 when().thenReturn()같은 메서드를 반드시 명시해줘야하는데 테스트시 정확한 RoomId를 알아내는 것이 불가능.  
-->when().thenReturn() 메서드 작동 안함.
-📑 통합 테스트에서 DI 방법으로 생성자 주입 방식(@RequiredArgsConstructor)안되는 이유는  
-difference in autowire handling between Spring and Spring integration with JUnit때문.  
-즉, JUNIT5가 DI를 스스로 지원하기 때문에 생성자나 lombok 방식으로 DI가 되질 않음.
+> 📑 단위 테스트시에 실제 Quizservice에 존재하는 quizRepository.save(roomId)과 clueRepository.findAllByRoomId(room.getId())때문.  
+> 
+> @Mock으로 만들려면 when().thenReturn()같은 메서드를 반드시 명시해줘야하는데 테스트시 정확한 RoomId를 알아내는 것이 불가능.  
+> 
+> ---> when().thenReturn() 메서드 작동 안함.
+>
+> 📑 통합 테스트에서 DI 방법으로 생성자 주입 방식(@RequiredArgsConstructor)안되는 이유는 difference in autowire handling between Spring and Spring integration with JUnit때문.
+>
+> 즉, JUNIT5가 DI를 스스로 지원하기 때문에 생성자나 lombok 방식으로 DI가 되질 않음.
 
-```
+<br>
 
 ### ✅ 해결방안
 
-```
-📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
-->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
-📑 통합테스트에서 DI 방법으로 생성자 주입 방식말고 @Autowired 방식 선택.
+> 📑 단위테스트에서 따라서 @Spy를 통해서 Stubbing 하지 않은 실제 객체들을 @InjectMocks를 통해서 quizService에 주입시키는 방식으로 해결.
+>
+> --->단위 테스트의 목적이 퀴즈 생성 시간 측정에 있었기 때문에 Mock이 아닌 실제 객체들로 주입하는 것이 오히려 더 낫다 판단(실제로 걸리는 시간 측정 가능).
+>
+> 📑 통합테스트에서 DI 방법으로 생성자 주입 방식말고 @Autowired 방식 선택.
 
-```
+  <br>
 
 </details>
 
@@ -406,34 +487,108 @@ difference in autowire handling between Spring and Spring integration with JUnit
   
 ### ✅ 요구사항
 
-```
-📑 게임성을 위해 동일한 Quiz라도 Quiz의 답이 랜덤으로 정해지게 하자!
-📑 그렇지만 해당 방 안에서는 같은 문제가 보여야 함
-```  
+> 📑 게임성을 위해 동일한 Quiz라도 Quiz의 답이 랜덤으로 정해지게 하자!
+>
+> 📑 그렇지만 해당 방 안에서는 같은 문제가 보여야 함  
+  
+  <br>
   
 ### ✅ 문제상황 
 
-```
-📑 방마다 다른 값으로 Quiz가 구성되도록 퀴즈 생성 알고리즘에 Random을 포함하면서,
-   Quiz 조회 API가 요청될 때마다 Quiz를 새로 생성 → Quiz 클릭 시 매번 Quiz가 달라지는 문제 발생
+> 📑 방마다 다른 값으로 Quiz가 구성되도록 퀴즈 생성 알고리즘에 Random을 포함하면서, Quiz 조회 API가 요청될 때마다 Quiz를 새로 생성 → Quiz 클릭 시 매번 Quiz가 달라지는 문제 발생
 
-📍 방마다 같은 문제가 보이려면 DB에 저장 필요!!
-```
+#### ❕ 방마다 같은 문제가 보이려면 DB에 저장 필요!!
+
+  <br>
   
 ### ✅ 해결방안 
   
-```
-📑 방 안에서만 동일한 문제를 보여주기 위해 방 마다 생성된 Quiz를 DB에 저장
-📑 Quiz를 생성하는 API가 호출되는 시점은 방 개설이 아닌 게임 시작 이후가 적절하다고 판단
-   : 방 개설 때 Quiz 생성하면 방만 만들고 게임을 시작하지 않았을 경우 추가 처리 필요
-📑 방의 유저 중 한 명이 Quiz 오브젝트를 클릭했을 때 DB에 해당 Quiz가 없으면 생성, 있으면 조회하도록 구현 
-   : 이미 게임 시작 때 API가 여러 개 호출되고 있어서 요청을 분산시키기 위함
-```
+> 📑 방 안에서만 동일한 문제를 보여주기 위해 방 마다 생성된 Quiz를 DB에 저장
+>
+> 📑 Quiz를 생성하는 API가 호출되는 시점은 방 개설이 아닌 게임 시작 이후가 적절하다고 판단
+>
+>    : 방 개설 때 Quiz 생성하면 방만 만들고 게임을 시작하지 않았을 경우 추가 처리 필요
+>
+> 📑 방의 유저 중 한 명이 Quiz 오브젝트를 클릭했을 때 DB에 해당 Quiz가 없으면 생성, 있으면 조회하도록 구현 
+>
+>  : 이미 게임 시작 때 API가 여러 개 호출되고 있어서 요청을 분산시키기 위함
+
+  <br>
   
 </details>
   
+<br />
+
+## 📋 Review
+프로젝트를 마무리하면서 아쉬움이 남았던 부분들을 기록한다.
+회고를 통해 다음 프로젝트에서는 더 잘하자!
+<details>
+  <summary>redis</summary>
+  <br>
+  
+  ```
+  ✏️ DB에 저장되는 데이터 중 게임 종료 후 삭제되는 데이터는 인메모리 DB를 사용해도 좋았을 것 같다.
+또, redis 브렌치를 통해 일부 데이터로 테스트해본 결과 조회 성능 개선 가능성을 확인할 수 있었다.
+프로젝트 초기에 우리 데이터의 특성을 고려하여 redis를 도입했다면 더 성능 개선을 할 수 있었을 것 같다는 아쉬움이 남는다.
+  ```
+  
+</details>
+
+<details>
+  <summary>로그 관리</summary>
+  <br>
+  
+  ```
+  ✏️ 프로젝트 마무리 단계에서 로그 관리를 위해 logback을 설정하였다.
+  이전에도 console에 뜨는 로그는 확인했지만 파일로 저장하면 나중에 문제가 발생했을 때 확인할 수 있고,
+  코드를 짜면서 중간 중간에 필요한 로그를 남겨 확인하면 훨씬 더 좋았을 것 같다.
+  다음에 프로젝트를 한다면 일단 설정을 해놓고 시작할 것 같다!
+  ```
+  
+</details>
+
+<details>
+  <summary>테스트코드</summary>
+  <br>
+  
+  ```
+  ✏️ 테스트코드 역시 프로젝트 마무리 단계에 도입했다.
+  도입 이후 리팩토링 하면서 바로바로 테스트코드로 코드가 정상적으로 작동하는지 확인할 수 있어서 좋았다.
+  프로젝트 초기에 테스트코드 전략을 구상해서 단위테스트 혹은 통합테스트를 개발 일정에 따라 도입하면 좋을 것 같다.
+  ```
+  
+</details>
 
 <br />
+
+## 📢 User Test
+
+<details markdown="1">
+<summary>오류제보 사례</summary>
+
+#### ⚠️ 게임 플레이 중 맞춘 문제 수나 남은 찬스 수가 정상적으로 변경되지 않는 문제 제보
+> 
+> NodeJS의 undefined 에러로 인해 서버가 재시작되면서 각 브라우저의 roomID 초기화
+> 
+> socket.io의 방 구분 기능이 정상적으로 작동하지 않음
+> 
+> 📍 NodeJS의 에러를 해결하여 서버가 재시작되지 않도록 조치
+
+</details>
+
+<details markdown="2">
+<summary>개선사항 사례</summary>
+
+#### ✏️ "마이크를 차단했을 때 쉽게 해결할 수 있는 방법이 적혀 있으면 좋겠습니다."
+> 
+> 브라우저의 마이크 사용 권한을 제한하면 게임 플레이 불가
+> 
+> 브라우저에 따라 권한 허용 방법을 설명하는 창을 띄워 다시 서비스 이용할 수 있도록 안내
+
+
+</details>
+
+<br>
 
 ## 🔧 Fight
 <details>
@@ -485,3 +640,12 @@ difference in autowire handling between Spring and Spring integration with JUnit
   ```
   
   </details>
+
+<br>
+
+
+
+
+
+
+
