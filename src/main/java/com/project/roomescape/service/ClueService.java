@@ -19,32 +19,21 @@ public class ClueService {
 
     private final ClueRepository clueRepository;
 
-    // clue 생성하기
     @Transactional
     public void createClue(Long roomId) {
-
         Random random = new Random();
-
-        // clue 생성해서 List에 담기
         List<Clue> clueList = new ArrayList<>();
+        String[] plusOrMinus = new String[]{"+", "-"};
 
-        // Ba3에 랜덤으로 들어갈 값 : + 혹은 -
-        String[] arr = new String[]{"+", "-"};
-
-        // Ba1, Ba2, Ba3 clue를 생성하여 clueList에 담기
-        // Random을 사용하여 값이 랜덤으로 들어가도록 구현
         clueList.add(new Clue(roomId, "Ba1", String.valueOf(random.nextInt(3999) + 1000)));
         clueList.add(new Clue(roomId, "Ba2", String.valueOf(random.nextInt(3999) + 1000)));
-        clueList.add(new Clue(roomId, "Ba3", arr[random.nextInt(1)]));
+        clueList.add(new Clue(roomId, "Ba3", plusOrMinus[random.nextInt(1)]));
 
-        // clueList 저장하기
         clueRepository.saveAll(clueList);
 
         log.info(roomId + "의 Clue가 생성되었습니다!");
     }
 
-
-    // clue 조회하기
     public ClueResponseDto getClue(Long roomId, String clueType) {
         ClueResponseDto clueResponseDto;
 
