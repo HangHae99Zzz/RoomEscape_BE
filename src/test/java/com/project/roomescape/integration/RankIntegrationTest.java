@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,18 +35,17 @@ public class RankIntegrationTest {
         Rank rank5 = new Rank("진짜팀1", "03:00:00", 3L, 2);
         Rank rank6 = new Rank("진짜팀2", "01:00:00", 4L, 1);
 
-        List<Rank> ranks = new ArrayList<>();
-        ranks.add(rank1);
-        ranks.add(rank2);
-        ranks.add(rank3);
-        ranks.add(rank4);
-        ranks.add(rank5);
-        ranks.add(rank6);
+        List<Rank> ranks = new ArrayList<Rank>(){{
+            add(rank1);
+            add(rank2);
+            add(rank3);
+            add(rank4);
+            add(rank5);
+            add(rank6);
+        }};
 
-        //랭킹들을 먼저 저장합니다.
         rankRepository.saveAll(ranks);
 
-        //실제 랭킹들이 제대로 잘 저장되었는지 get요청을 통해 확인합니다.
         webTestClient.get().uri("/ranks")
                 .exchange()
                 .expectStatus().isOk()
@@ -64,24 +62,18 @@ public class RankIntegrationTest {
                     assertEquals(list.getResponseBody().get(1).getTime(), "03:00:00");
                     assertEquals(list.getResponseBody().get(1).getTeamName(), "진짜팀1");
                     assertEquals(list.getResponseBody().get(1).getUserNum(), 2);
-
                 });
-
     }
 
     @Test
     @Order(2)
     @DisplayName("랭킹 5개 조회하기(00:00:00 두개 들어가는 경우)")
     void getRanks_FiveRanksAndTwoMocks_GetFiveRanksAndTwoMocks(){
-
-
-        //get요청시 실제 랭킹 순서대로 잘 나오는지 확입합니다.
         webTestClient.get().uri("/ranks/{roomId}", 4)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBodyList(RankResponseDto.class).hasSize(5).consumeWith(list -> {
-
                     assertEquals(list.getResponseBody().get(0).getTime(), "00:00:00");
 
                     assertEquals(list.getResponseBody().get(1).getTime(), "00:00:00");
@@ -100,7 +92,6 @@ public class RankIntegrationTest {
 
                     assertEquals(list.getResponseBody().get(4).getTime(), "99:99:99");
                 });
-
     }
 
     @Test
@@ -117,7 +108,6 @@ public class RankIntegrationTest {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBodyList(RankResponseDto.class).hasSize(5).consumeWith(list -> {
-
                     assertEquals(list.getResponseBody().get(0).getTime(), "00:00:00");
 
                     assertEquals(list.getResponseBody().get(1).getRoomId(), 4L);
@@ -140,6 +130,5 @@ public class RankIntegrationTest {
 
                     assertEquals(list.getResponseBody().get(4).getTime(), "99:99:99");
                 });
-
     }
 }
