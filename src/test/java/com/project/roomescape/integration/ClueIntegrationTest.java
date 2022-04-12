@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -29,7 +28,6 @@ public class ClueIntegrationTest {
     @MockBean
     private RoomRepository mockRoomRepository;
 
-    //게임시작해야 clue가 만들어지기 때문에 게임시작하기부터 실행한다.
     @Test
     @Order(1)
     @DisplayName("게임시작하기")
@@ -37,7 +35,6 @@ public class ClueIntegrationTest {
         Room room = new Room("테스트팀", "테스트유저ID");
 
         when(mockRoomRepository.findById(1L)).thenReturn(Optional.of(room));
-
 
         webTestClient.put().uri("/games/{roomId}", 1)
                 .exchange()
@@ -48,10 +45,8 @@ public class ClueIntegrationTest {
     @Order(2)
     @DisplayName("Ba1 clue 조회하기")
     void getClue_ClueTypeBa1_GetClueBa1(){
-        //만든 clue를 찾아옵니다.
         Clue clue = clueRepository.findByRoomIdAndType(1L, "Ba1");
 
-        //get요청으로 받은 response와 실제 찾아온 clue가 같은지 비교합니다.
         webTestClient.get().uri("/rooms/{roomId}/clues/{clueType}", 1, "Ba1")
                 .exchange()
                 .expectStatus().isOk()
@@ -92,8 +87,6 @@ public class ClueIntegrationTest {
     @Order(5)
     @DisplayName("DB에 존재하지 않는 clue 조회하기")
     void getClue_ClueTypeAA_GetClueAA(){
-
-        //DB에 존재하지 않는 타입인 AA 유형을 요청함으로써 제대로 응답이 오는지 확인.
         webTestClient.get().uri("/rooms/{roomId}/clues/{clueType}", 1, "AA")
                 .exchange()
                 .expectStatus().isOk()
@@ -101,5 +94,4 @@ public class ClueIntegrationTest {
                 .expectBody()
                 .jsonPath("$.content").isEqualTo("");
     }
-
 }
