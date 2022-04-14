@@ -106,6 +106,7 @@
 - MySQL 8.0.23
 - Express 4.17.1
 - Socket.io 2.3.0
+- Nginx 1.14.0
 
 <br />
 
