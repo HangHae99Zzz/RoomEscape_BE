@@ -104,9 +104,11 @@
 - Springboot 2.6.4
 - Gradle 7.4
 - MySQL 8.0.23
+- Node.js 16.14.0
 - Express 4.17.1
 - Socket.io 2.3.0
 - Nginx 1.14.0
+- Mockito 4.4.0
 
 <br />
 
