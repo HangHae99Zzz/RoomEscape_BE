@@ -1,6 +1,7 @@
 # <img src="https://user-images.githubusercontent.com/97428216/160321165-bd337416-a703-4f53-a1f7-5d8844ab66a2.png" align=left width=150> 꿈깨
 > 온라인 3D 방탈출 게임 서비스 😴
-
+<br>
+<img src='https://user-images.githubusercontent.com/74045440/163561005-9320751e-e899-4eb8-bf2c-e03897b7f05d.png' width=450/>
 <br />
 
 ## 💭 About
