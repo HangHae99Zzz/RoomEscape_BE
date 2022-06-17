@@ -611,11 +611,12 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
   
   📑 구체적으로 당시 노드 socket에서 유저 disconnect가 발생  
   -> 스프링에서 1. 방장이 나간 경우: 새로운 방장 userId response.	2. 일반인이 나간 경우: null response.
+  -> 그리고 나간 유저의 정보 DB에서 삭제하는 로직 실행.
   
   📑 spring에서 게임 로딩 체크  
   -> 1. false response 2. 마지막 인원한테는 true response.
   
-  📑 문제는 위 두개의 로직이 동시에 발생하는 경우  
+  📑 문제는 위의 로직들이 동시에 발생하는 경우  
   -> 게임 로딩중에 방장이 disconnect가 된다면 최악의 경우 새로운 방장 userId,   
   게임 무한 대기 현상을 방지하기 위해 마지막 인원까지 로딩이 완료되었다는 true값도 보내줘야함.
   
@@ -640,7 +641,8 @@ MCU, SFU는 프로젝트 기한 내에 구현하기 어려울 것으로 판단�
   📑 하지만 disconnect가 발생 -> 방 전체 인원들이 Spring으로 request를 보냄  
   -> disconnect 유저를 삭제하고 새로운 방장을 만드는 로직이 여러번 발생하는 문제 존재.
   
-  📑 결론적으로 node에서 socket disconnect시에 한번만 처리하는 것으로 방향 바꿈. 
+  📑 결론적으로 node에서 socket disconnect시에 DB에서 유저 한번만 삭제하고 방장 변경까지 처리.
+      게임 로딩도 node에서 진행.
   ```
   
   </details>
